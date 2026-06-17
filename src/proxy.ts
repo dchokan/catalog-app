@@ -1,0 +1,35 @@
+import { NextRequest, NextResponse } from 'next/server'
+
+const PROTECTED_ROUTES = ['/favorites']
+
+const AUTH_ONLY_ROUTES = ['/login', '/register']
+
+export function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  const sessionCookie =
+    request.cookies.get('better-auth.session_token')?.value ??
+    request.cookies.get('__Secure-better-auth.session_token')?.value
+
+  const isAuthenticated = !!sessionCookie
+
+  if (PROTECTED_ROUTES.some((route) => pathname.startsWith(route))) {
+    if (!isAuthenticated) {
+      const loginUrl = new URL('/login', request.url)
+      loginUrl.searchParams.set('from', pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+  }
+
+  if (AUTH_ONLY_ROUTES.includes(pathname)) {
+    if (isAuthenticated) {
+      return NextResponse.redirect(new URL('/items', request.url))
+    }
+  }
+
+  return NextResponse.next()
+}
+
+export const config = {
+  matcher: ['/favorites/:path*', '/login', '/register'],
+}
