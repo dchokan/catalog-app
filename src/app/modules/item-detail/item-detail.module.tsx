@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useItem } from '@/app/entities/api/items'
+import { FavoriteButton } from '@/app/widgets/favorite-button'
 
 interface ItemDetailModuleProps {
   id: string
@@ -40,6 +41,7 @@ export function ItemDetailModule({ id }: ItemDetailModuleProps) {
       <div className='space-y-4'>
         <div className='flex items-start justify-between gap-4'>
           <h1 className='text-3xl font-bold text-gray-900'>{item.title}</h1>
+          <FavoriteButton itemId={item.id} />
         </div>
 
         {item.description && <p className='text-lg leading-relaxed text-gray-600'>{item.description}</p>}
