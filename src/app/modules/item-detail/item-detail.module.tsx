@@ -44,6 +44,12 @@ export function ItemDetailModule({ id }: ItemDetailModuleProps) {
           <FavoriteButton itemId={item.id} />
         </div>
 
+        <p className='text-sm text-gray-500'>
+          {item.favoritesCount === 1
+            ? '1 user added this to favorites'
+            : `${item.favoritesCount} users added this to favorites`}
+        </p>
+
         {item.description && <p className='text-lg leading-relaxed text-gray-600'>{item.description}</p>}
 
         <p className='text-sm text-gray-400'>

@@ -4,4 +4,5 @@ export interface Item {
   description: string | null
   imageUrl: string | null
   createdAt: Date | string
+  favoritesCount: number
 }

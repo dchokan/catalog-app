@@ -28,6 +28,11 @@ export function ItemCard({ item }: ItemCardProps) {
         <div className='flex flex-1 flex-col gap-2 p-4'>
           <h3 className='line-clamp-2 leading-snug font-semibold text-gray-900'>{item.title}</h3>
           {item.description && <p className='line-clamp-3 text-sm leading-relaxed text-gray-500'>{item.description}</p>}
+          <p className='mt-auto text-xs text-gray-400'>
+            {item.favoritesCount === 1
+              ? '1 user added this to favorites'
+              : `${item.favoritesCount} users added this to favorites`}
+          </p>
         </div>
       </Card>
     </Link>

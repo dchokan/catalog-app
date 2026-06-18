@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { addFavorite, removeFavorite } from './favorites.api'
 import { favoritesQueryKeys } from './favorites.query'
+import { itemsQueryKeys } from '@/app/entities/api/items'
 import type { Favorite } from '@/app/entities/models'
 
 export function useAddFavorite() {
@@ -36,6 +37,7 @@ export function useAddFavorite() {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: favoritesQueryKeys.all })
+      queryClient.invalidateQueries({ queryKey: itemsQueryKeys.all })
     },
   })
 }
@@ -64,6 +66,7 @@ export function useRemoveFavorite() {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: favoritesQueryKeys.all })
+      queryClient.invalidateQueries({ queryKey: itemsQueryKeys.all })
     },
   })
 }

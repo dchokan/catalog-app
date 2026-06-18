@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { db } from '@/pkg/db'
-import { items } from '@/pkg/db/schema'
-import { desc, ilike, count } from 'drizzle-orm'
+import { items, favorites } from '@/pkg/db/schema'
+import { desc, ilike, count, eq } from 'drizzle-orm'
 import { ITEMS_PER_PAGE } from '@/app/entities/api/items'
 
 export async function GET(request: NextRequest) {
@@ -15,7 +15,22 @@ export async function GET(request: NextRequest) {
     const where = search ? ilike(items.title, `%${search}%`) : undefined
 
     const [rows, [{ value: total }]] = await Promise.all([
-      db.select().from(items).where(where).orderBy(desc(items.createdAt)).limit(limit).offset(offset),
+      db
+        .select({
+          id: items.id,
+          title: items.title,
+          description: items.description,
+          imageUrl: items.imageUrl,
+          createdAt: items.createdAt,
+          favoritesCount: count(favorites.id),
+        })
+        .from(items)
+        .leftJoin(favorites, eq(favorites.itemId, items.id))
+        .where(where)
+        .groupBy(items.id)
+        .orderBy(desc(items.createdAt))
+        .limit(limit)
+        .offset(offset),
       db.select({ value: count() }).from(items).where(where),
     ])
 
