@@ -9,9 +9,13 @@ export const metadata: Metadata = {
   title: 'Browse Books',
 }
 
-export default async function ItemsPage({ searchParams }: { searchParams: Promise<{ search?: string }> }) {
-  const { search = '' } = await searchParams
-  const filters = { search }
+export default async function ItemsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string; page?: string }>
+}) {
+  const { search = '', page = '1' } = await searchParams
+  const filters = { search, page: Math.max(1, Number(page) || 1) }
   const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery({

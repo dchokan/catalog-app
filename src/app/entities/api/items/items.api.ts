@@ -1,12 +1,14 @@
 import type { Item } from '@/app/entities/models'
+import type { PaginatedResponse } from '@/app/shared/interfaces'
 import type { ItemsFilters } from './items.interface'
 import { clientEnv } from '@/config/env'
 
 const BASE_URL = clientEnv.NEXT_PUBLIC_APP_URL
 
-export async function fetchItems(filters: ItemsFilters = {}): Promise<Item[]> {
+export async function fetchItems(filters: ItemsFilters = {}): Promise<PaginatedResponse<Item>> {
   const params = new URLSearchParams()
   if (filters.search?.trim()) params.set('search', filters.search.trim())
+  if (filters.page && filters.page > 1) params.set('page', String(filters.page))
 
   const query = params.toString()
   const response = await fetch(`${BASE_URL}/api/items${query ? `?${query}` : ''}`, {

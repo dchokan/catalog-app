@@ -1,1 +1,1 @@
-export type { ApiError, ApiSuccess } from './api-response.interface'
+export type { ApiError, ApiSuccess, PaginatedResponse } from './api-response.interface'
