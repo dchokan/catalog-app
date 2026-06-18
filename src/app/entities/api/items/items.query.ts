@@ -1,13 +1,15 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import { itemsQueryKeys } from './items.keys'
 import { fetchItems, fetchItemById } from './items.api'
+import type { ItemsFilters } from './items.interface'
 
-export function useItems() {
+export function useItems(filters: ItemsFilters = {}) {
   return useQuery({
-    queryKey: itemsQueryKeys.all,
-    queryFn: fetchItems,
+    queryKey: itemsQueryKeys.list(filters),
+    queryFn: () => fetchItems(filters),
+    placeholderData: keepPreviousData,
   })
 }
 

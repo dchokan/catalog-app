@@ -1,11 +1,16 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 import { db } from '@/pkg/db'
 import { items } from '@/pkg/db/schema'
-import { desc } from 'drizzle-orm'
+import { desc, ilike } from 'drizzle-orm'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const allItems = await db.select().from(items).orderBy(desc(items.createdAt))
+    const search = request.nextUrl.searchParams.get('search')?.trim()
+    const allItems = await db
+      .select()
+      .from(items)
+      .where(search ? ilike(items.title, `%${search}%`) : undefined)
+      .orderBy(desc(items.createdAt))
 
     return NextResponse.json(allItems)
   } catch {

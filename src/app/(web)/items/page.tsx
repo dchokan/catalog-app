@@ -9,12 +9,14 @@ export const metadata: Metadata = {
   title: 'Browse Books',
 }
 
-export default async function ItemsPage() {
+export default async function ItemsPage({ searchParams }: { searchParams: Promise<{ search?: string }> }) {
+  const { search = '' } = await searchParams
+  const filters = { search }
   const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery({
-    queryKey: itemsQueryKeys.all,
-    queryFn: getAllItems,
+    queryKey: itemsQueryKeys.list(filters),
+    queryFn: () => getAllItems(filters),
   })
 
   return (

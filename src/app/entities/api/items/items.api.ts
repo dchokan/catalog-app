@@ -1,10 +1,15 @@
 import type { Item } from '@/app/entities/models'
+import type { ItemsFilters } from './items.interface'
 import { clientEnv } from '@/config/env'
 
 const BASE_URL = clientEnv.NEXT_PUBLIC_APP_URL
 
-export async function fetchItems(): Promise<Item[]> {
-  const response = await fetch(`${BASE_URL}/api/items`, {
+export async function fetchItems(filters: ItemsFilters = {}): Promise<Item[]> {
+  const params = new URLSearchParams()
+  if (filters.search?.trim()) params.set('search', filters.search.trim())
+
+  const query = params.toString()
+  const response = await fetch(`${BASE_URL}/api/items${query ? `?${query}` : ''}`, {
     next: { revalidate: 60 },
   })
 
