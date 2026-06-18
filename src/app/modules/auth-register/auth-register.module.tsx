@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { RegisterForm } from '@/app/features/register-form'
+import { GoogleAuthButton } from '@/app/features/oauth-buttons'
 
 export function AuthRegisterModule() {
   return (
@@ -11,6 +12,14 @@ export function AuthRegisterModule() {
         </div>
 
         <RegisterForm />
+
+        <div className='my-6 flex items-center gap-3'>
+          <span className='h-px flex-1 bg-gray-200' />
+          <span className='text-xs text-gray-400'>OR</span>
+          <span className='h-px flex-1 bg-gray-200' />
+        </div>
+
+        <GoogleAuthButton />
 
         <p className='mt-6 text-center text-sm text-gray-500'>
           Already have an account?{' '}
