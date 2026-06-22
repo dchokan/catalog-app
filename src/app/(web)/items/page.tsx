@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { getQueryClient } from '@/pkg/query'
 import { getAllItems } from '@/app/modules/items-list'
-import { itemsQueryKeys } from '@/app/entities/api/items'
+import { itemsListQueryOptions } from '@/app/entities/api/items'
 import { ItemsListModule } from '@/app/modules/items-list'
 import type { Metadata } from 'next'
 
@@ -19,7 +19,7 @@ export default async function ItemsPage({
   const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery({
-    queryKey: itemsQueryKeys.list(filters),
+    ...itemsListQueryOptions(filters),
     queryFn: () => getAllItems(filters),
   })
 

@@ -2,12 +2,12 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useFavorites, useRemoveFavorite } from '@/app/entities/api/favorites'
-import { Card } from '@/app/shared/ui/card'
-import { Button } from '@/app/shared/ui/button'
+import { useFavoritesQuery, useRemoveFavorite } from '@/app/entities/api/favorites'
+import { Card } from '@/app/shared/components/card'
+import { Button } from '@/app/shared/components/button'
 
 export function FavoritesModule() {
-  const { data: favorites = [], isLoading, error } = useFavorites()
+  const { data: favorites = [], isLoading, error } = useFavoritesQuery()
   const removeFavorite = useRemoveFavorite()
 
   if (isLoading) {

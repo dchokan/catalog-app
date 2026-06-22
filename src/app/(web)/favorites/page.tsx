@@ -2,9 +2,9 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import { getQueryClient } from '@/pkg/query'
-import { auth } from '@/pkg/auth'
+import { auth } from '@/pkg/auth/auth'
 import { getUserFavorites } from '@/app/modules/favorites'
-import { favoritesQueryKeys } from '@/app/entities/api/favorites'
+import { favoritesQueryOptions } from '@/app/entities/api/favorites'
 import { FavoritesModule } from '@/app/modules/favorites'
 import type { Metadata } from 'next'
 
@@ -22,7 +22,7 @@ export default async function FavoritesPage() {
   const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery({
-    queryKey: favoritesQueryKeys.all,
+    ...favoritesQueryOptions(),
     queryFn: () => getUserFavorites(session.user.id),
   })
 

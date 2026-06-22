@@ -1,22 +1,17 @@
-'use client'
-
-import { useQuery, keepPreviousData } from '@tanstack/react-query'
-import { itemsQueryKeys } from './items.keys'
+import { queryOptions } from '@tanstack/react-query'
 import { fetchItems, fetchItemById } from './items.api'
-import type { ItemsFilters } from './items.interface'
+import type { ItemsFilters } from '@/app/entities/models'
+import { EEntityKey } from '@/app/shared/interfaces'
 
-export function useItems(filters: ItemsFilters = {}) {
-  return useQuery({
-    queryKey: itemsQueryKeys.list(filters),
+export const itemsListQueryOptions = (filters: ItemsFilters = {}) =>
+  queryOptions({
+    queryKey: [EEntityKey.QUERY_ITEMS, 'list', filters],
     queryFn: () => fetchItems(filters),
-    placeholderData: keepPreviousData,
   })
-}
 
-export function useItem(id: string) {
-  return useQuery({
-    queryKey: itemsQueryKeys.detail(id),
+export const itemDetailQueryOptions = (id: string) =>
+  queryOptions({
+    queryKey: [EEntityKey.QUERY_ITEMS, id],
     queryFn: () => fetchItemById(id),
-    enabled: !!id,
+    enabled: Boolean(id),
   })
-}

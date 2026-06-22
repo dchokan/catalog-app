@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useItem } from '@/app/entities/api/items'
+import { useItemDetailQuery } from '@/app/entities/api/items'
 import { FavoriteButton } from '@/app/widgets/favorite-button'
 
 interface ItemDetailModuleProps {
@@ -9,7 +9,7 @@ interface ItemDetailModuleProps {
 }
 
 export function ItemDetailModule({ id }: ItemDetailModuleProps) {
-  const { data: item, isLoading, error } = useItem(id)
+  const { data: item, isLoading, error } = useItemDetailQuery(id)
 
   if (isLoading) {
     return (

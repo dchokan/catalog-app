@@ -1,7 +1,7 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import { useItems } from '@/app/entities/api/items'
+import { useItemsListQuery } from '@/app/entities/api/items'
 import { ItemCard } from '@/app/widgets/item-card'
 import { ItemsSearch } from '@/app/features/items-search'
 import { ItemsPagination } from '@/app/features/items-pagination'
@@ -11,7 +11,7 @@ export function ItemsListModule() {
   const search = searchParams.get('search') ?? ''
   const page = Math.max(1, Number(searchParams.get('page')) || 1)
 
-  const { data, isLoading, error } = useItems({ search, page })
+  const { data, isLoading, error } = useItemsListQuery({ search, page })
   const items = data?.data ?? []
 
   return (
@@ -30,7 +30,7 @@ export function ItemsListModule() {
         </div>
       ) : items.length === 0 ? (
         <div className='py-12 text-center'>
-          <p className='text-gray-500'>{search ? `No books match “${search}”.` : 'No books found.'}</p>
+          <p className='text-gray-500'>{search ? `No books match "${search}".` : 'No books found.'}</p>
         </div>
       ) : (
         <>

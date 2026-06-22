@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/pkg/db'
 import { favorites, items } from '@/pkg/db/schema'
-import { auth } from '@/pkg/auth'
+import { auth } from '@/pkg/auth/auth'
 import { eq } from 'drizzle-orm'
 
 export async function GET(request: NextRequest) {

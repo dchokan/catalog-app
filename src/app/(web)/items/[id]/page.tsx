@@ -1,11 +1,11 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { getQueryClient } from '@/pkg/query'
 import { getItemById, getAllItemIds } from '@/app/modules/item-detail'
-import { itemsQueryKeys } from '@/app/entities/api/items'
+import { itemDetailQueryOptions } from '@/app/entities/api/items'
 import { ItemDetailModule } from '@/app/modules/item-detail'
-import { Button } from '@/app/shared/ui/button'
-import Link from 'next/link'
+import { Button } from '@/app/shared/components/button'
 import type { Metadata } from 'next'
 
 interface ItemPageProps {
@@ -34,11 +34,11 @@ export default async function ItemDetailPage({ params }: ItemPageProps) {
   const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery({
-    queryKey: itemsQueryKeys.detail(id),
+    ...itemDetailQueryOptions(id),
     queryFn: () => getItemById(id),
   })
 
-  const item = queryClient.getQueryData(itemsQueryKeys.detail(id))
+  const item = queryClient.getQueryData(itemDetailQueryOptions(id).queryKey)
   if (!item) {
     notFound()
   }

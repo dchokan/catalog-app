@@ -1,9 +1,9 @@
 'use client'
 
-import { useSession } from '@/app/shared/hooks'
-import { useFavorites, useAddFavorite, useRemoveFavorite } from '@/app/entities/api/favorites'
-import { Button } from '@/app/shared/ui/button'
 import { useRouter } from 'next/navigation'
+import { useFavoritesQuery, useAddFavorite, useRemoveFavorite } from '@/app/entities/api/favorites'
+import { useSession } from '@/app/shared/hooks'
+import { Button } from '@/app/shared/components/button'
 
 interface FavoriteButtonProps {
   itemId: string
@@ -14,7 +14,7 @@ export function FavoriteButton({ itemId }: FavoriteButtonProps) {
   const { data: session } = useSession()
   const isAuthenticated = !!session?.user
 
-  const { data: favorites = [] } = useFavorites()
+  const { data: favorites = [] } = useFavoritesQuery()
   const addFavorite = useAddFavorite()
   const removeFavorite = useRemoveFavorite()
 
