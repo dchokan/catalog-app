@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from 'next/server'
 import { db } from '@/pkg/db'
 import { items, favorites } from '@/pkg/db/schema'
 import { desc, ilike, count, eq } from 'drizzle-orm'
-import { ITEMS_PER_PAGE } from '@/app/entities/api/items'
+import { ITEMS_PER_PAGE } from '@/app/shared/constants'
 
 export async function GET(request: NextRequest) {
   try {

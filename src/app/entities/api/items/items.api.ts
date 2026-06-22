@@ -1,6 +1,5 @@
-import type { Item } from '@/app/entities/models'
+import type { Item, ItemsFilters } from '@/app/entities/models'
 import type { PaginatedResponse } from '@/app/shared/interfaces'
-import type { ItemsFilters } from './items.interface'
 import { clientEnv } from '@/config/env'
 
 const BASE_URL = clientEnv.NEXT_PUBLIC_APP_URL

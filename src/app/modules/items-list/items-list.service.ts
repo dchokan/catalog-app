@@ -3,7 +3,8 @@ import { items, favorites } from '@/pkg/db/schema'
 import { desc, ilike, count, eq } from 'drizzle-orm'
 import type { Item } from '@/app/entities/models'
 import type { PaginatedResponse } from '@/app/shared/interfaces'
-import { ITEMS_PER_PAGE, type ItemsFilters } from '@/app/entities/api/items'
+import { ITEMS_PER_PAGE } from '@/app/shared/constants'
+import type { ItemsFilters } from '@/app/entities/models'
 
 export async function getAllItems(filters: ItemsFilters = {}): Promise<PaginatedResponse<Item>> {
   const search = filters.search?.trim()

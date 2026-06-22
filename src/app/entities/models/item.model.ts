@@ -6,3 +6,8 @@ export interface Item {
   createdAt: Date | string
   favoritesCount: number
 }
+
+export interface ItemsFilters {
+  search?: string
+  page?: number
+}
