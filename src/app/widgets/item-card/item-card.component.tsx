@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Card } from '@/app/shared/ui/card'
+import { Card } from '@/app/shared/components/card'
 import type { Item } from '@/app/entities/models'
 
 interface ItemCardProps {

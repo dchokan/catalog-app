@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { Button } from '@/app/shared/ui/button'
+import { Button } from '@/app/shared/components/button'
 
 interface ItemsPaginationProps {
   page: number

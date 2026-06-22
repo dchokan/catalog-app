@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { authClient } from '@/pkg/auth/auth-client'
-import { Button } from '@/app/shared/ui/button'
+import { authClient } from '@/pkg/auth'
+import { Button } from '@/app/shared/components/button'
 
 export function GoogleAuthButton() {
   const [isLoading, setIsLoading] = useState(false)

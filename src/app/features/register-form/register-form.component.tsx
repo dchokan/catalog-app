@@ -5,9 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { authClient } from '@/pkg/auth/auth-client'
-import { Button } from '@/app/shared/ui/button'
-import { Input } from '@/app/shared/ui/input'
+import { authClient } from '@/pkg/auth'
+import { Button } from '@/app/shared/components/button'
+import { Input } from '@/app/shared/components/input'
 import type { RegisterFormValues } from './register-form.interface'
 
 const registerSchema = z

@@ -1,5 +1,5 @@
 import { Header } from '@/app/widgets/header'
-import { Providers } from '@/app/shared/ui/providers'
+import { Providers } from '@/app/shared/components/providers'
 
 export default function WebLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -2,8 +2,8 @@
 
 import { useForm } from 'react-hook-form'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { Button } from '@/app/shared/ui/button'
-import { Input } from '@/app/shared/ui/input'
+import { Button } from '@/app/shared/components/button'
+import { Input } from '@/app/shared/components/input'
 import type { ItemsSearchValues } from './items-search.interface'
 
 export function ItemsSearch() {

@@ -2,9 +2,9 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { authClient } from '@/pkg/auth/auth-client'
+import { authClient } from '@/pkg/auth'
 import { useSession } from '@/app/shared/hooks'
-import { Button } from '@/app/shared/ui/button'
+import { Button } from '@/app/shared/components/button'
 
 export function Header() {
   const router = useRouter()
