@@ -7,3 +7,7 @@ export interface Favorite {
   createdAt: Date | string
   item: Item | null
 }
+
+export enum EFavoriteKey {
+  QUERY = 'query-favorites',
+}

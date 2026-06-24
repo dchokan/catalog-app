@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useItemDetailQuery } from '@/app/entities/api/items'
-import { FavoriteButton } from '@/app/widgets/favorite-button'
+import { FavoriteButton } from '@/app/features/favorite-button'
 
 interface ItemDetailModuleProps {
   id: string

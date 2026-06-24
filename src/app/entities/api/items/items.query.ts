@@ -1,17 +1,16 @@
 import { queryOptions } from '@tanstack/react-query'
 import { fetchItems, fetchItemById } from './items.api'
-import type { ItemsFilters } from '@/app/entities/models'
-import { EEntityKey } from '@/app/shared/interfaces'
+import { EItemKey, type ItemsFilters } from '@/app/entities/models'
 
 export const itemsListQueryOptions = (filters: ItemsFilters = {}) =>
   queryOptions({
-    queryKey: [EEntityKey.QUERY_ITEMS, 'list', filters],
+    queryKey: [EItemKey.QUERY, 'list', filters],
     queryFn: () => fetchItems(filters),
   })
 
 export const itemDetailQueryOptions = (id: string) =>
   queryOptions({
-    queryKey: [EEntityKey.QUERY_ITEMS, id],
+    queryKey: [EItemKey.QUERY, id],
     queryFn: () => fetchItemById(id),
     enabled: Boolean(id),
   })

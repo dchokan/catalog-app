@@ -1,8 +1,7 @@
-import { db } from '@/pkg/db'
-import { items, favorites } from '@/pkg/db/schema'
+import { db } from '@/app/shared/db'
+import { items, favorites } from '@/app/shared/db/schema'
 import { desc, ilike, count, eq } from 'drizzle-orm'
-import type { Item } from '@/app/entities/models'
-import type { PaginatedResponse } from '@/app/shared/interfaces'
+import type { Item, PaginatedResponse } from '@/app/entities/models'
 import { ITEMS_PER_PAGE } from '@/app/shared/constants'
 import type { ItemsFilters } from '@/app/entities/models'
 

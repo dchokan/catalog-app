@@ -2,8 +2,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { addFavorite, removeFavorite } from './favorites.api'
-import { EEntityKey } from '@/app/shared/interfaces'
-import type { Favorite } from '@/app/entities/models'
+import { EFavoriteKey, EItemKey, type Favorite } from '@/app/entities/models'
 
 export function useAddFavorite() {
   const queryClient = useQueryClient()
@@ -12,9 +11,9 @@ export function useAddFavorite() {
     mutationFn: (itemId: string) => addFavorite(itemId),
 
     onMutate: async (itemId: string) => {
-      await queryClient.cancelQueries({ queryKey: [EEntityKey.QUERY_FAVORITES] })
-      const previousFavorites = queryClient.getQueryData<Favorite[]>([EEntityKey.QUERY_FAVORITES])
-      queryClient.setQueryData<Favorite[]>([EEntityKey.QUERY_FAVORITES], (old = []) => [
+      await queryClient.cancelQueries({ queryKey: [EFavoriteKey.QUERY] })
+      const previousFavorites = queryClient.getQueryData<Favorite[]>([EFavoriteKey.QUERY])
+      queryClient.setQueryData<Favorite[]>([EFavoriteKey.QUERY], (old = []) => [
         ...old,
         {
           id: `optimistic-${itemId}`,
@@ -30,13 +29,13 @@ export function useAddFavorite() {
 
     onError: (_error, _itemId, context) => {
       if (context?.previousFavorites !== undefined) {
-        queryClient.setQueryData([EEntityKey.QUERY_FAVORITES], context.previousFavorites)
+        queryClient.setQueryData([EFavoriteKey.QUERY], context.previousFavorites)
       }
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [EEntityKey.QUERY_FAVORITES] })
-      queryClient.invalidateQueries({ queryKey: [EEntityKey.QUERY_ITEMS] })
+      queryClient.invalidateQueries({ queryKey: [EFavoriteKey.QUERY] })
+      queryClient.invalidateQueries({ queryKey: [EItemKey.QUERY] })
     },
   })
 }
@@ -48,9 +47,9 @@ export function useRemoveFavorite() {
     mutationFn: (itemId: string) => removeFavorite(itemId),
 
     onMutate: async (itemId: string) => {
-      await queryClient.cancelQueries({ queryKey: [EEntityKey.QUERY_FAVORITES] })
-      const previousFavorites = queryClient.getQueryData<Favorite[]>([EEntityKey.QUERY_FAVORITES])
-      queryClient.setQueryData<Favorite[]>([EEntityKey.QUERY_FAVORITES], (old = []) =>
+      await queryClient.cancelQueries({ queryKey: [EFavoriteKey.QUERY] })
+      const previousFavorites = queryClient.getQueryData<Favorite[]>([EFavoriteKey.QUERY])
+      queryClient.setQueryData<Favorite[]>([EFavoriteKey.QUERY], (old = []) =>
         old.filter((fav) => fav.itemId !== itemId),
       )
 
@@ -59,13 +58,13 @@ export function useRemoveFavorite() {
 
     onError: (_error, _itemId, context) => {
       if (context?.previousFavorites !== undefined) {
-        queryClient.setQueryData([EEntityKey.QUERY_FAVORITES], context.previousFavorites)
+        queryClient.setQueryData([EFavoriteKey.QUERY], context.previousFavorites)
       }
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [EEntityKey.QUERY_FAVORITES] })
-      queryClient.invalidateQueries({ queryKey: [EEntityKey.QUERY_ITEMS] })
+      queryClient.invalidateQueries({ queryKey: [EFavoriteKey.QUERY] })
+      queryClient.invalidateQueries({ queryKey: [EItemKey.QUERY] })
     },
   })
 }

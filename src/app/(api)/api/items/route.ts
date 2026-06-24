@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server'
-import { db } from '@/pkg/db'
-import { items, favorites } from '@/pkg/db/schema'
+import { db } from '@/app/shared/db'
+import { items, favorites } from '@/app/shared/db/schema'
 import { desc, ilike, count, eq } from 'drizzle-orm'
 import { ITEMS_PER_PAGE } from '@/app/shared/constants'
 

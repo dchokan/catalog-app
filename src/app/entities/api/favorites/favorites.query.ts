@@ -1,9 +1,9 @@
 import { queryOptions } from '@tanstack/react-query'
 import { fetchFavorites } from './favorites.api'
-import { EEntityKey } from '@/app/shared/interfaces'
+import { EFavoriteKey } from '@/app/entities/models'
 
 export const favoritesQueryOptions = () =>
   queryOptions({
-    queryKey: [EEntityKey.QUERY_FAVORITES],
+    queryKey: [EFavoriteKey.QUERY],
     queryFn: fetchFavorites,
   })

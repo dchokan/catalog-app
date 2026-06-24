@@ -1,5 +1,5 @@
-import { db } from '@/pkg/db'
-import { favorites, items } from '@/pkg/db/schema'
+import { db } from '@/app/shared/db'
+import { favorites, items } from '@/app/shared/db/schema'
 import { eq } from 'drizzle-orm'
 import type { Favorite } from '@/app/entities/models'
 

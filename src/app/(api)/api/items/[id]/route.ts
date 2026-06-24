@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/pkg/db'
-import { items, favorites } from '@/pkg/db/schema'
+import { db } from '@/app/shared/db'
+import { items, favorites } from '@/app/shared/db/schema'
 import { eq, count } from 'drizzle-orm'
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {

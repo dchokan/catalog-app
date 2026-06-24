@@ -11,3 +11,7 @@ export interface ItemsFilters {
   search?: string
   page?: number
 }
+
+export enum EItemKey {
+  QUERY = 'query-items',
+}
