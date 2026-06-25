@@ -10,6 +10,7 @@ export async function fetchItems(filters: ItemsFilters = {}): Promise<PaginatedR
 
   const query = params.toString()
   const response = await fetch(`${BASE_URL}/api/items${query ? `?${query}` : ''}`, {
+    cache: 'force-cache',
     next: { revalidate: 60 },
   })
 
@@ -22,6 +23,7 @@ export async function fetchItems(filters: ItemsFilters = {}): Promise<PaginatedR
 
 export async function fetchItemById(id: string): Promise<Item> {
   const response = await fetch(`${BASE_URL}/api/items/${id}`, {
+    cache: 'force-cache',
     next: { revalidate: 60 },
   })
 
