@@ -1,1 +1,1 @@
-export { GoogleAuthButton } from './oauth-buttons.component'
+export { default as OauthButtonsComponent } from './oauth-buttons.component'

@@ -1,20 +1,14 @@
-import { ButtonHTMLAttributes } from 'react'
+import { ButtonHTMLAttributes, FC } from 'react'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost'
   size?: 'sm' | 'md' | 'lg'
   loading?: boolean
 }
 
-export function Button({
-  variant = 'primary',
-  size = 'md',
-  loading = false,
-  disabled,
-  children,
-  className = '',
-  ...props
-}: ButtonProps) {
+const ButtonComponent: FC<Readonly<IProps>> = (props) => {
+  const { variant = 'primary', size = 'md', loading = false, disabled, children, className = '', ...rest } = props
+
   const base =
     'inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
 
@@ -35,7 +29,7 @@ export function Button({
     <button
       disabled={disabled || loading}
       className={`${base} ${variants[variant]} ${sizes[size]} ${className}`}
-      {...props}
+      {...rest}
     >
       {loading && (
         <svg className='h-4 w-4 animate-spin' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
@@ -47,3 +41,5 @@ export function Button({
     </button>
   )
 }
+
+export default ButtonComponent

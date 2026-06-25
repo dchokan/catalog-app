@@ -1,1 +1,1 @@
-export { FavoriteButton } from './favorite-button.component'
+export { default as FavoriteButtonComponent } from './favorite-button.component'

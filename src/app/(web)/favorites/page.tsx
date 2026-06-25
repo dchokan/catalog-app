@@ -6,13 +6,13 @@ import { auth } from '@/app/shared/auth/auth'
 import { getUserFavorites } from '@/app/modules/favorites'
 import { favoritesQueryOptions } from '@/app/entities/api/favorites'
 import { FavoritesModule } from '@/app/modules/favorites'
-import type { Metadata } from 'next'
+import type { Metadata, NextPage } from 'next'
 
 export const metadata: Metadata = {
   title: 'My Favorites',
 }
 
-export default async function FavoritesPage() {
+const Page: NextPage = async () => {
   const session = await auth.api.getSession({ headers: await headers() })
 
   if (!session) {
@@ -39,3 +39,5 @@ export default async function FavoritesPage() {
     </div>
   )
 }
+
+export default Page

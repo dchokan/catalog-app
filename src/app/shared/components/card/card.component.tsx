@@ -1,16 +1,20 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, FC } from 'react'
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
+interface IProps extends HTMLAttributes<HTMLDivElement> {
   hover?: boolean
 }
 
-export function Card({ hover = false, children, className = '', ...props }: CardProps) {
+const CardComponent: FC<Readonly<IProps>> = (props) => {
+  const { hover = false, children, className = '', ...rest } = props
+
   return (
     <div
       className={`overflow-hidden rounded-xl border border-gray-200 bg-white ${hover ? 'cursor-pointer transition-shadow hover:shadow-md' : ''} ${className} `}
-      {...props}
+      {...rest}
     >
       {children}
     </div>
   )
 }
+
+export default CardComponent

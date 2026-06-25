@@ -1,5 +1,8 @@
 import { redirect } from 'next/navigation'
+import type { NextPage } from 'next'
 
-export default function HomePage() {
+const Page: NextPage = () => {
   redirect('/items')
 }
+
+export default Page

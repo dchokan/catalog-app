@@ -1,8 +1,9 @@
 import Link from 'next/link'
-import { LoginForm } from '@/app/features/login-form'
-import { GoogleAuthButton } from '@/app/features/oauth-buttons'
+import { FC } from 'react'
+import { LoginFormComponent } from '@/app/features/login-form'
+import { OauthButtonsComponent } from '@/app/features/oauth-buttons'
 
-export function AuthLoginModule() {
+const AuthLoginModule: FC = () => {
   return (
     <div className='mx-auto w-full max-w-md'>
       <div className='rounded-2xl border border-gray-200 bg-white p-8 shadow-sm'>
@@ -11,7 +12,7 @@ export function AuthLoginModule() {
           <p className='mt-1 text-gray-500'>Sign in to your account</p>
         </div>
 
-        <LoginForm />
+        <LoginFormComponent />
 
         <div className='my-6 flex items-center gap-3'>
           <span className='h-px flex-1 bg-gray-200' />
@@ -19,7 +20,7 @@ export function AuthLoginModule() {
           <span className='h-px flex-1 bg-gray-200' />
         </div>
 
-        <GoogleAuthButton />
+        <OauthButtonsComponent />
 
         <p className='mt-6 text-center text-sm text-gray-500'>
           Don&apos;t have an account?{' '}
@@ -31,3 +32,5 @@ export function AuthLoginModule() {
     </div>
   )
 }
+
+export default AuthLoginModule

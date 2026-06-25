@@ -1,14 +1,17 @@
 'use client'
 
 import Image from 'next/image'
+import { FC } from 'react'
 import { useItemDetailQuery } from '@/app/entities/api/items'
-import { FavoriteButton } from '@/app/features/favorite-button'
+import { FavoriteButtonComponent } from '@/app/features/favorite-button'
 
-interface ItemDetailModuleProps {
+interface IProps {
   id: string
 }
 
-export function ItemDetailModule({ id }: ItemDetailModuleProps) {
+const ItemDetailModule: FC<Readonly<IProps>> = (props) => {
+  const { id } = props
+
   const { data: item, isLoading, error } = useItemDetailQuery(id)
 
   if (isLoading) {
@@ -41,7 +44,7 @@ export function ItemDetailModule({ id }: ItemDetailModuleProps) {
       <div className='space-y-4'>
         <div className='flex items-start justify-between gap-4'>
           <h1 className='text-3xl font-bold text-gray-900'>{item.title}</h1>
-          <FavoriteButton itemId={item.id} />
+          <FavoriteButtonComponent itemId={item.id} />
         </div>
 
         <p className='text-sm text-gray-500'>
@@ -64,3 +67,5 @@ export function ItemDetailModule({ id }: ItemDetailModuleProps) {
     </article>
   )
 }
+
+export default ItemDetailModule

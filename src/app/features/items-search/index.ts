@@ -1,1 +1,1 @@
-export { ItemsSearch } from './items-search.component'
+export { default as ItemsSearchComponent } from './items-search.component'

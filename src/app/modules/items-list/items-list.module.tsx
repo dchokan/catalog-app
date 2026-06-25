@@ -1,12 +1,13 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
+import { FC } from 'react'
 import { useItemsListQuery } from '@/app/entities/api/items'
-import { ItemCard } from '@/app/widgets/item-card'
-import { ItemsSearch } from '@/app/features/items-search'
-import { ItemsPagination } from '@/app/features/items-pagination'
+import { ItemCardComponent } from '@/app/widgets/item-card'
+import { ItemsSearchComponent } from '@/app/features/items-search'
+import { ItemsPaginationComponent } from '@/app/features/items-pagination'
 
-export function ItemsListModule() {
+const ItemsListModule: FC = () => {
   const searchParams = useSearchParams()
   const search = searchParams.get('search') ?? ''
   const page = Math.max(1, Number(searchParams.get('page')) || 1)
@@ -16,7 +17,7 @@ export function ItemsListModule() {
 
   return (
     <div>
-      <ItemsSearch />
+      <ItemsSearchComponent />
 
       {isLoading ? (
         <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
@@ -36,12 +37,14 @@ export function ItemsListModule() {
         <>
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
             {items.map((item) => (
-              <ItemCard key={item.id} item={item} />
+              <ItemCardComponent key={item.id} item={item} />
             ))}
           </div>
-          <ItemsPagination page={data?.page ?? 1} totalPages={data?.totalPages ?? 1} />
+          <ItemsPaginationComponent page={data?.page ?? 1} totalPages={data?.totalPages ?? 1} />
         </>
       )}
     </div>
   )
 }
+
+export default ItemsListModule

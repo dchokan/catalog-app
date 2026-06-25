@@ -1,14 +1,17 @@
 'use client'
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { Button } from '@/app/shared/components/button'
+import { FC } from 'react'
+import { ButtonComponent } from '@/app/shared/components/button'
 
-interface ItemsPaginationProps {
+interface IProps {
   page: number
   totalPages: number
 }
 
-export function ItemsPagination({ page, totalPages }: ItemsPaginationProps) {
+const ItemsPaginationComponent: FC<Readonly<IProps>> = (props) => {
+  const { page, totalPages } = props
+
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -27,15 +30,17 @@ export function ItemsPagination({ page, totalPages }: ItemsPaginationProps) {
 
   return (
     <div className='mt-8 flex items-center justify-center gap-4'>
-      <Button variant='secondary' size='sm' disabled={page <= 1} onClick={() => goTo(page - 1)}>
+      <ButtonComponent variant='secondary' size='sm' disabled={page <= 1} onClick={() => goTo(page - 1)}>
         Previous
-      </Button>
+      </ButtonComponent>
       <span className='text-sm text-gray-600'>
         Page {page} of {totalPages}
       </span>
-      <Button variant='secondary' size='sm' disabled={page >= totalPages} onClick={() => goTo(page + 1)}>
+      <ButtonComponent variant='secondary' size='sm' disabled={page >= totalPages} onClick={() => goTo(page + 1)}>
         Next
-      </Button>
+      </ButtonComponent>
     </div>
   )
 }
+
+export default ItemsPaginationComponent

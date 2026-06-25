@@ -1,1 +1,1 @@
-export { Providers } from './providers.component'
+export { default as ProvidersComponent } from './providers.component'

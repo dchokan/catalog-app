@@ -2,11 +2,13 @@
 
 import { useForm } from 'react-hook-form'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { Button } from '@/app/shared/components/button'
-import { Input } from '@/app/shared/components/input'
-import type { ItemsSearchValues } from './items-search.interface'
+import { FC } from 'react'
+import { ButtonComponent } from '@/app/shared/components/button'
+import { InputComponent } from '@/app/shared/components/input'
 
-export function ItemsSearch() {
+type ItemsSearchValues = { search: string }
+
+const ItemsSearchComponent: FC = () => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -40,12 +42,20 @@ export function ItemsSearch() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='mb-6 flex items-end gap-3'>
       <div className='flex-1'>
-        <Input id='search' type='search' label='Search books' placeholder='Search by title…' {...register('search')} />
+        <InputComponent
+          id='search'
+          type='search'
+          label='Search books'
+          placeholder='Search by title…'
+          {...register('search')}
+        />
       </div>
-      <Button type='submit'>Search</Button>
-      <Button type='button' variant='secondary' onClick={onClear}>
+      <ButtonComponent type='submit'>Search</ButtonComponent>
+      <ButtonComponent type='button' variant='secondary' onClick={onClear}>
         Clear
-      </Button>
+      </ButtonComponent>
     </form>
   )
 }
+
+export default ItemsSearchComponent

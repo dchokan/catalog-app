@@ -3,17 +3,18 @@ import { getQueryClient } from '@/pkg/query'
 import { getAllItems } from '@/app/modules/items-list'
 import { itemsListQueryOptions } from '@/app/entities/api/items'
 import { ItemsListModule } from '@/app/modules/items-list'
-import type { Metadata } from 'next'
+import type { Metadata, NextPage } from 'next'
 
 export const metadata: Metadata = {
   title: 'Browse Books',
 }
 
-export default async function ItemsPage({
-  searchParams,
-}: {
+interface IProps {
   searchParams: Promise<{ search?: string; page?: string }>
-}) {
+}
+
+const Page: NextPage<Readonly<IProps>> = async (props) => {
+  const { searchParams } = props
   const { search = '', page = '1' } = await searchParams
   const filters = { search, page: Math.max(1, Number(page) || 1) }
   const queryClient = getQueryClient()
@@ -36,3 +37,5 @@ export default async function ItemsPage({
     </div>
   )
 }
+
+export default Page

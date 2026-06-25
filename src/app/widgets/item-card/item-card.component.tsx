@@ -1,16 +1,19 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Card } from '@/app/shared/components/card'
+import { FC } from 'react'
+import { CardComponent } from '@/app/shared/components/card'
 import type { Item } from '@/app/entities/models'
 
-interface ItemCardProps {
+interface IProps {
   item: Item
 }
 
-export function ItemCard({ item }: ItemCardProps) {
+const ItemCardComponent: FC<Readonly<IProps>> = (props) => {
+  const { item } = props
+
   return (
     <Link href={`/items/${item.id}`}>
-      <Card hover className='flex h-full flex-col'>
+      <CardComponent hover className='flex h-full flex-col'>
         <div className='relative aspect-2/3 bg-gray-50'>
           {item.imageUrl ? (
             <Image
@@ -34,7 +37,9 @@ export function ItemCard({ item }: ItemCardProps) {
               : `${item.favoritesCount} users added this to favorites`}
           </p>
         </div>
-      </Card>
+      </CardComponent>
     </Link>
   )
 }
+
+export default ItemCardComponent

@@ -5,10 +5,10 @@ import { getQueryClient } from '@/pkg/query'
 import { getItemById, getAllItemIds } from '@/app/modules/item-detail'
 import { itemDetailQueryOptions } from '@/app/entities/api/items'
 import { ItemDetailModule } from '@/app/modules/item-detail'
-import { Button } from '@/app/shared/components/button'
-import type { Metadata } from 'next'
+import { ButtonComponent } from '@/app/shared/components/button'
+import type { Metadata, NextPage } from 'next'
 
-interface ItemPageProps {
+interface IProps {
   params: Promise<{ id: string }>
 }
 
@@ -17,7 +17,8 @@ export async function generateStaticParams() {
   return ids.map((id) => ({ id }))
 }
 
-export async function generateMetadata({ params }: ItemPageProps): Promise<Metadata> {
+export async function generateMetadata(props: Readonly<IProps>): Promise<Metadata> {
+  const { params } = props
   const { id } = await params
   const item = await getItemById(id)
 
@@ -29,7 +30,8 @@ export async function generateMetadata({ params }: ItemPageProps): Promise<Metad
   }
 }
 
-export default async function ItemDetailPage({ params }: ItemPageProps) {
+const Page: NextPage<Readonly<IProps>> = async (props) => {
+  const { params } = props
   const { id } = await params
   const queryClient = getQueryClient()
 
@@ -47,9 +49,9 @@ export default async function ItemDetailPage({ params }: ItemPageProps) {
     <div>
       <div className='mb-6'>
         <Link href='/items'>
-          <Button variant='ghost' size='sm'>
+          <ButtonComponent variant='ghost' size='sm'>
             ← Back to books
-          </Button>
+          </ButtonComponent>
         </Link>
       </div>
 
@@ -59,3 +61,5 @@ export default async function ItemDetailPage({ params }: ItemPageProps) {
     </div>
   )
 }
+
+export default Page

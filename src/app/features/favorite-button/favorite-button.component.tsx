@@ -3,13 +3,16 @@
 import { useRouter } from 'next/navigation'
 import { useFavoritesQuery, useAddFavorite, useRemoveFavorite } from '@/app/entities/api/favorites'
 import { useSession } from '@/app/shared/hooks'
-import { Button } from '@/app/shared/components/button'
+import { FC } from 'react'
+import { ButtonComponent } from '@/app/shared/components/button'
 
-interface FavoriteButtonProps {
+interface IProps {
   itemId: string
 }
 
-export function FavoriteButton({ itemId }: FavoriteButtonProps) {
+const FavoriteButtonComponent: FC<Readonly<IProps>> = (props) => {
+  const { itemId } = props
+
   const router = useRouter()
   const { data: session } = useSession()
   const isAuthenticated = !!session?.user
@@ -35,7 +38,7 @@ export function FavoriteButton({ itemId }: FavoriteButtonProps) {
   }
 
   return (
-    <Button
+    <ButtonComponent
       variant={isFavorited ? 'danger' : 'secondary'}
       size='sm'
       loading={isPending}
@@ -43,6 +46,8 @@ export function FavoriteButton({ itemId }: FavoriteButtonProps) {
       aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
     >
       {isFavorited ? 'Remove from favorites' : 'Add to favorites'}
-    </Button>
+    </ButtonComponent>
   )
 }
+
+export default FavoriteButtonComponent

@@ -3,12 +3,13 @@
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/app/shared/components/button'
-import { Input } from '@/app/shared/components/input'
+import { FC } from 'react'
+import { ButtonComponent } from '@/app/shared/components/button'
+import { InputComponent } from '@/app/shared/components/input'
 import { loginSchema, type LoginFormValues } from '@/app/entities/models'
 import { useSignIn } from '@/app/entities/api/auth'
 
-export function LoginForm() {
+const LoginFormComponent: FC = () => {
   const router = useRouter()
   const signIn = useSignIn()
 
@@ -39,7 +40,7 @@ export function LoginForm() {
         name='email'
         control={control}
         render={({ field }) => (
-          <Input
+          <InputComponent
             id='email'
             type='email'
             label='Email address'
@@ -54,7 +55,7 @@ export function LoginForm() {
         name='password'
         control={control}
         render={({ field }) => (
-          <Input
+          <InputComponent
             id='password'
             type='password'
             label='Password'
@@ -71,9 +72,11 @@ export function LoginForm() {
         </p>
       )}
 
-      <Button type='submit' loading={signIn.isPending} className='w-full'>
+      <ButtonComponent type='submit' loading={signIn.isPending} className='w-full'>
         Sign in
-      </Button>
+      </ButtonComponent>
     </form>
   )
 }
+
+export default LoginFormComponent

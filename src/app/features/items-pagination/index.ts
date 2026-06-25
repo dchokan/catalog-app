@@ -1,1 +1,1 @@
-export { ItemsPagination } from './items-pagination.component'
+export { default as ItemsPaginationComponent } from './items-pagination.component'

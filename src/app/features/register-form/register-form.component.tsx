@@ -3,12 +3,13 @@
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/app/shared/components/button'
-import { Input } from '@/app/shared/components/input'
+import { FC } from 'react'
+import { ButtonComponent } from '@/app/shared/components/button'
+import { InputComponent } from '@/app/shared/components/input'
 import { registerSchema, type RegisterFormValues } from '@/app/entities/models'
 import { useSignUp } from '@/app/entities/api/auth'
 
-export function RegisterForm() {
+const RegisterFormComponent: FC = () => {
   const router = useRouter()
   const signUp = useSignUp()
 
@@ -41,7 +42,7 @@ export function RegisterForm() {
         name='name'
         control={control}
         render={({ field }) => (
-          <Input
+          <InputComponent
             id='name'
             type='text'
             label='Full name'
@@ -56,7 +57,7 @@ export function RegisterForm() {
         name='email'
         control={control}
         render={({ field }) => (
-          <Input
+          <InputComponent
             id='email'
             type='email'
             label='Email address'
@@ -71,7 +72,7 @@ export function RegisterForm() {
         name='password'
         control={control}
         render={({ field }) => (
-          <Input
+          <InputComponent
             id='password'
             type='password'
             label='Password'
@@ -86,7 +87,7 @@ export function RegisterForm() {
         name='confirmPassword'
         control={control}
         render={({ field }) => (
-          <Input
+          <InputComponent
             id='confirmPassword'
             type='password'
             label='Confirm password'
@@ -103,9 +104,11 @@ export function RegisterForm() {
         </p>
       )}
 
-      <Button type='submit' loading={signUp.isPending} className='w-full'>
+      <ButtonComponent type='submit' loading={signUp.isPending} className='w-full'>
         Create account
-      </Button>
+      </ButtonComponent>
     </form>
   )
 }
+
+export default RegisterFormComponent

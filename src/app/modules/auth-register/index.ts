@@ -1,1 +1,1 @@
-export { AuthRegisterModule } from './auth-register.module'
+export { default as AuthRegisterModule } from './auth-register.module'

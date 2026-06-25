@@ -2,11 +2,12 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { FC } from 'react'
 import { useFavoritesQuery, useRemoveFavorite } from '@/app/entities/api/favorites'
-import { Card } from '@/app/shared/components/card'
-import { Button } from '@/app/shared/components/button'
+import { CardComponent } from '@/app/shared/components/card'
+import { ButtonComponent } from '@/app/shared/components/button'
 
-export function FavoritesModule() {
+const FavoritesModule: FC = () => {
   const { data: favorites = [], isLoading, error } = useFavoritesQuery()
   const removeFavorite = useRemoveFavorite()
 
@@ -33,7 +34,7 @@ export function FavoritesModule() {
       <div className='py-16 text-center'>
         <p className='mb-4 text-lg text-gray-600'>No favorites yet</p>
         <Link href='/items'>
-          <Button>Browse books</Button>
+          <ButtonComponent>Browse books</ButtonComponent>
         </Link>
       </div>
     )
@@ -42,7 +43,7 @@ export function FavoritesModule() {
   return (
     <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
       {favorites.map((favorite) => (
-        <Card key={favorite.id} className='flex flex-col'>
+        <CardComponent key={favorite.id} className='flex flex-col'>
           {favorite.item?.imageUrl && (
             <Link href={`/items/${favorite.itemId}`}>
               <div className='relative aspect-2/3 bg-gray-50'>
@@ -64,7 +65,7 @@ export function FavoritesModule() {
               </h3>
             </Link>
 
-            <Button
+            <ButtonComponent
               variant='ghost'
               size='sm'
               loading={removeFavorite.isPending}
@@ -72,10 +73,12 @@ export function FavoritesModule() {
               className='mt-auto text-red-500 hover:bg-red-50 hover:text-red-700'
             >
               Remove
-            </Button>
+            </ButtonComponent>
           </div>
-        </Card>
+        </CardComponent>
       ))}
     </div>
   )
 }
+
+export default FavoritesModule

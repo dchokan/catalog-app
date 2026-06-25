@@ -4,9 +4,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { authClient } from '@/pkg/auth'
 import { useSession } from '@/app/shared/hooks'
-import { Button } from '@/app/shared/components/button'
+import { FC } from 'react'
+import { ButtonComponent } from '@/app/shared/components/button'
 
-export function Header() {
+const HeaderComponent: FC = () => {
   const router = useRouter()
   const { data: session } = useSession()
   const isAuthenticated = !!session?.user
@@ -44,19 +45,19 @@ export function Header() {
             {isAuthenticated ? (
               <>
                 <span className='hidden text-sm text-gray-600 sm:block'>{session.user.name}</span>
-                <Button variant='secondary' size='sm' onClick={handleSignOut}>
+                <ButtonComponent variant='secondary' size='sm' onClick={handleSignOut}>
                   Sign out
-                </Button>
+                </ButtonComponent>
               </>
             ) : (
               <>
                 <Link href='/login'>
-                  <Button variant='ghost' size='sm'>
+                  <ButtonComponent variant='ghost' size='sm'>
                     Sign in
-                  </Button>
+                  </ButtonComponent>
                 </Link>
                 <Link href='/register'>
-                  <Button size='sm'>Register</Button>
+                  <ButtonComponent size='sm'>Register</ButtonComponent>
                 </Link>
               </>
             )}
@@ -66,3 +67,5 @@ export function Header() {
     </header>
   )
 }
+
+export default HeaderComponent
