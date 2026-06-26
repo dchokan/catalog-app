@@ -2,8 +2,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getQueryClient } from '@/pkg/query'
-import { getItemById, getAllItemIds } from '@/app/modules/item-detail'
-import { itemDetailQueryOptions } from '@/app/entities/api/items'
+import { fetchItemById, fetchItemIds, itemDetailQueryOptions } from '@/app/entities/api/items'
 import { ItemDetailModule } from '@/app/modules/item-detail'
 import { ButtonComponent } from '@/app/shared/components/button'
 import type { Metadata, NextPage } from 'next'
@@ -13,20 +12,23 @@ interface IProps {
 }
 
 export async function generateStaticParams() {
-  const ids = await getAllItemIds()
+  const ids = await fetchItemIds()
   return ids.map((id) => ({ id }))
 }
 
 export async function generateMetadata(props: Readonly<IProps>): Promise<Metadata> {
   const { params } = props
   const { id } = await params
-  const item = await getItemById(id)
 
-  if (!item) return { title: 'Book Not Found' }
+  try {
+    const item = await fetchItemById(id)
 
-  return {
-    title: item.title,
-    description: item.description ?? undefined,
+    return {
+      title: item.title,
+      description: item.description ?? undefined,
+    }
+  } catch {
+    return { title: 'Book Not Found' }
   }
 }
 
@@ -35,10 +37,7 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
   const { id } = await params
   const queryClient = getQueryClient()
 
-  await queryClient.prefetchQuery({
-    ...itemDetailQueryOptions(id),
-    queryFn: () => getItemById(id),
-  })
+  await queryClient.prefetchQuery(itemDetailQueryOptions(id))
 
   const item = queryClient.getQueryData(itemDetailQueryOptions(id).queryKey)
   if (!item) {

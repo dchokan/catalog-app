@@ -1,6 +1,5 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { getQueryClient } from '@/pkg/query'
-import { getAllItems } from '@/app/modules/items-list'
 import { itemsListQueryOptions } from '@/app/entities/api/items'
 import { ItemsListModule } from '@/app/modules/items-list'
 import type { Metadata, NextPage } from 'next'
@@ -19,10 +18,7 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
   const filters = { search, page: Math.max(1, Number(page) || 1) }
   const queryClient = getQueryClient()
 
-  await queryClient.prefetchQuery({
-    ...itemsListQueryOptions(filters),
-    queryFn: () => getAllItems(filters),
-  })
+  await queryClient.prefetchQuery(itemsListQueryOptions(filters))
 
   return (
     <div>

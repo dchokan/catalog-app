@@ -3,8 +3,7 @@ import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import { getQueryClient } from '@/pkg/query'
 import { auth } from '@/app/shared/auth/auth'
-import { getUserFavorites } from '@/app/modules/favorites'
-import { favoritesQueryOptions } from '@/app/entities/api/favorites'
+import { fetchFavorites, favoritesQueryOptions } from '@/app/entities/api/favorites'
 import { FavoritesModule } from '@/app/modules/favorites'
 import type { Metadata, NextPage } from 'next'
 
@@ -13,7 +12,8 @@ export const metadata: Metadata = {
 }
 
 const Page: NextPage = async () => {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const requestHeaders = await headers()
+  const session = await auth.api.getSession({ headers: requestHeaders })
 
   if (!session) {
     redirect('/login')
@@ -23,7 +23,7 @@ const Page: NextPage = async () => {
 
   await queryClient.prefetchQuery({
     ...favoritesQueryOptions(),
-    queryFn: () => getUserFavorites(session.user.id),
+    queryFn: () => fetchFavorites(requestHeaders.get('cookie') ?? undefined),
   })
 
   return (

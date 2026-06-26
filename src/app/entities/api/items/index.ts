@@ -1,4 +1,4 @@
-export { fetchItems, fetchItemById } from './items.api'
+export { fetchItems, fetchItemById, fetchItemIds } from './items.api'
 export {
   itemsListQueryOptions,
   itemDetailQueryOptions,

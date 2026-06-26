@@ -5,7 +5,7 @@ export interface Favorite {
   userId: string
   itemId: string
   createdAt: Date | string
-  item: Item | null
+  item: Omit<Item, 'favoritesCount'> | null
 }
 
 export enum EFavoriteKey {

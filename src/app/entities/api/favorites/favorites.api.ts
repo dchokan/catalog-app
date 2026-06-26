@@ -1,8 +1,12 @@
 import type { Favorite } from '@/app/entities/models'
+import { clientEnv } from '@/config/env'
 
-export async function fetchFavorites(): Promise<Favorite[]> {
-  const response = await fetch('/api/favorites', {
+const BASE_URL = clientEnv.NEXT_PUBLIC_APP_URL
+
+export async function fetchFavorites(cookie?: string): Promise<Favorite[]> {
+  const response = await fetch(`${BASE_URL}/api/favorites`, {
     credentials: 'include',
+    headers: cookie ? { cookie } : undefined,
   })
 
   if (!response.ok) {

@@ -5,7 +5,7 @@ import { EFavoriteKey } from '@/app/entities/models'
 export const favoritesQueryOptions = () =>
   queryOptions({
     queryKey: [EFavoriteKey.QUERY],
-    queryFn: fetchFavorites,
+    queryFn: () => fetchFavorites(),
   })
 
 export const useFavoritesQuery = () => useQuery(favoritesQueryOptions())
