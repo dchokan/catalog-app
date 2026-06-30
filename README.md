@@ -24,10 +24,12 @@ A full-stack Next.js 16 application for discovering and saving favorite books.
 
 ### 1. Clone and install
 
+This project uses **Yarn 1.22.22** as its package manager.
+
 ```bash
 git clone https://github.com/dchokan/catalog-app
 cd catalog-app
-npm install
+yarn install
 ```
 
 ### 2. Set up environment variables
@@ -65,7 +67,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ### 3. Run database migrations
 
 ```bash
-npm run db:push
+yarn db:push
 ```
 
 This creates all tables in your Supabase database.
@@ -73,7 +75,7 @@ This creates all tables in your Supabase database.
 ### 4. Seed the database
 
 ```bash
-npm run db:seed
+yarn db:seed
 ```
 
 This inserts 12 sample books into the `items` table.
@@ -81,21 +83,21 @@ This inserts 12 sample books into the `items` table.
 ### 5. Start the development server
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
 ## Available Scripts
 
-| Script                | Description                            |
-| --------------------- | -------------------------------------- |
-| `npm run dev`         | Start development server               |
-| `npm run build`       | Build for production                   |
-| `npm run start`       | Start production server                |
-| `npm run lint`        | Run ESLint                             |
-| `npm run db:push`     | Push schema changes to database        |
-| `npm run db:generate` | Generate SQL migration files           |
-| `npm run db:migrate`  | Run pending migrations                 |
-| `npm run db:studio`   | Open Drizzle Studio (visual DB editor) |
-| `npm run db:seed`     | Seed database with sample data         |
+| Script             | Description                            |
+| ------------------ | -------------------------------------- |
+| `yarn dev`         | Start development server               |
+| `yarn build`       | Build for production                   |
+| `yarn start`       | Start production server                |
+| `yarn lint`        | Run ESLint                             |
+| `yarn db:push`     | Push schema changes to database        |
+| `yarn db:generate` | Generate SQL migration files           |
+| `yarn db:migrate`  | Run pending migrations                 |
+| `yarn db:studio`   | Open Drizzle Studio (visual DB editor) |
+| `yarn db:seed`     | Seed database with sample data         |
