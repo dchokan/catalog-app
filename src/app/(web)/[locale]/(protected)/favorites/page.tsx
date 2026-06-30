@@ -1,15 +1,27 @@
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import { headers } from 'next/headers'
-import { getQueryClient } from '@/pkg/query'
-import { fetchFavorites, favoritesQueryOptions } from '@/app/entities/api/favorites'
-import { FavoritesModule } from '@/app/modules/favorites'
 import type { Metadata, NextPage } from 'next'
+import { headers } from 'next/headers'
+import { setRequestLocale } from 'next-intl/server'
+
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+
+import { favoritesQueryOptions, fetchFavorites } from '@/app/entities/api/favorites'
+import { FavoritesModule } from '@/app/modules/favorites'
+import { getQueryClient } from '@/pkg/query'
 
 export const metadata: Metadata = {
   title: 'My Favorites',
 }
 
-const Page: NextPage = async () => {
+interface IProps {
+  params: Promise<{ locale: string }>
+}
+
+const Page: NextPage<Readonly<IProps>> = async (props) => {
+  const { params } = props
+  const { locale } = await params
+
+  setRequestLocale(locale)
+
   const requestHeaders = await headers()
 
   const queryClient = getQueryClient()

@@ -1,4 +1,4 @@
-import { HTMLAttributes, FC } from 'react'
+import { type FC, type HTMLAttributes } from 'react'
 
 interface IProps extends HTMLAttributes<HTMLDivElement> {
   hover?: boolean

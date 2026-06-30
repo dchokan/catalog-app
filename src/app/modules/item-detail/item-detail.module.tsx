@@ -1,7 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { FC } from 'react'
+import { type FC } from 'react'
+
 import { useItemDetailQuery } from '@/app/entities/api/items'
 import { FavoriteButtonComponent } from '@/app/features/favorite-button'
 

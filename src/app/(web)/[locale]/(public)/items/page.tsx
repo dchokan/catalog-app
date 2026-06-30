@@ -1,8 +1,10 @@
+import type { Metadata, NextPage } from 'next'
+
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import { getQueryClient } from '@/pkg/query'
+
 import { itemsListQueryOptions } from '@/app/entities/api/items'
 import { ItemsListModule } from '@/app/modules/items-list'
-import type { Metadata, NextPage } from 'next'
+import { getQueryClient } from '@/pkg/query'
 
 export const metadata: Metadata = {
   title: 'Browse Books',

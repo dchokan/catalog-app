@@ -1,1 +1,1 @@
-export { inter } from "./font"
+export { inter } from './font'

@@ -1,8 +1,10 @@
 'use client'
 
-import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { FC } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { type FC } from 'react'
+
 import { ButtonComponent } from '@/app/shared/components/button'
+import { usePathname, useRouter } from '@/pkg/locale'
 
 interface IProps {
   page: number

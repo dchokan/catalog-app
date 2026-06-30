@@ -1,11 +1,11 @@
 'use client'
 
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { authClient } from '@/pkg/auth'
-import { useSession } from '@/app/shared/hooks'
-import { FC } from 'react'
+import { type FC } from 'react'
+
 import { ButtonComponent } from '@/app/shared/components/button'
+import { useSession } from '@/app/shared/hooks'
+import { authClient } from '@/pkg/auth'
+import { Link, useRouter } from '@/pkg/locale'
 
 const HeaderComponent: FC = () => {
   const router = useRouter()

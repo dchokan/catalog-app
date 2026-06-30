@@ -1,7 +1,8 @@
-import Link from 'next/link'
 import Image from 'next/image'
-import { FC, ReactNode } from 'react'
+import { type FC, type ReactNode } from 'react'
+
 import { CardComponent } from '@/app/shared/components/card'
+import { Link } from '@/pkg/locale'
 
 interface IProps {
   href: string

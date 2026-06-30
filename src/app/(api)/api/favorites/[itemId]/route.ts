@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { db, favorites } from '@/app/shared/services/db'
-import { auth } from '@/app/shared/services/auth'
 import { and, eq } from 'drizzle-orm'
+import { NextRequest, NextResponse } from 'next/server'
+
+import { authServer } from '@/app/shared/services/auth'
+import { db, favorites } from '@/app/shared/services/db'
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ itemId: string }> }) {
-  const session = await auth.api.getSession({ headers: request.headers })
+  const session = await authServer.api.getSession({ headers: request.headers })
 
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

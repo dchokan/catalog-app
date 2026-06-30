@@ -1,6 +1,8 @@
 import { queryOptions, useQuery } from '@tanstack/react-query'
-import { fetchFavorites } from './favorites.api'
+
 import { EFavoriteKey } from '@/app/entities/models'
+
+import { fetchFavorites } from './favorites.api'
 
 export const favoritesQueryOptions = () =>
   queryOptions({

@@ -1,10 +1,12 @@
 'use client'
 
+import { type FC, type ReactNode, useState } from 'react'
+
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { useState, FC, ReactNode } from 'react'
-import { getQueryClient } from '@/pkg/query'
+
 import { envClient } from '@/config/env'
+import { getQueryClient } from '@/pkg/query'
 
 interface IProps {
   children: ReactNode

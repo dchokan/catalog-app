@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { db, favorites, items } from '@/app/shared/services/db'
-import { auth } from '@/app/shared/services/auth'
 import { eq } from 'drizzle-orm'
+import { NextRequest, NextResponse } from 'next/server'
+
+import { authServer } from '@/app/shared/services/auth'
+import { db, favorites, items } from '@/app/shared/services/db'
 
 export async function GET(request: NextRequest) {
-  const session = await auth.api.getSession({ headers: request.headers })
+  const session = await authServer.api.getSession({ headers: request.headers })
 
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const session = await auth.api.getSession({ headers: request.headers })
+  const session = await authServer.api.getSession({ headers: request.headers })
 
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

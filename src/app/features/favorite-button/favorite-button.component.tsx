@@ -1,10 +1,11 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useFavoritesQuery, useAddFavoriteMutation, useRemoveFavoriteMutation } from '@/app/entities/api/favorites'
-import { useSession } from '@/app/shared/hooks'
-import { FC } from 'react'
+import { type FC } from 'react'
+
+import { useAddFavoriteMutation, useFavoritesQuery, useRemoveFavoriteMutation } from '@/app/entities/api/favorites'
 import { ButtonComponent } from '@/app/shared/components/button'
+import { useSession } from '@/app/shared/hooks'
+import { useRouter } from '@/pkg/locale'
 
 interface IProps {
   itemId: string

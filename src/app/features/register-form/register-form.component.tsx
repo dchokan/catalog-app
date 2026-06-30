@@ -1,13 +1,15 @@
 'use client'
 
-import { useForm, Controller } from 'react-hook-form'
+import { type FC } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import { FC } from 'react'
+
+import { useSignUpMutation } from '@/app/entities/api/auth'
 import { ButtonComponent } from '@/app/shared/components/button'
 import { InputComponent } from '@/app/shared/components/input'
-import { registerSchema, type RegisterFormValues } from '@/app/shared/validation'
-import { useSignUpMutation } from '@/app/entities/api/auth'
+import { type RegisterFormValues, registerSchema } from '@/app/shared/validation'
+import { useRouter } from '@/pkg/locale'
 
 const RegisterFormComponent: FC = () => {
   const router = useRouter()

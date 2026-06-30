@@ -1,7 +1,8 @@
-import Link from 'next/link'
-import { FC } from 'react'
-import { RegisterFormComponent } from '@/app/features/register-form'
+import { type FC } from 'react'
+
 import { OauthButtonsComponent } from '@/app/features/oauth-buttons'
+import { RegisterFormComponent } from '@/app/features/register-form'
+import { Link } from '@/pkg/locale'
 
 const AuthRegisterModule: FC = () => {
   return (

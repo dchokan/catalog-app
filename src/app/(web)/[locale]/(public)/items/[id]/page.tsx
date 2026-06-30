@@ -1,11 +1,13 @@
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import type { Metadata, NextPage } from 'next'
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
-import { getQueryClient } from '@/pkg/query'
+
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+
 import { fetchItemById, fetchItemIds, itemDetailQueryOptions } from '@/app/entities/api/items'
 import { ItemDetailModule } from '@/app/modules/item-detail'
 import { ButtonComponent } from '@/app/shared/components/button'
-import type { Metadata, NextPage } from 'next'
+import { Link } from '@/pkg/locale'
+import { getQueryClient } from '@/pkg/query'
 
 interface IProps {
   params: Promise<{ id: string }>

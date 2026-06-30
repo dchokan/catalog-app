@@ -1,8 +1,10 @@
 'use client'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { addFavorite, removeFavorite } from './favorites.api'
+
 import { EFavoriteKey, EItemKey, type IFavorite } from '@/app/entities/models'
+
+import { addFavorite, removeFavorite } from './favorites.api'
 
 export function useAddFavoriteMutation() {
   const queryClient = useQueryClient()

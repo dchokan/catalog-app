@@ -1,1 +1,1 @@
-export * from './auth'
+export { authServer } from './auth.server'

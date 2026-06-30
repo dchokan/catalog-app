@@ -1,11 +1,12 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import { FC } from 'react'
+import { type FC } from 'react'
+
 import { useItemsListQuery } from '@/app/entities/api/items'
-import { ItemCardComponent } from '@/app/shared/components/item-card'
-import { ItemsSearchComponent } from '@/app/features/items-search'
 import { ItemsPaginationComponent } from '@/app/features/items-pagination'
+import { ItemsSearchComponent } from '@/app/features/items-search'
+import { ItemCardComponent } from '@/app/shared/components/item-card'
 
 const favoritesLabel = (count: number): string =>
   count === 1 ? '1 user added this to favorites' : `${count} users added this to favorites`

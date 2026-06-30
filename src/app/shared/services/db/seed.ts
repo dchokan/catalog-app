@@ -1,7 +1,8 @@
-import postgres from 'postgres'
-import { drizzle } from 'drizzle-orm/postgres-js'
-import { items } from './schema'
 import { config } from 'dotenv'
+import { drizzle } from 'drizzle-orm/postgres-js'
+import postgres from 'postgres'
+
+import { items } from './schema'
 
 config({ path: '.env.local' })
 

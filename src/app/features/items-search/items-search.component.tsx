@@ -1,10 +1,12 @@
 'use client'
 
-import { useForm, Controller } from 'react-hook-form'
-import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { FC } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { type FC } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+
 import { ButtonComponent } from '@/app/shared/components/button'
 import { InputComponent } from '@/app/shared/components/input'
+import { usePathname, useRouter } from '@/pkg/locale'
 
 type ItemsSearchValues = { search: string }
 
@@ -46,13 +48,7 @@ const ItemsSearchComponent: FC = () => {
           name='search'
           control={control}
           render={({ field }) => (
-            <InputComponent
-              id='search'
-              type='search'
-              label='Search books'
-              placeholder='Search by title…'
-              {...field}
-            />
+            <InputComponent id='search' type='search' label='Search books' placeholder='Search by title…' {...field} />
           )}
         />
       </div>

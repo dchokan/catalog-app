@@ -1,11 +1,12 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
-import { FC } from 'react'
+import { type FC } from 'react'
+
 import { useFavoritesQuery, useRemoveFavoriteMutation } from '@/app/entities/api/favorites'
-import { CardComponent } from '@/app/shared/components/card'
 import { ButtonComponent } from '@/app/shared/components/button'
+import { CardComponent } from '@/app/shared/components/card'
+import { Link } from '@/pkg/locale'
 
 const FavoritesModule: FC = () => {
   const { data: favorites = [], isLoading, error } = useFavoritesQuery()

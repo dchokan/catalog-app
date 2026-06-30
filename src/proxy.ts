@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
+import createMiddleware from 'next-intl/middleware'
+
+import { routing } from '@/pkg/locale'
 
 const PROTECTED_ROUTES = ['/favorites']
 
 const AUTH_ONLY_ROUTES = ['/login', '/register']
+
+const handleI18n = createMiddleware(routing)
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -27,9 +32,9 @@ export function proxy(request: NextRequest) {
     }
   }
 
-  return NextResponse.next()
+  return handleI18n(request)
 }
 
 export const config = {
-  matcher: ['/favorites/:path*', '/login', '/register'],
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 }

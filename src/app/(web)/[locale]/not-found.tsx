@@ -1,6 +1,7 @@
-import Link from 'next/link'
 import type { FC } from 'react'
+
 import { ButtonComponent } from '@/app/shared/components/button'
+import { Link } from '@/pkg/locale'
 
 const NotFound: FC = () => {
   return (

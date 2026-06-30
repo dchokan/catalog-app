@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { db, items } from '@/app/shared/services/db'
 
 export async function GET() {

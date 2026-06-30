@@ -1,8 +1,10 @@
 'use client'
 
 import { useMutation } from '@tanstack/react-query'
-import { signIn, signUp } from './auth.api'
+
 import type { LoginFormValues, RegisterFormValues } from '@/app/shared/validation'
+
+import { signIn, signUp } from './auth.api'
 
 export function useSignInMutation() {
   return useMutation({

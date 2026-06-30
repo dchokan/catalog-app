@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, FC } from 'react'
-import { authClient } from '@/pkg/auth'
+import { type FC, useState } from 'react'
+
 import { ButtonComponent } from '@/app/shared/components/button'
+import { authClient } from '@/pkg/auth'
 
 const OauthButtonsComponent: FC = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -16,7 +17,13 @@ const OauthButtonsComponent: FC = () => {
   }
 
   return (
-    <ButtonComponent type='button' variant='secondary' className='w-full' loading={isLoading} onClick={handleGoogleSignIn}>
+    <ButtonComponent
+      type='button'
+      variant='secondary'
+      className='w-full'
+      loading={isLoading}
+      onClick={handleGoogleSignIn}
+    >
       Continue with Google
     </ButtonComponent>
   )

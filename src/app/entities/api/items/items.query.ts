@@ -1,6 +1,8 @@
 import { queryOptions, useQuery } from '@tanstack/react-query'
-import { fetchItems, fetchItemById } from './items.api'
+
 import { EItemKey, type IItemsFilters } from '@/app/entities/models'
+
+import { fetchItemById, fetchItems } from './items.api'
 
 export const itemsListQueryOptions = (filters: IItemsFilters = {}) =>
   queryOptions({

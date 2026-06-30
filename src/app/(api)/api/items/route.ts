@@ -1,7 +1,8 @@
-import { NextResponse, NextRequest } from 'next/server'
-import { db, items, favorites } from '@/app/shared/services/db'
-import { desc, ilike, count, eq } from 'drizzle-orm'
+import { count, desc, eq, ilike } from 'drizzle-orm'
+import { NextRequest, NextResponse } from 'next/server'
+
 import { ITEMS_PER_PAGE } from '@/app/shared/constants'
+import { db, favorites, items } from '@/app/shared/services/db'
 
 export async function GET(request: NextRequest) {
   try {
