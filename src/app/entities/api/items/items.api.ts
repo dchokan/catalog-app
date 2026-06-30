@@ -1,9 +1,9 @@
-import type { Item, ItemsFilters, PaginatedResponse } from '@/app/entities/models'
-import { clientEnv } from '@/config/env'
+import type { IItem, IItemsFilters, IPaginatedResponse } from '@/app/entities/models'
+import { envClient } from '@/config/env'
 
-const BASE_URL = clientEnv.NEXT_PUBLIC_APP_URL
+const BASE_URL = envClient.NEXT_PUBLIC_APP_URL
 
-export async function fetchItems(filters: ItemsFilters = {}): Promise<PaginatedResponse<Item>> {
+export async function fetchItems(filters: IItemsFilters = {}): Promise<IPaginatedResponse<IItem>> {
   const params = new URLSearchParams()
   if (filters.search?.trim()) params.set('search', filters.search.trim())
   if (filters.page && filters.page > 1) params.set('page', String(filters.page))
@@ -21,7 +21,7 @@ export async function fetchItems(filters: ItemsFilters = {}): Promise<PaginatedR
   return response.json()
 }
 
-export async function fetchItemById(id: string): Promise<Item> {
+export async function fetchItemById(id: string): Promise<IItem> {
   const response = await fetch(`${BASE_URL}/api/items/${id}`, {
     cache: 'force-cache',
     next: { revalidate: 60 },

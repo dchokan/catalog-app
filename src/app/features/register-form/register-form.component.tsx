@@ -6,12 +6,12 @@ import { useRouter } from 'next/navigation'
 import { FC } from 'react'
 import { ButtonComponent } from '@/app/shared/components/button'
 import { InputComponent } from '@/app/shared/components/input'
-import { registerSchema, type RegisterFormValues } from '@/app/entities/models'
-import { useSignUp } from '@/app/entities/api/auth'
+import { registerSchema, type RegisterFormValues } from '@/app/shared/validation'
+import { useSignUpMutation } from '@/app/entities/api/auth'
 
 const RegisterFormComponent: FC = () => {
   const router = useRouter()
-  const signUp = useSignUp()
+  const signUp = useSignUpMutation()
 
   const {
     control,

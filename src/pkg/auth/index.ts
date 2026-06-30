@@ -1,1 +1,1 @@
-export { authClient } from "./auth-client"
+export { authClient } from './auth-client'

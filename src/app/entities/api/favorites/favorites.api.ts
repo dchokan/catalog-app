@@ -1,9 +1,9 @@
-import type { Favorite } from '@/app/entities/models'
-import { clientEnv } from '@/config/env'
+import type { IFavorite } from '@/app/entities/models'
+import { envClient } from '@/config/env'
 
-const BASE_URL = clientEnv.NEXT_PUBLIC_APP_URL
+const BASE_URL = envClient.NEXT_PUBLIC_APP_URL
 
-export async function fetchFavorites(cookie?: string): Promise<Favorite[]> {
+export async function fetchFavorites(cookie?: string): Promise<IFavorite[]> {
   const response = await fetch(`${BASE_URL}/api/favorites`, {
     credentials: 'include',
     headers: cookie ? { cookie } : undefined,
@@ -17,7 +17,7 @@ export async function fetchFavorites(cookie?: string): Promise<Favorite[]> {
   return response.json()
 }
 
-export async function addFavorite(itemId: string): Promise<Favorite> {
+export async function addFavorite(itemId: string): Promise<IFavorite> {
   const response = await fetch('/api/favorites', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

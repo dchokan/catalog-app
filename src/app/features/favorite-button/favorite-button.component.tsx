@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useFavoritesQuery, useAddFavorite, useRemoveFavorite } from '@/app/entities/api/favorites'
+import { useFavoritesQuery, useAddFavoriteMutation, useRemoveFavoriteMutation } from '@/app/entities/api/favorites'
 import { useSession } from '@/app/shared/hooks'
 import { FC } from 'react'
 import { ButtonComponent } from '@/app/shared/components/button'
@@ -18,8 +18,8 @@ const FavoriteButtonComponent: FC<Readonly<IProps>> = (props) => {
   const isAuthenticated = !!session?.user
 
   const { data: favorites = [] } = useFavoritesQuery()
-  const addFavorite = useAddFavorite()
-  const removeFavorite = useRemoveFavorite()
+  const addFavorite = useAddFavoriteMutation()
+  const removeFavorite = useRemoveFavoriteMutation()
 
   const isFavorited = favorites.some((fav) => fav.itemId === itemId)
   const isPending = addFavorite.isPending || removeFavorite.isPending

@@ -1,11 +1,11 @@
-import type { Item } from './item.model'
+import type { IItem } from './item.model'
 
-export interface Favorite {
+export interface IFavorite {
   id: string
   userId: string
   itemId: string
   createdAt: Date | string
-  item: Omit<Item, 'favoritesCount'> | null
+  item: Omit<IItem, 'favoritesCount'> | null
 }
 
 export enum EFavoriteKey {

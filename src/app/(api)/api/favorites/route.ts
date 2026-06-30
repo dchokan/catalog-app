@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/app/shared/db'
-import { favorites, items } from '@/app/shared/db/schema'
-import { auth } from '@/app/shared/auth/auth'
+import { db, favorites, items } from '@/app/shared/services/db'
+import { auth } from '@/app/shared/services/auth'
 import { eq } from 'drizzle-orm'
 
 export async function GET(request: NextRequest) {

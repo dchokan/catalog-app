@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { createEnv } from '@t3-oss/env-nextjs'
 
-export const serverEnv = createEnv({
+export const envServer = createEnv({
   server: {
     DATABASE_URL: z.url(),
     BETTER_AUTH_SECRET: z.string().min(32, 'BETTER_AUTH_SECRET must be at least 32 characters'),

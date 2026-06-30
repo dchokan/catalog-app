@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
-import { db } from '@/app/shared/db'
-import { items } from '@/app/shared/db/schema'
+import { db, items } from '@/app/shared/services/db'
 
 export async function GET() {
   try {

@@ -6,12 +6,12 @@ import { useRouter } from 'next/navigation'
 import { FC } from 'react'
 import { ButtonComponent } from '@/app/shared/components/button'
 import { InputComponent } from '@/app/shared/components/input'
-import { loginSchema, type LoginFormValues } from '@/app/entities/models'
-import { useSignIn } from '@/app/entities/api/auth'
+import { loginSchema, type LoginFormValues } from '@/app/shared/validation'
+import { useSignInMutation } from '@/app/entities/api/auth'
 
 const LoginFormComponent: FC = () => {
   const router = useRouter()
-  const signIn = useSignIn()
+  const signIn = useSignInMutation()
 
   const {
     control,

@@ -1,8 +1,6 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import { getQueryClient } from '@/pkg/query'
-import { auth } from '@/app/shared/auth/auth'
 import { fetchFavorites, favoritesQueryOptions } from '@/app/entities/api/favorites'
 import { FavoritesModule } from '@/app/modules/favorites'
 import type { Metadata, NextPage } from 'next'
@@ -13,11 +11,6 @@ export const metadata: Metadata = {
 
 const Page: NextPage = async () => {
   const requestHeaders = await headers()
-  const session = await auth.api.getSession({ headers: requestHeaders })
-
-  if (!session) {
-    redirect('/login')
-  }
 
   const queryClient = getQueryClient()
 

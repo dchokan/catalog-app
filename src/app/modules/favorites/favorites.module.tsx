@@ -3,13 +3,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { FC } from 'react'
-import { useFavoritesQuery, useRemoveFavorite } from '@/app/entities/api/favorites'
+import { useFavoritesQuery, useRemoveFavoriteMutation } from '@/app/entities/api/favorites'
 import { CardComponent } from '@/app/shared/components/card'
 import { ButtonComponent } from '@/app/shared/components/button'
 
 const FavoritesModule: FC = () => {
   const { data: favorites = [], isLoading, error } = useFavoritesQuery()
-  const removeFavorite = useRemoveFavorite()
+  const removeFavorite = useRemoveFavoriteMutation()
 
   if (isLoading) {
     return (

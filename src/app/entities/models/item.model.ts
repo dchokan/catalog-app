@@ -1,4 +1,4 @@
-export interface Item {
+export interface IItem {
   id: string
   title: string
   description: string | null
@@ -7,7 +7,7 @@ export interface Item {
   favoritesCount: number
 }
 
-export interface ItemsFilters {
+export interface IItemsFilters {
   search?: string
   page?: number
 }

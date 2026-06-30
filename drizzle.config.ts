@@ -6,7 +6,7 @@ dotenv.config({
 })
 
 export default {
-  schema: "./src/app/shared/db/schema.ts",
+  schema: "./src/app/shared/services/db/schema.ts",
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {

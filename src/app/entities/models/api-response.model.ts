@@ -1,12 +1,12 @@
-export interface ApiError {
+export interface IApiError {
   error: string
 }
 
-export interface ApiSuccess {
+export interface IApiSuccess {
   success: boolean
 }
 
-export interface PaginatedResponse<T> {
+export interface IPaginatedResponse<T> {
   data: T[]
   total: number
   page: number

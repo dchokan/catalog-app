@@ -2,9 +2,9 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { addFavorite, removeFavorite } from './favorites.api'
-import { EFavoriteKey, EItemKey, type Favorite } from '@/app/entities/models'
+import { EFavoriteKey, EItemKey, type IFavorite } from '@/app/entities/models'
 
-export function useAddFavorite() {
+export function useAddFavoriteMutation() {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -12,8 +12,8 @@ export function useAddFavorite() {
 
     onMutate: async (itemId: string) => {
       await queryClient.cancelQueries({ queryKey: [EFavoriteKey.QUERY] })
-      const previousFavorites = queryClient.getQueryData<Favorite[]>([EFavoriteKey.QUERY])
-      queryClient.setQueryData<Favorite[]>([EFavoriteKey.QUERY], (old = []) => [
+      const previousFavorites = queryClient.getQueryData<IFavorite[]>([EFavoriteKey.QUERY])
+      queryClient.setQueryData<IFavorite[]>([EFavoriteKey.QUERY], (old = []) => [
         ...old,
         {
           id: `optimistic-${itemId}`,
@@ -40,7 +40,7 @@ export function useAddFavorite() {
   })
 }
 
-export function useRemoveFavorite() {
+export function useRemoveFavoriteMutation() {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -48,8 +48,8 @@ export function useRemoveFavorite() {
 
     onMutate: async (itemId: string) => {
       await queryClient.cancelQueries({ queryKey: [EFavoriteKey.QUERY] })
-      const previousFavorites = queryClient.getQueryData<Favorite[]>([EFavoriteKey.QUERY])
-      queryClient.setQueryData<Favorite[]>([EFavoriteKey.QUERY], (old = []) =>
+      const previousFavorites = queryClient.getQueryData<IFavorite[]>([EFavoriteKey.QUERY])
+      queryClient.setQueryData<IFavorite[]>([EFavoriteKey.QUERY], (old = []) =>
         old.filter((fav) => fav.itemId !== itemId),
       )
 

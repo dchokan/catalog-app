@@ -1,8 +1,7 @@
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { db } from '@/app/shared/db'
-import { schema } from '@/app/shared/db/schema'
-import { serverEnv } from '@/config/env'
+import { db, schema } from '@/app/shared/services/db'
+import { envServer } from '@/config/env'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -17,8 +16,8 @@ export const auth = betterAuth({
 
   socialProviders: {
     google: {
-      clientId: serverEnv.GOOGLE_CLIENT_ID,
-      clientSecret: serverEnv.GOOGLE_CLIENT_SECRET,
+      clientId: envServer.GOOGLE_CLIENT_ID,
+      clientSecret: envServer.GOOGLE_CLIENT_SECRET,
     },
   },
 
@@ -30,6 +29,6 @@ export const auth = betterAuth({
     },
   },
 
-  secret: serverEnv.BETTER_AUTH_SECRET,
-  baseURL: serverEnv.BETTER_AUTH_URL,
+  secret: envServer.BETTER_AUTH_SECRET,
+  baseURL: envServer.BETTER_AUTH_URL,
 })
