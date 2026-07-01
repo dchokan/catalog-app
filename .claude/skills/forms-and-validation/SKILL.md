@@ -1,120 +1,71 @@
 ---
 name: forms-and-validation
-description: Build validated forms with React Hook Form + Zod in Next.js. Use when creating login, register, or any input form with client-side validation, error display, loading states, and server error handling. Covers the pattern for any validated form in the project.
+description: Build validated forms in this app — React Hook Form + Zod (zodResolver) + Controller over the shared Input, with a TanStack mutation driving submit, server-error display, and loading state. Use when creating or changing the login/register forms, the search form, or any input form, and when adding/altering Zod schemas in shared/validation. Skip for non-form UI and for the auth/session mechanics (that's the auth skill).
 ---
 
-# Forms and Validation
+# forms-and-validation
 
-React Hook Form for form state management + Zod for schema validation + `@hookform/resolvers` to bridge them. All forms follow the same pattern: define a Zod schema → derive TypeScript type → create form with `useForm` + `zodResolver` → render controlled inputs.
+Forms use **React Hook Form** with **Zod** validation via `zodResolver`. Each field is a `Controller` wrapping the shared `InputComponent` (which renders its own label + error). Submit drives a **TanStack mutation**, so loading state, server-error surfacing, and the `onSuccess` redirect come from the mutation rather than hand-rolled async state. Schemas (and their inferred types) live in one place: `shared/validation/validation.ts`.
 
-## Dependencies
+This skill documents the real form pattern in this repo — paths and symbols below are concrete.
 
-```
-react-hook-form
-zod
-@hookform/resolvers
-```
-
-## Pattern: Schema → Form → Component
-
-### Step 1 — Define Zod Schema
-
-Define a `z.object()` schema above the component (module-level constant). Example fields for login:
-- `email`: `z.string().min(1, "Required").email("Invalid email")`
-- `password`: `z.string().min(8, "Must be at least 8 characters")`
-
-Infer the TypeScript type: `type FormData = z.infer<typeof schema>`
-
-### Step 2 — Initialize useForm
-
-```typescript
-const form = useForm<FormData>({
-  resolver: zodResolver(schema),
-  defaultValues: { email: "", password: "" },
-})
-```
-
-### Step 3 — Component Structure
-
-The form component (e.g., `login-form.component.tsx`) should:
-- Call `useForm` with the resolver
-- Track a `serverError` state (string | null) for errors returned by the API
-- Track an `isLoading` state (boolean)
-- `handleSubmit` calls the auth action (e.g., `authClient.signIn.email(...)`)
-- On success: call `router.push("/items")` (or wherever)
-- On error from API: set `serverError` with the message string
-- Render each field using the `<Input />` shared component
-- Show `form.formState.errors.fieldName?.message` below each field
-- Show `serverError` below all fields (non-field error)
-- Disable/show loading on the submit `<Button />` while `loading` is true
-
-## File Layout
+## Layout
 
 ```
-src/app/features/
-├── login-form/
-│   └── login-form.component.tsx
-└── register-form/
-    └── register-form.component.tsx
-
-src/app/shared/components/
-├── input/
-│   └── input.component.tsx    # Reusable input with label + error
-└── button/
-    └── button.component.tsx   # Reusable button with loading state
+src/app/shared/validation/
+├── validation.ts       # Zod schemas + inferred types (loginSchema, registerSchema, *FormValues) — flat *.ts
+└── index.ts
+src/app/features/<form>/      # one feature slice per form
+├── <form>.component.tsx  # 'use client' — useForm + zodResolver + Controller + mutation
+└── index.ts
+src/app/shared/components/input/   # the shared Input the Controllers wrap (label + error props)
 ```
 
-## `Input` Component Contract
+The submit **mutation** lives in the relevant `entities/api/<api>` slice (e.g. `useSignInMutation`); this skill covers the form, not the mutation's internals.
 
-Props: `label`, `error` (string | undefined), plus all standard HTML input props via spread.
+## Hard rules
 
-Renders:
-- `<label>` with the `label` prop
-- `<input>` with `{...register("fieldName")}` spread onto it
-- Conditional error message span below (only when `error` is truthy)
-- Error state: red border on input + red error text
+1. **Schemas live in `shared/validation/validation.ts` as flat `*.ts`** — the documented suffix exception (not `*.validation.ts`). Export `<name>Schema` and its inferred type together: `export type <Name>FormValues = z.infer<typeof <name>Schema>`. The schema is the single source of truth for both validation and types.
+2. **Forms are `'use client'` feature slices.** `useForm<<Name>FormValues>({ resolver: zodResolver(<name>Schema), defaultValues })` — always set `defaultValues` for every field (controlled inputs).
+3. **One `Controller` per field, wrapping `InputComponent`.** Pass `error={errors.<field>?.message}` so validation errors render under the field.
+4. **Submit drives a TanStack mutation.** `onSubmit(data)` calls `mutation.mutate(data, { onSuccess })`. The submit/server error surfaces from `mutation.error`; the submit button uses `loading={mutation.isPending}`. Don't manage loading/error with local `useState`.
+5. **Validation messages are user-facing.** Chain `.min/.email/.regex` with messages; cross-field rules use `.refine(fn, { message, path })` (e.g. password confirmation).
+6. **On success, navigate via `@/pkg/locale` `useRouter`** (`router.push(...)` + `router.refresh()` to re-sync server components like the header).
 
-## `Button` Component Contract
+## Key files
 
-Props: `variant` (`"primary" | "secondary" | "danger" | "ghost"`), `size` (`"sm" | "md" | "lg"`), `loading` (boolean), plus standard button props.
+- **`validation.ts`** — `loginSchema` (email + password), `registerSchema` (name, email, password with `.regex` upper/number, `confirmPassword`, `.refine` match on `path: ['confirmPassword']`), and `LoginFormValues` / `RegisterFormValues` via `z.infer`.
+- **`<form>.component.tsx`** — `const { control, handleSubmit, formState: { errors } } = useForm(...)`; a `Controller` per field; `<form onSubmit={handleSubmit(onSubmit)}>`; mutation error block; submit `ButtonComponent`.
+- **`InputComponent`** — `forwardRef` input with `label` + `error` props (so RHF can register it and errors render inline). Owned by the shared-ui-components skill.
 
-When `loading` is true:
-- Shows a spinner or "Loading..." text
-- Sets `disabled={true}` to prevent double-submit
+## Self-verification
 
-## Login Form Schema
+After any change, confirm against `spec/`:
+1. `spec/invariants.spec.md` — always-true rules (schema location, resolver wiring, Controller usage, mutation-driven submit).
+2. The matching block in `spec/per-action.spec.md` — `+schema` or `+form`.
 
-Fields: `email` (non-empty, valid email format), `password` (min 8 chars).
+## Common mistakes
 
-On submit: call `authClient.signIn.email({ email, password, callbackURL: "/items" })`.
+| Mistake | Reality |
+|---|---|
+| Naming the schema file `*.validation.ts` | The folder is the documented exception — files are plain `*.ts`. |
+| Re-declaring a TS type for the form values | Infer it: `type X = z.infer<typeof xSchema>`. One source of truth. |
+| Local `useState` for loading/error | Use `mutation.isPending` / `mutation.error`. |
+| Registering raw `<input>` instead of `Controller` + `InputComponent` | Forms use `Controller` over the shared input so errors/labels are consistent. |
+| Cross-field check in component code | Use `.refine(..., { path })` in the schema. |
+| `useRouter` from `next/navigation` for the success redirect | Use `@/pkg/locale`; `push` + `refresh`. |
+| Omitting `defaultValues` | Set them for every field — these are controlled inputs. |
 
-## Register Form Schema
+## Resources
 
-Fields: `name` (min 1), `email` (valid email), `password` (min 8).
+This SKILL.md is the router; it decides which resource to open. The resource sets are independent — they do **not** reference one another.
 
-On submit: call `authClient.signUp.email({ name, email, password, callbackURL: "/items" })`.
+| Situation | Open |
+|---|---|
+| Understanding **how RHF + Zod + the mutation fit together** and **why** | `references/pattern.md` |
+| Need a copy-ready **shape** for a schema or a form component | `examples/` |
+| **Verifying** a change | `spec/invariants.spec.md` + the matching block in `spec/per-action.spec.md` |
 
-## Modules That Wrap Forms
-
-`auth-login.module.tsx` and `auth-register.module.tsx` compose the form with surrounding layout:
-- Title heading
-- The form component
-- OAuth buttons (Google)
-- Link to the other auth page
-
-## Hard Rules
-
-- Zod schema is defined at module level, not inside the component — stable reference, no re-creation on render
-- `defaultValues` must be set for all fields — prevents uncontrolled-to-controlled warnings
-- Server errors (auth failures, network errors) go in `serverError` state, not `form.setError` — they aren't field-specific
-- `isLoading` must disable the submit button — prevents double-submission during async auth calls
-- `zodResolver` is the only resolver used — don't mix with manual validation logic
-
-## Verification
-
-- Submitting empty form shows validation errors under each field
-- Submitting invalid email shows "Invalid email" error under email field
-- Submitting password under 8 chars shows length error
-- Submitting valid data calls the auth action
-- Incorrect credentials from server shows a server error message below the form
-- Submit button is disabled while request is in flight
+- **`references/pattern.md`** — the integration of resolver + Controller + mutation, and the reasoning.
+- **`examples/`** — concrete shapes of `validation.ts` and a form component.
+- **`spec/`** — `invariants.spec.md` + `per-action.spec.md`.
