@@ -1,10 +1,8 @@
 import type { IFavorite } from '@/app/entities/models'
-import { envClient } from '@/config/env'
-
-const BASE_URL = envClient.NEXT_PUBLIC_APP_URL
+import { getApiBaseUrl } from '@/pkg/base-url'
 
 export async function fetchFavorites(cookie?: string): Promise<IFavorite[]> {
-  const response = await fetch(`${BASE_URL}/api/favorites`, {
+  const response = await fetch(`${getApiBaseUrl()}/api/favorites`, {
     credentials: 'include',
     headers: cookie ? { cookie } : undefined,
   })
