@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
@@ -12,6 +13,8 @@ import { type LoginFormValues, loginSchema } from '@/app/shared/validation'
 import { useRouter } from '@/pkg/locale'
 
 const LoginFormComponent: FC = () => {
+  const t = useTranslations('auth')
+  const tv = useTranslations('validation')
   const router = useRouter()
   const signIn = useSignInMutation()
 
@@ -45,9 +48,9 @@ const LoginFormComponent: FC = () => {
           <InputComponent
             id='email'
             type='email'
-            label='Email address'
-            placeholder='you@example.com'
-            error={errors.email?.message}
+            label={t('fields.email')}
+            placeholder={t('fields.emailPlaceholder')}
+            error={errors.email?.message && tv(errors.email.message)}
             {...field}
           />
         )}
@@ -60,9 +63,9 @@ const LoginFormComponent: FC = () => {
           <InputComponent
             id='password'
             type='password'
-            label='Password'
-            placeholder='Your password'
-            error={errors.password?.message}
+            label={t('fields.password')}
+            placeholder={t('fields.passwordPlaceholder')}
+            error={errors.password?.message && tv(errors.password.message)}
             {...field}
           />
         )}
@@ -75,7 +78,7 @@ const LoginFormComponent: FC = () => {
       )}
 
       <ButtonComponent type='submit' loading={signIn.isPending} className='w-full'>
-        Sign in
+        {t('login.submit')}
       </ButtonComponent>
     </form>
   )

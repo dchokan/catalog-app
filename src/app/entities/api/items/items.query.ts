@@ -17,8 +17,6 @@ export const itemDetailQueryOptions = (id: string) =>
     enabled: Boolean(id),
   })
 
-export const useItemsListQuery = (filters: IItemsFilters = {}) =>
-  useQuery(itemsListQueryOptions(filters))
+export const useItemsListQuery = (filters: IItemsFilters = {}) => useQuery(itemsListQueryOptions(filters))
 
-export const useItemDetailQuery = (id: string) =>
-  useQuery(itemDetailQueryOptions(id))
+export const useItemDetailQuery = (id: string) => useQuery(itemDetailQueryOptions(id))

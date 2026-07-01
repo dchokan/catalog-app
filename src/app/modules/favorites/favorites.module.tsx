@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 
 import { useFavoritesQuery, useRemoveFavoriteMutation } from '@/app/entities/api/favorites'
@@ -9,6 +10,7 @@ import { CardComponent } from '@/app/shared/components/card'
 import { Link } from '@/pkg/locale'
 
 const FavoritesModule: FC = () => {
+  const t = useTranslations('favorites')
   const { data: favorites = [], isLoading, error } = useFavoritesQuery()
   const removeFavorite = useRemoveFavoriteMutation()
 
@@ -25,7 +27,7 @@ const FavoritesModule: FC = () => {
   if (error) {
     return (
       <div className='py-12 text-center'>
-        <p className='text-red-600'>Failed to load favorites.</p>
+        <p className='text-red-600'>{t('loadError')}</p>
       </div>
     )
   }
@@ -33,9 +35,9 @@ const FavoritesModule: FC = () => {
   if (favorites.length === 0) {
     return (
       <div className='py-16 text-center'>
-        <p className='mb-4 text-lg text-gray-600'>No favorites yet</p>
+        <p className='mb-4 text-lg text-gray-600'>{t('empty')}</p>
         <Link href='/items'>
-          <ButtonComponent>Browse books</ButtonComponent>
+          <ButtonComponent>{t('browse')}</ButtonComponent>
         </Link>
       </div>
     )
@@ -62,7 +64,7 @@ const FavoritesModule: FC = () => {
           <div className='flex flex-1 flex-col gap-3 p-4'>
             <Link href={`/items/${favorite.itemId}`}>
               <h3 className='line-clamp-2 font-semibold text-gray-900 transition-colors hover:text-blue-600'>
-                {favorite.item?.title ?? 'Unknown book'}
+                {favorite.item?.title ?? t('unknownBook')}
               </h3>
             </Link>
 
@@ -73,7 +75,7 @@ const FavoritesModule: FC = () => {
               onClick={() => removeFavorite.mutate(favorite.itemId)}
               className='mt-auto text-red-500 hover:bg-red-50 hover:text-red-700'
             >
-              Remove
+              {t('remove')}
             </ButtonComponent>
           </div>
         </CardComponent>

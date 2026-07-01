@@ -1,6 +1,7 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 
 import { ButtonComponent } from '@/app/shared/components/button'
@@ -14,6 +15,7 @@ interface IProps {
 const ItemsPaginationComponent: FC<Readonly<IProps>> = (props) => {
   const { page, totalPages } = props
 
+  const t = useTranslations('items')
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -33,13 +35,11 @@ const ItemsPaginationComponent: FC<Readonly<IProps>> = (props) => {
   return (
     <div className='mt-8 flex items-center justify-center gap-4'>
       <ButtonComponent variant='secondary' size='sm' disabled={page <= 1} onClick={() => goTo(page - 1)}>
-        Previous
+        {t('pagination.previous')}
       </ButtonComponent>
-      <span className='text-sm text-gray-600'>
-        Page {page} of {totalPages}
-      </span>
+      <span className='text-sm text-gray-600'>{t('pagination.pageInfo', { page, totalPages })}</span>
       <ButtonComponent variant='secondary' size='sm' disabled={page >= totalPages} onClick={() => goTo(page + 1)}>
-        Next
+        {t('pagination.next')}
       </ButtonComponent>
     </div>
   )

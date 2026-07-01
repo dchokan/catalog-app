@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
@@ -12,6 +13,8 @@ import { type RegisterFormValues, registerSchema } from '@/app/shared/validation
 import { useRouter } from '@/pkg/locale'
 
 const RegisterFormComponent: FC = () => {
+  const t = useTranslations('auth')
+  const tv = useTranslations('validation')
   const router = useRouter()
   const signUp = useSignUpMutation()
 
@@ -47,9 +50,9 @@ const RegisterFormComponent: FC = () => {
           <InputComponent
             id='name'
             type='text'
-            label='Full name'
-            placeholder='John Doe'
-            error={errors.name?.message}
+            label={t('fields.name')}
+            placeholder={t('fields.namePlaceholder')}
+            error={errors.name?.message && tv(errors.name.message)}
             {...field}
           />
         )}
@@ -62,9 +65,9 @@ const RegisterFormComponent: FC = () => {
           <InputComponent
             id='email'
             type='email'
-            label='Email address'
-            placeholder='you@example.com'
-            error={errors.email?.message}
+            label={t('fields.email')}
+            placeholder={t('fields.emailPlaceholder')}
+            error={errors.email?.message && tv(errors.email.message)}
             {...field}
           />
         )}
@@ -77,9 +80,9 @@ const RegisterFormComponent: FC = () => {
           <InputComponent
             id='password'
             type='password'
-            label='Password'
-            placeholder='Minimum 8 characters'
-            error={errors.password?.message}
+            label={t('fields.password')}
+            placeholder={t('fields.passwordMinPlaceholder')}
+            error={errors.password?.message && tv(errors.password.message)}
             {...field}
           />
         )}
@@ -92,9 +95,9 @@ const RegisterFormComponent: FC = () => {
           <InputComponent
             id='confirmPassword'
             type='password'
-            label='Confirm password'
-            placeholder='Repeat your password'
-            error={errors.confirmPassword?.message}
+            label={t('fields.confirmPassword')}
+            placeholder={t('fields.confirmPlaceholder')}
+            error={errors.confirmPassword?.message && tv(errors.confirmPassword.message)}
             {...field}
           />
         )}
@@ -107,7 +110,7 @@ const RegisterFormComponent: FC = () => {
       )}
 
       <ButtonComponent type='submit' loading={signUp.isPending} className='w-full'>
-        Create account
+        {t('register.submit')}
       </ButtonComponent>
     </form>
   )

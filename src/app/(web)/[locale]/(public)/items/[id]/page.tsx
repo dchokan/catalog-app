@@ -1,5 +1,6 @@
 import type { Metadata, NextPage } from 'next'
 import { notFound } from 'next/navigation'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
@@ -10,7 +11,7 @@ import { Link } from '@/pkg/locale'
 import { getQueryClient } from '@/pkg/query'
 
 interface IProps {
-  params: Promise<{ id: string }>
+  params: Promise<{ locale: string; id: string }>
 }
 
 export async function generateStaticParams() {
@@ -20,7 +21,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: Readonly<IProps>): Promise<Metadata> {
   const { params } = props
-  const { id } = await params
+  const { locale, id } = await params
 
   try {
     const item = await fetchItemById(id)
@@ -30,13 +31,18 @@ export async function generateMetadata(props: Readonly<IProps>): Promise<Metadat
       description: item.description ?? undefined,
     }
   } catch {
-    return { title: 'Book Not Found' }
+    const t = await getTranslations({ locale, namespace: 'items' })
+    return { title: t('detail.metaNotFound') }
   }
 }
 
 const Page: NextPage<Readonly<IProps>> = async (props) => {
   const { params } = props
-  const { id } = await params
+  const { locale, id } = await params
+
+  setRequestLocale(locale)
+
+  const t = await getTranslations('items')
   const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery(itemDetailQueryOptions(id))
@@ -51,7 +57,7 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
       <div className='mb-6'>
         <Link href='/items'>
           <ButtonComponent variant='ghost' size='sm'>
-            ← Back to books
+            {t('detail.back')}
           </ButtonComponent>
         </Link>
       </div>

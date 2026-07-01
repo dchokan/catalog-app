@@ -1,6 +1,7 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
@@ -11,6 +12,7 @@ import { usePathname, useRouter } from '@/pkg/locale'
 type ItemsSearchValues = { search: string }
 
 const ItemsSearchComponent: FC = () => {
+  const t = useTranslations('items')
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -48,13 +50,19 @@ const ItemsSearchComponent: FC = () => {
           name='search'
           control={control}
           render={({ field }) => (
-            <InputComponent id='search' type='search' label='Search books' placeholder='Search by title…' {...field} />
+            <InputComponent
+              id='search'
+              type='search'
+              label={t('search.label')}
+              placeholder={t('search.placeholder')}
+              {...field}
+            />
           )}
         />
       </div>
-      <ButtonComponent type='submit'>Search</ButtonComponent>
+      <ButtonComponent type='submit'>{t('search.submit')}</ButtonComponent>
       <ButtonComponent type='button' variant='secondary' onClick={onClear}>
-        Clear
+        {t('search.clear')}
       </ButtonComponent>
     </form>
   )

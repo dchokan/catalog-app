@@ -1,1 +1,97 @@
-{}
+{
+  "header": {
+    "library": "Library",
+    "favorites": "Favorites",
+    "signOut": "Sign out",
+    "signIn": "Sign in",
+    "register": "Register"
+  },
+  "auth": {
+    "or": "OR",
+    "google": "Continue with Google",
+    "login": {
+      "metaTitle": "Sign In",
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register"
+    },
+    "register": {
+      "metaTitle": "Create Account",
+      "title": "Create account",
+      "subtitle": "Join BookShelf today",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in"
+    },
+    "fields": {
+      "name": "Full name",
+      "namePlaceholder": "John Doe",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Your password",
+      "passwordMinPlaceholder": "Minimum 8 characters",
+      "confirmPassword": "Confirm password",
+      "confirmPlaceholder": "Repeat your password"
+    }
+  },
+  "validation": {
+    "emailRequired": "Email is required",
+    "emailInvalid": "Enter a valid email",
+    "passwordRequired": "Password is required",
+    "nameMin": "Name must be at least 2 characters",
+    "passwordMin": "Password must be at least 8 characters",
+    "passwordUppercase": "Password must contain at least one uppercase letter",
+    "passwordNumber": "Password must contain at least one number",
+    "confirmRequired": "Please confirm your password",
+    "passwordsMismatch": "Passwords do not match"
+  },
+  "items": {
+    "title": "Browse Books",
+    "subtitle": "Discover your next favorite read",
+    "search": {
+      "label": "Search books",
+      "placeholder": "Search by title…",
+      "submit": "Search",
+      "clear": "Clear"
+    },
+    "loadError": "Failed to load books. Please try again.",
+    "noMatch": "No books match \"{search}\".",
+    "empty": "No books found.",
+    "favoritesCount": "{count, plural, one {# user added this to favorites} other {# users added this to favorites}}",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "pageInfo": "Page {page} of {totalPages}"
+    },
+    "detail": {
+      "notFound": "Book not found.",
+      "metaNotFound": "Book Not Found",
+      "back": "← Back to books",
+      "addedOn": "Added on {date, date, long}"
+    }
+  },
+  "favorites": {
+    "title": "My Favorites",
+    "subtitle": "Books you have saved",
+    "loadError": "Failed to load favorites.",
+    "empty": "No favorites yet",
+    "browse": "Browse books",
+    "remove": "Remove",
+    "unknownBook": "Unknown book"
+  },
+  "favoriteButton": {
+    "add": "Add to favorites",
+    "remove": "Remove from favorites"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "subtitle": "The page you are looking for does not exist",
+    "home": "Go to homepage"
+  },
+  "meta": {
+    "description": "Discover and save your favorite books"
+  }
+}

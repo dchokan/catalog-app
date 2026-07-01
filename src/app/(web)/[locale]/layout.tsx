@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
-import { setRequestLocale } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import type { FC, ReactNode } from 'react'
 
 import { ProvidersComponent } from '@/app/shared/components/providers'
@@ -11,17 +11,22 @@ import { routing } from '@/pkg/locale'
 
 import '@/config/styles/global.css'
 
-export const metadata: Metadata = {
-  title: {
-    default: 'BookShelf',
-    template: '%s | BookShelf',
-  },
-  description: 'Discover and save your favorite books',
-}
-
 interface IProps {
   children: ReactNode
   params: Promise<{ locale: string }>
+}
+
+export const generateMetadata = async (props: Pick<IProps, 'params'>): Promise<Metadata> => {
+  const { locale } = await props.params
+  const t = await getTranslations({ locale, namespace: 'meta' })
+
+  return {
+    title: {
+      default: 'BookShelf',
+      template: '%s | BookShelf',
+    },
+    description: t('description'),
+  }
 }
 
 export const generateStaticParams = () => {

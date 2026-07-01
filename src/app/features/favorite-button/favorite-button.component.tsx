@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 
 import { useAddFavoriteMutation, useFavoritesQuery, useRemoveFavoriteMutation } from '@/app/entities/api/favorites'
@@ -14,6 +15,7 @@ interface IProps {
 const FavoriteButtonComponent: FC<Readonly<IProps>> = (props) => {
   const { itemId } = props
 
+  const t = useTranslations('favoriteButton')
   const router = useRouter()
   const { data: session } = useSession()
   const isAuthenticated = !!session?.user
@@ -44,9 +46,9 @@ const FavoriteButtonComponent: FC<Readonly<IProps>> = (props) => {
       size='sm'
       loading={isPending}
       onClick={handleToggle}
-      aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+      aria-label={isFavorited ? t('remove') : t('add')}
     >
-      {isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+      {isFavorited ? t('remove') : t('add')}
     </ButtonComponent>
   )
 }

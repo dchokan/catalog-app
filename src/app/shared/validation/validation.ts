@@ -1,23 +1,19 @@
 import { z } from 'zod'
 
 export const loginSchema = z.object({
-  email: z.string().min(1, 'Email is required').email('Enter a valid email'),
-  password: z.string().min(1, 'Password is required'),
+  email: z.string().min(1, 'emailRequired').email('emailInvalid'),
+  password: z.string().min(1, 'passwordRequired'),
 })
 
 export const registerSchema = z
   .object({
-    name: z.string().min(2, 'Name must be at least 2 characters'),
-    email: z.string().min(1, 'Email is required').email('Enter a valid email'),
-    password: z
-      .string()
-      .min(8, 'Password must be at least 8 characters')
-      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .regex(/[0-9]/, 'Password must contain at least one number'),
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
+    name: z.string().min(2, 'nameMin'),
+    email: z.string().min(1, 'emailRequired').email('emailInvalid'),
+    password: z.string().min(8, 'passwordMin').regex(/[A-Z]/, 'passwordUppercase').regex(/[0-9]/, 'passwordNumber'),
+    confirmPassword: z.string().min(1, 'confirmRequired'),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
+    message: 'passwordsMismatch',
     path: ['confirmPassword'],
   })
 

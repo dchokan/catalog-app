@@ -1,6 +1,6 @@
 import type { Metadata, NextPage } from 'next'
 import { headers } from 'next/headers'
-import { setRequestLocale } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
@@ -8,12 +8,17 @@ import { favoritesQueryOptions, fetchFavorites } from '@/app/entities/api/favori
 import { FavoritesModule } from '@/app/modules/favorites'
 import { getQueryClient } from '@/pkg/query'
 
-export const metadata: Metadata = {
-  title: 'My Favorites',
-}
-
 interface IProps {
   params: Promise<{ locale: string }>
+}
+
+export const generateMetadata = async (props: Readonly<IProps>): Promise<Metadata> => {
+  const { locale } = await props.params
+  const t = await getTranslations({ locale, namespace: 'favorites' })
+
+  return {
+    title: t('title'),
+  }
 }
 
 const Page: NextPage<Readonly<IProps>> = async (props) => {
@@ -22,6 +27,7 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
 
   setRequestLocale(locale)
 
+  const t = await getTranslations('favorites')
   const requestHeaders = await headers()
 
   const queryClient = getQueryClient()
@@ -34,8 +40,8 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
   return (
     <div>
       <div className='mb-8'>
-        <h1 className='text-3xl font-bold text-gray-900'>My Favorites</h1>
-        <p className='mt-1 text-gray-500'>Books you have saved</p>
+        <h1 className='text-3xl font-bold text-gray-900'>{t('title')}</h1>
+        <p className='mt-1 text-gray-500'>{t('subtitle')}</p>
       </div>
 
       <HydrationBoundary state={dehydrate(queryClient)}>

@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 
 import { useItemDetailQuery } from '@/app/entities/api/items'
@@ -13,6 +14,7 @@ interface IProps {
 const ItemDetailModule: FC<Readonly<IProps>> = (props) => {
   const { id } = props
 
+  const t = useTranslations('items')
   const { data: item, isLoading, error } = useItemDetailQuery(id)
 
   if (isLoading) {
@@ -29,7 +31,7 @@ const ItemDetailModule: FC<Readonly<IProps>> = (props) => {
   if (error || !item) {
     return (
       <div className='py-12 text-center'>
-        <p className='text-red-600'>Book not found.</p>
+        <p className='text-red-600'>{t('detail.notFound')}</p>
       </div>
     )
   }
@@ -48,22 +50,11 @@ const ItemDetailModule: FC<Readonly<IProps>> = (props) => {
           <FavoriteButtonComponent itemId={item.id} />
         </div>
 
-        <p className='text-sm text-gray-500'>
-          {item.favoritesCount === 1
-            ? '1 user added this to favorites'
-            : `${item.favoritesCount} users added this to favorites`}
-        </p>
+        <p className='text-sm text-gray-500'>{t('favoritesCount', { count: item.favoritesCount })}</p>
 
         {item.description && <p className='text-lg leading-relaxed text-gray-600'>{item.description}</p>}
 
-        <p className='text-sm text-gray-400'>
-          Added on{' '}
-          {new Date(item.createdAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })}
-        </p>
+        <p className='text-sm text-gray-400'>{t('detail.addedOn', { date: new Date(item.createdAt) })}</p>
       </div>
     </article>
   )

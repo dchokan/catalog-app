@@ -1,0 +1,97 @@
+{
+  "header": {
+    "library": "Бібліотека",
+    "favorites": "Обране",
+    "signOut": "Вийти",
+    "signIn": "Увійти",
+    "register": "Реєстрація"
+  },
+  "auth": {
+    "or": "АБО",
+    "google": "Продовжити через Google",
+    "login": {
+      "metaTitle": "Вхід",
+      "title": "З поверненням",
+      "subtitle": "Увійдіть у свій акаунт",
+      "submit": "Увійти",
+      "noAccount": "Немає акаунта?",
+      "registerLink": "Зареєструватися"
+    },
+    "register": {
+      "metaTitle": "Реєстрація акаунта",
+      "title": "Створити акаунт",
+      "subtitle": "Приєднуйтесь до BookShelf",
+      "submit": "Створити акаунт",
+      "haveAccount": "Вже маєте акаунт?",
+      "signInLink": "Увійти"
+    },
+    "fields": {
+      "name": "Повне ім'я",
+      "namePlaceholder": "Іван Петренко",
+      "email": "Електронна пошта",
+      "emailPlaceholder": "you@example.com",
+      "password": "Пароль",
+      "passwordPlaceholder": "Ваш пароль",
+      "passwordMinPlaceholder": "Мінімум 8 символів",
+      "confirmPassword": "Підтвердьте пароль",
+      "confirmPlaceholder": "Повторіть пароль"
+    }
+  },
+  "validation": {
+    "emailRequired": "Вкажіть електронну пошту",
+    "emailInvalid": "Введіть коректну електронну пошту",
+    "passwordRequired": "Вкажіть пароль",
+    "nameMin": "Ім'я має містити щонайменше 2 символи",
+    "passwordMin": "Пароль має містити щонайменше 8 символів",
+    "passwordUppercase": "Пароль має містити хоча б одну велику літеру",
+    "passwordNumber": "Пароль має містити хоча б одну цифру",
+    "confirmRequired": "Підтвердьте пароль",
+    "passwordsMismatch": "Паролі не збігаються"
+  },
+  "items": {
+    "title": "Каталог книг",
+    "subtitle": "Знайдіть свою наступну улюблену книгу",
+    "search": {
+      "label": "Пошук книг",
+      "placeholder": "Пошук за назвою…",
+      "submit": "Знайти",
+      "clear": "Очистити"
+    },
+    "loadError": "Не вдалося завантажити книги. Спробуйте ще раз.",
+    "noMatch": "Немає книг за запитом «{search}».",
+    "empty": "Книг не знайдено.",
+    "favoritesCount": "{count, plural, one {# користувач додав це до обраного} few {# користувачі додали це до обраного} many {# користувачів додали це до обраного} other {# користувачів додали це до обраного}}",
+    "pagination": {
+      "previous": "Назад",
+      "next": "Далі",
+      "pageInfo": "Сторінка {page} з {totalPages}"
+    },
+    "detail": {
+      "notFound": "Книгу не знайдено.",
+      "metaNotFound": "Книгу не знайдено",
+      "back": "← Назад до книг",
+      "addedOn": "Додано {date, date, long}"
+    }
+  },
+  "favorites": {
+    "title": "Моє обране",
+    "subtitle": "Збережені вами книги",
+    "loadError": "Не вдалося завантажити обране.",
+    "empty": "Поки що немає обраного",
+    "browse": "Переглянути книги",
+    "remove": "Видалити",
+    "unknownBook": "Невідома книга"
+  },
+  "favoriteButton": {
+    "add": "Додати до обраного",
+    "remove": "Прибрати з обраного"
+  },
+  "notFound": {
+    "title": "Сторінку не знайдено",
+    "subtitle": "Сторінка, яку ви шукаєте, не існує",
+    "home": "На головну"
+  },
+  "meta": {
+    "description": "Знаходьте та зберігайте улюблені книги"
+  }
+}

@@ -1,13 +1,16 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 
+import { LocaleSwitcherComponent } from '@/app/features/locale-switcher'
 import { ButtonComponent } from '@/app/shared/components/button'
 import { useSession } from '@/app/shared/hooks'
 import { authClient } from '@/pkg/auth'
 import { Link, useRouter } from '@/pkg/locale'
 
 const HeaderComponent: FC = () => {
+  const t = useTranslations('header')
   const router = useRouter()
   const { data: session } = useSession()
   const isAuthenticated = !!session?.user
@@ -28,7 +31,7 @@ const HeaderComponent: FC = () => {
 
           <nav className='flex items-center gap-6'>
             <Link href='/items' className='text-sm font-medium text-gray-600 transition-colors hover:text-gray-900'>
-              Library
+              {t('library')}
             </Link>
 
             {isAuthenticated && (
@@ -36,28 +39,30 @@ const HeaderComponent: FC = () => {
                 href='/favorites'
                 className='text-sm font-medium text-gray-600 transition-colors hover:text-gray-900'
               >
-                Favorites
+                {t('favorites')}
               </Link>
             )}
           </nav>
 
           <div className='flex items-center gap-3'>
+            <LocaleSwitcherComponent />
+
             {isAuthenticated ? (
               <>
                 <span className='hidden text-sm text-gray-600 sm:block'>{session.user.name}</span>
                 <ButtonComponent variant='secondary' size='sm' onClick={handleSignOut}>
-                  Sign out
+                  {t('signOut')}
                 </ButtonComponent>
               </>
             ) : (
               <>
                 <Link href='/login'>
                   <ButtonComponent variant='ghost' size='sm'>
-                    Sign in
+                    {t('signIn')}
                   </ButtonComponent>
                 </Link>
                 <Link href='/register'>
-                  <ButtonComponent size='sm'>Register</ButtonComponent>
+                  <ButtonComponent size='sm'>{t('register')}</ButtonComponent>
                 </Link>
               </>
             )}

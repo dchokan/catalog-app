@@ -1,6 +1,7 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 
 import { useItemsListQuery } from '@/app/entities/api/items'
@@ -8,10 +9,8 @@ import { ItemsPaginationComponent } from '@/app/features/items-pagination'
 import { ItemsSearchComponent } from '@/app/features/items-search'
 import { ItemCardComponent } from '@/app/shared/components/item-card'
 
-const favoritesLabel = (count: number): string =>
-  count === 1 ? '1 user added this to favorites' : `${count} users added this to favorites`
-
 const ItemsListModule: FC = () => {
+  const t = useTranslations('items')
   const searchParams = useSearchParams()
   const search = searchParams.get('search') ?? ''
   const page = Math.max(1, Number(searchParams.get('page')) || 1)
@@ -31,11 +30,11 @@ const ItemsListModule: FC = () => {
         </div>
       ) : error ? (
         <div className='py-12 text-center'>
-          <p className='text-red-600'>Failed to load books. Please try again.</p>
+          <p className='text-red-600'>{t('loadError')}</p>
         </div>
       ) : items.length === 0 ? (
         <div className='py-12 text-center'>
-          <p className='text-gray-500'>{search ? `No books match "${search}".` : 'No books found.'}</p>
+          <p className='text-gray-500'>{search ? t('noMatch', { search }) : t('empty')}</p>
         </div>
       ) : (
         <>
@@ -48,7 +47,7 @@ const ItemsListModule: FC = () => {
                 imageUrl={item.imageUrl}
                 description={item.description}
                 placeholder='📖'
-                footer={favoritesLabel(item.favoritesCount)}
+                footer={t('favoritesCount', { count: item.favoritesCount })}
               />
             ))}
           </div>
