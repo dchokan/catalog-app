@@ -22,8 +22,3 @@ export async function fetchItems(filters: IItemsFilters = {}): Promise<IPaginate
 export async function fetchItemById(id: string): Promise<IItem> {
   // GET `${BASE_URL}/api/items/${id}` (force-cache, revalidate 60); 404 throws 'Item not found'
 }
-
-// all ids — for generateStaticParams
-export async function fetchItemIds(): Promise<string[]> {
-  // GET `${BASE_URL}/api/items/ids` (force-cache, revalidate 60)
-}

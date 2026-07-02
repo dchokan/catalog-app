@@ -10,7 +10,7 @@ Run the block matching what you changed, plus `invariants.spec.md`.
 
 ## +detail — detail page/module
 
-- **MUST** export `generateStaticParams` (from `fetchItemIds`) and `generateMetadata` (from `fetchItemById`, with a fallback title).
+- **MUST** export `generateMetadata` (from `fetchItemById`, with a fallback title).
 - **MUST** prefetch `itemDetailQueryOptions(id)`, then `notFound()` if the cache has no data.
 - **MUST** render `<FavoriteButtonComponent itemId={item.id} />` and the favoritesCount label.
 
@@ -26,7 +26,7 @@ Run the block matching what you changed, plus `invariants.spec.md`.
 - **MUST** `delete('page')` for page 1 and `set('page', n)` otherwise; navigate via `@/pkg/locale`.
 - **MUST** disable Previous at page 1 and Next at the last page.
 
-## +route — a list/detail/ids route handler
+## +route — a list/detail route handler
 
 - **MUST** compute `favoritesCount` via `count(favorites.id)` over a `leftJoin` + `groupBy(items.id)`.
 - **MUST** (list) clamp `page` to ≥1, derive `offset = (page-1)*ITEMS_PER_PAGE`, run rows + `count()` total in `Promise.all` with the same `where`, and return the envelope.

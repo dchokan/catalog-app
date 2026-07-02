@@ -32,5 +32,3 @@ Global rules that always hold for the catalog.
   - Check: `grep -n "force-cache" src/app/entities/api/items/items.api.ts`.
 - **MUST** use `ITEMS_PER_PAGE` for the page size everywhere.
   - Check: `grep -rn "ITEMS_PER_PAGE" "src/app/(api)/api/items/route.ts" src/app/shared/constants`.
-- **MUST** pre-render detail pages via `generateStaticParams` over `/api/items/ids`.
-  - Check: `grep -n "generateStaticParams\|fetchItemIds" "src/app/(web)/[locale]/(public)/items/[id]/page.tsx"`.

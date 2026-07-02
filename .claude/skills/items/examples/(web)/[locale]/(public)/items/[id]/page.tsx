@@ -3,18 +3,12 @@ import { notFound } from 'next/navigation'
 
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
-import { fetchItemById, fetchItemIds, itemDetailQueryOptions } from '@/app/entities/api/items'
+import { fetchItemById, itemDetailQueryOptions } from '@/app/entities/api/items'
 import { ItemDetailModule } from '@/app/modules/item-detail'
 import { getQueryClient } from '@/pkg/query'
 
 interface IProps {
   params: Promise<{ id: string }>
-}
-
-// pre-render every item page from the id list
-export async function generateStaticParams() {
-  const ids = await fetchItemIds()
-  return ids.map((id) => ({ id }))
 }
 
 // per-item SEO; falls back when the item is missing

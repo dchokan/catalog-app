@@ -22,7 +22,7 @@ Run the block matching what you changed, plus `invariants.spec.md`.
 - **MUST** be a Server Component that calls `setRequestLocale(locale)`.
 - **MUST** prefetch with the forwarded cookie: `queryFn: () => fetchFavorites(requestHeaders.get('cookie') ?? undefined)`.
 - **MUST** render `<FavoritesModule />` inside `<HydrationBoundary state={dehydrate(queryClient)}>`.
-- **MUST NOT** add its own auth check/redirect — the `(protected)` route group / middleware owns that.
+- **MUST NOT** add its own auth check/redirect — no route in this app performs a server-side auth redirect today (`(protected)/layout.tsx` is pass-through, no middleware); an anonymous visit renders the fetch's error/empty state instead.
 
 ## +count — touching the derived favoritesCount
 

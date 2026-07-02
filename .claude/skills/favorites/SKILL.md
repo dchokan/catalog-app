@@ -37,7 +37,7 @@ The **count** lives outside this tree: `favoritesCount` is aggregated in `(api)/
 
 ## Hard rules
 
-1. **Every favorites API route is auth-gated and returns JSON, never a redirect.** Resolve the session with `authServer.api.getSession({ headers: request.headers })` from `@/app/shared/services/auth`; no session → `401 { error: 'Unauthorized' }`. Only the *page* redirects (handled by the `(protected)` route group / middleware).
+1. **Every favorites API route is auth-gated and returns JSON, never a redirect.** Resolve the session with `authServer.api.getSession({ headers: request.headers })` from `@/app/shared/services/auth`; no session → `401 { error: 'Unauthorized' }`. There is no server-side page redirect — `(protected)/layout.tsx` renders children as-is and there is no middleware; an anonymous visit to `/favorites` just renders with the fetch's error/empty state. See the **auth** skill's `references/route-protection.md`.
 2. **Uniqueness is enforced by the DB index `unique_user_item_idx` on `(userId, itemId)`.** The POST handler inserts optimistically and maps that constraint error to `409`. Do not pre-check with a SELECT.
 3. **The query key is `EFavoriteKey.QUERY`** (defined in `entities/models/favorite.model.ts`). Never hardcode `'query-favorites'` or reach for a `shared/interfaces` enum — that location no longer exists.
 4. **Both mutations invalidate `EFavoriteKey.QUERY` AND `EItemKey.QUERY` in `onSettled`.** The second refresh is mandatory — it re-pulls the derived `favoritesCount` on item cards and detail.
@@ -70,7 +70,7 @@ Each item is a `MUST`/`MUST NOT` with a **Check** grep hint.
 | `EEntityKey.QUERY_FAVORITES` from `shared/interfaces` | It's `EFavoriteKey.QUERY` in `entities/models/favorite.model.ts`. `shared/interfaces` was removed. |
 | Placing the button under `widgets/` | The toggle is a **feature** (`features/favorite-button/`) — single-purpose, composes only entities/shared. |
 | A separate `favorites.hook.ts` | `useFavoritesQuery` lives in `favorites.query.ts` alongside `favoritesQueryOptions`. |
-| Redirecting on an unauthorized API call | API routes return `401` JSON; only the page redirects, via the `(protected)` group. |
+| Redirecting on an unauthorized API call | API routes return `401` JSON; there is no server-side redirect — `(protected)` is organizational only, and there's no middleware. |
 | Invalidating only `EFavoriteKey.QUERY` | Also invalidate `EItemKey.QUERY`, or `favoritesCount` on cards goes stale. |
 | Pre-checking duplicates with a SELECT | Insert and catch `unique_user_item_idx` → 409. |
 | `import Link from 'next/link'` | Use `Link` / `useRouter` from `@/pkg/locale`. |

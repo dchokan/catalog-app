@@ -1,6 +1,6 @@
 ---
 name: items
-description: Build, extend, or debug the items (books) catalog — the items list and detail pages, the read-only items API routes (list with search+pagination, single item, ids), the TanStack query layer, the list/detail modules, and the URL-driven search and pagination controls. Use when touching entities/api/items, (api)/api/items, modules/items-list, modules/item-detail, features/items-search, features/items-pagination, the item/api-response models, or the ITEMS_PER_PAGE constant. Skip for favorites/auth work (the favoritesCount shown here is owned by the favorites skill).
+description: Build, extend, or debug the items (books) catalog — the items list and detail pages, the read-only items API routes (list with search+pagination, single item), the TanStack query layer, the list/detail modules, and the URL-driven search and pagination controls. Use when touching entities/api/items, (api)/api/items, modules/items-list, modules/item-detail, features/items-search, features/items-pagination, the item/api-response models, or the ITEMS_PER_PAGE constant. Skip for favorites/auth work (the favoritesCount shown here is owned by the favorites skill).
 ---
 
 # items
@@ -15,17 +15,16 @@ This skill documents the real catalog as built in this repo — paths and symbol
 src/app/
 ├── (api)/api/items/
 │   ├── route.ts                       # GET list: ilike search + offset pagination + count(favorites) → IPaginatedResponse
-│   ├── [id]/route.ts                  # GET one: item + favoritesCount, 404 if missing
-│   └── ids/route.ts                   # GET all ids (for generateStaticParams)
+│   └── [id]/route.ts                  # GET one: item + favoritesCount, 404 if missing
 ├── (web)/[locale]/(public)/items/
 │   ├── page.tsx                       # RSC: prefetch list + HydrationBoundary
-│   └── [id]/page.tsx                  # RSC: generateStaticParams + generateMetadata + prefetch detail
+│   └── [id]/page.tsx                  # RSC: generateMetadata + prefetch detail
 ├── entities/
 │   ├── models/
 │   │   ├── item.model.ts              # IItem, IItemsFilters, EItemKey
 │   │   └── api-response.model.ts      # IPaginatedResponse<T>, IApiError, IApiSuccess
 │   └── api/items/
-│       ├── items.api.ts               # fetchItems / fetchItemById / fetchItemIds (force-cache + revalidate 60)
+│       ├── items.api.ts               # fetchItems / fetchItemById (force-cache + revalidate 60)
 │       ├── items.query.ts             # itemsListQueryOptions / itemDetailQueryOptions + hooks
 │       └── index.ts
 ├── modules/
@@ -43,16 +42,16 @@ src/app/
 2. **The list endpoint returns the paginated envelope `IPaginatedResponse<IItem>`** (`data, total, page, limit, totalPages`). Consumers read `result.data` for the rows — never treat the response as a bare array.
 3. **Search and page are URL searchParams, not state.** Features mutate them via `useRouter`/`usePathname` (`@/pkg/locale`) + `useSearchParams` (`next/navigation`); the list module reads them and passes `{ search, page }` to the query. **Changing the search resets `page`.**
 4. **Query keys come from `EItemKey.QUERY`:** list = `[EItemKey.QUERY, 'list', filters]`, detail = `[EItemKey.QUERY, id]`. The enum lives in `item.model.ts`; never hardcode `'query-items'`.
-5. **Item fetches are cached** (`cache: 'force-cache'`, `next: { revalidate: 60 }`). Detail pages pre-render via `generateStaticParams` over `/api/items/ids`. Don't switch these to no-store without reason.
+5. **Item fetches are cached** (`cache: 'force-cache'`, `next: { revalidate: 60 }`). Don't switch these to no-store without reason.
 6. **`ITEMS_PER_PAGE` (=9) is the single page size** (`shared/constants`). The route uses it for `limit`/`offset`; nothing else hardcodes a page size.
 
 ## Key files
 
 - **`item.model.ts`** — `IItem { id, title, description, imageUrl, createdAt, favoritesCount }`, `IItemsFilters { search?, page? }`, `enum EItemKey { QUERY = 'query-items' }`.
 - **`api-response.model.ts`** — `IPaginatedResponse<T> { data, total, page, limit, totalPages }` plus `IApiError`/`IApiSuccess`.
-- **`items.api.ts`** — `fetchItems(filters)` builds `?search=&page=` (only page>1), `fetchItemById(id)` (404 → `Item not found`), `fetchItemIds()`. All cached.
+- **`items.api.ts`** — `fetchItems(filters)` builds `?search=&page=` (only page>1), `fetchItemById(id)` (404 → `Item not found`). All cached.
 - **`items.query.ts`** — list + detail `queryOptions` (detail `enabled: Boolean(id)`) and the `useItemsListQuery`/`useItemDetailQuery` hooks, all in one file.
-- **route handlers** — list: `ilike(items.title, %search%)` + `groupBy(items.id)` + `limit/offset`, total via a parallel `count()`. detail: single row + `favoritesCount`, 404. ids: bare id list.
+- **route handlers** — list: `ilike(items.title, %search%)` + `groupBy(items.id)` + `limit/offset`, total via a parallel `count()`. detail: single row + `favoritesCount`, 404.
 - **`items-list.module.tsx`** — reads `search`/`page` from `useSearchParams`, renders `<ItemsSearchComponent>` + a grid of `<ItemCardComponent>` (footer = favorites label) + `<ItemsPaginationComponent>`.
 - **`item-detail.module.tsx`** — `useItemDetailQuery(id)`, renders `<FavoriteButtonComponent>` and the favoritesCount label.
 
