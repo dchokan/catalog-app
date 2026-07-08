@@ -34,13 +34,17 @@ export async function fetchItemById(id: string): Promise<IItem> {
 }
 
 export async function fetchItemIds(): Promise<string[]> {
-  const response = await fetch(`${getApiBaseUrl()}/api/items/ids`, {
+  const url = `${getApiBaseUrl()}/api/items/ids`
+  console.log('Fetching:', url)
+
+  const response = await fetch(url, {
     cache: 'force-cache',
     next: { revalidate: 60 },
   })
 
   if (!response.ok) {
-    throw new Error('Failed to fetch item ids')
+    const text = await response.text()
+    throw new Error(`Failed to fetch item ids. Status: ${response.status}. Body: ${text}`)
   }
 
   return response.json()
