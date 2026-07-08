@@ -14,10 +14,10 @@ interface IProps {
   params: Promise<{ locale: string; id: string }>
 }
 
-export async function generateStaticParams(): Promise<{ id: string }[]> {
-  const ids = await fetchItemIds()
-  return ids.map((id) => ({ id }))
-}
+// export async function generateStaticParams(): Promise<{ id: string }[]> {
+//   const ids = await fetchItemIds()
+//   return ids.map((id) => ({ id }))
+// }
 
 export async function generateMetadata(props: Readonly<IProps>): Promise<Metadata> {
   const { params } = props
