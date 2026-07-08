@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
-import { fetchItemById, itemDetailQueryOptions } from '@/app/entities/api/items'
+import { fetchItemById, fetchItemIds, itemDetailQueryOptions } from '@/app/entities/api/items'
 import { ItemDetailModule } from '@/app/modules/item-detail'
 import { ButtonComponent } from '@/app/shared/components/button'
 import { Link } from '@/pkg/locale'
@@ -12,6 +12,11 @@ import { getQueryClient } from '@/pkg/query'
 
 interface IProps {
   params: Promise<{ locale: string; id: string }>
+}
+
+export async function generateStaticParams(): Promise<{ id: string }[]> {
+  const ids = await fetchItemIds()
+  return ids.map((id) => ({ id }))
 }
 
 export async function generateMetadata(props: Readonly<IProps>): Promise<Metadata> {
