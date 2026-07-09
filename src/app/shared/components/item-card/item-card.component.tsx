@@ -17,29 +17,33 @@ const ItemCardComponent: FC<Readonly<IProps>> = (props) => {
   const { href, title, imageUrl, description, footer, placeholder } = props
 
   return (
-    <Link href={href}>
-      <CardComponent hover className='flex h-full flex-col'>
-        <div className='relative aspect-2/3 bg-gray-50'>
+    <CardComponent hover className='group flex h-full flex-col'>
+      <Link href={href}>
+        <div className='relative aspect-3/4 overflow-hidden bg-gray-50'>
           {imageUrl ? (
             <Image
               src={imageUrl}
               alt={title}
               fill
-              className='object-cover'
-              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+              className='object-cover transition-transform duration-300 group-hover:scale-105'
+              sizes='(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw'
             />
           ) : (
-            <div className='flex h-full items-center justify-center text-5xl'>{placeholder}</div>
+            <div className='flex h-full items-center justify-center text-4xl'>{placeholder}</div>
           )}
         </div>
+      </Link>
 
-        <div className='flex flex-1 flex-col gap-2 p-4'>
-          <h3 className='line-clamp-2 leading-snug font-semibold text-gray-900'>{title}</h3>
-          {description && <p className='line-clamp-3 text-sm leading-relaxed text-gray-500'>{description}</p>}
-          {footer && <div className='mt-auto text-xs text-gray-400'>{footer}</div>}
-        </div>
-      </CardComponent>
-    </Link>
+      <div className='flex flex-1 flex-col gap-1.5 p-3'>
+        <Link href={href}>
+          <h3 className='line-clamp-2 text-base leading-snug font-semibold text-gray-900 transition-colors hover:text-blue-600'>
+            {title}
+          </h3>
+        </Link>
+        {description && <p className='line-clamp-2 text-sm leading-relaxed text-gray-500'>{description}</p>}
+        {footer && <div className='mt-auto'>{footer}</div>}
+      </div>
+    </CardComponent>
   )
 }
 

@@ -5,6 +5,7 @@ import { type FC } from 'react'
 
 import { useAddFavoriteMutation, useFavoritesQuery, useRemoveFavoriteMutation } from '@/app/entities/api/favorites'
 import { ButtonComponent } from '@/app/shared/components/button'
+import { useToast } from '@/app/shared/components/toast'
 import { useSession } from '@/app/shared/hooks'
 import { useRouter } from '@/pkg/locale'
 
@@ -17,6 +18,7 @@ const FavoriteButtonComponent: FC<Readonly<IProps>> = (props) => {
 
   const t = useTranslations('favoriteButton')
   const router = useRouter()
+  const { showToast } = useToast()
   const { data: session } = useSession()
   const isAuthenticated = !!session?.user
 
@@ -34,9 +36,13 @@ const FavoriteButtonComponent: FC<Readonly<IProps>> = (props) => {
     }
 
     if (isFavorited) {
-      removeFavorite.mutate(itemId)
+      removeFavorite.mutate(itemId, {
+        onSuccess: () => showToast(t('removed'), 'info'),
+      })
     } else {
-      addFavorite.mutate(itemId)
+      addFavorite.mutate(itemId, {
+        onSuccess: () => showToast(t('added'), 'success'),
+      })
     }
   }
 

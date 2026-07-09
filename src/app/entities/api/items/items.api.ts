@@ -5,11 +5,11 @@ export async function fetchItems(filters: IItemsFilters = {}): Promise<IPaginate
   const params = new URLSearchParams()
   if (filters.search?.trim()) params.set('search', filters.search.trim())
   if (filters.page && filters.page > 1) params.set('page', String(filters.page))
+  if (filters.sort) params.set('sort', filters.sort)
 
   const query = params.toString()
   const response = await fetch(`${getApiBaseUrl()}/api/items${query ? `?${query}` : ''}`, {
-    cache: 'force-cache',
-    next: { revalidate: 60 },
+    cache: 'no-store',
   })
 
   if (!response.ok) {

@@ -7,13 +7,22 @@ import { LocaleSwitcherComponent } from '@/app/features/locale-switcher'
 import { ButtonComponent } from '@/app/shared/components/button'
 import { useSession } from '@/app/shared/hooks'
 import { authClient } from '@/pkg/auth'
-import { Link, useRouter } from '@/pkg/locale'
+import { Link, usePathname, useRouter } from '@/pkg/locale'
 
 const HeaderComponent: FC = () => {
   const t = useTranslations('header')
   const router = useRouter()
+  const pathname = usePathname()
   const { data: session } = useSession()
   const isAuthenticated = !!session?.user
+
+  function navLinkClassName(href: string): string {
+    const isActive = pathname === href || pathname.startsWith(`${href}/`)
+
+    return `text-sm font-medium transition-colors ${
+      isActive ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'
+    }`
+  }
 
   async function handleSignOut() {
     await authClient.signOut()
@@ -30,15 +39,12 @@ const HeaderComponent: FC = () => {
           </Link>
 
           <nav className='flex items-center gap-6'>
-            <Link href='/items' className='text-sm font-medium text-gray-600 transition-colors hover:text-gray-900'>
+            <Link href='/items' className={navLinkClassName('/items')}>
               {t('library')}
             </Link>
 
             {isAuthenticated && (
-              <Link
-                href='/favorites'
-                className='text-sm font-medium text-gray-600 transition-colors hover:text-gray-900'
-              >
+              <Link href='/favorites' className={navLinkClassName('/favorites')}>
                 {t('favorites')}
               </Link>
             )}

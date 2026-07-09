@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import type { FC, ReactNode } from 'react'
 
 import { ProvidersComponent } from '@/app/shared/components/providers'
+import { ScrollToTopComponent } from '@/app/shared/components/scroll-to-top'
 import { HeaderComponent } from '@/app/widgets/header'
 import { inter } from '@/config/fonts'
 import { routing } from '@/pkg/locale'
@@ -51,6 +52,7 @@ const LocaleLayout: FC<Readonly<IProps>> = async (props) => {
           <NextIntlClientProvider>
             <HeaderComponent />
             <main className='mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8'>{children}</main>
+            <ScrollToTopComponent />
           </NextIntlClientProvider>
         </ProvidersComponent>
       </body>

@@ -57,6 +57,12 @@
       "submit": "Search",
       "clear": "Clear"
     },
+    "sort": {
+      "label": "Sort by",
+      "newest": "Newest",
+      "title": "Title (A–Z)",
+      "popularity": "Most popular"
+    },
     "loadError": "Failed to load books. Please try again.",
     "noMatch": "No books match \"{search}\".",
     "empty": "No books found.",
@@ -84,7 +90,12 @@
   },
   "favoriteButton": {
     "add": "Add to favorites",
-    "remove": "Remove from favorites"
+    "remove": "Remove from favorites",
+    "added": "Added to favorites",
+    "removed": "Removed from favorites"
+  },
+  "scrollToTop": {
+    "label": "Scroll to top"
   },
   "notFound": {
     "title": "Page not found",

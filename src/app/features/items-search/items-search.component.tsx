@@ -44,7 +44,7 @@ const ItemsSearchComponent: FC = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='mb-6 flex items-end gap-3'>
+    <form onSubmit={handleSubmit(onSubmit)} className='flex items-end gap-3'>
       <div className='flex-1'>
         <Controller
           name='search'

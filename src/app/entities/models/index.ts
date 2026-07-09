@@ -2,4 +2,4 @@ export type { IApiError, IApiSuccess, IPaginatedResponse } from './api-response.
 export type { IFavorite } from './favorite.model'
 export { EFavoriteKey } from './favorite.model'
 export type { IItem, IItemsFilters } from './item.model'
-export { EItemKey } from './item.model'
+export { EItemKey, EItemsSort } from './item.model'

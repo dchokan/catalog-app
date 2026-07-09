@@ -7,9 +7,16 @@ export interface IItem {
   favoritesCount: number
 }
 
+export enum EItemsSort {
+  NEWEST = 'newest',
+  TITLE = 'title',
+  POPULARITY = 'popularity',
+}
+
 export interface IItemsFilters {
   search?: string
   page?: number
+  sort?: EItemsSort
 }
 
 export enum EItemKey {
