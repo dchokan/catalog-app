@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { type FC, type ReactNode } from 'react'
 
-import { CardComponent } from '@/app/shared/components/card'
 import { Link } from '@/pkg/locale'
 
 interface IProps {
@@ -17,7 +16,7 @@ const ItemCardComponent: FC<Readonly<IProps>> = (props) => {
   const { href, title, imageUrl, description, footer, placeholder } = props
 
   return (
-    <CardComponent hover className='group flex h-full flex-col'>
+    <div className='group flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-shadow hover:shadow-md'>
       <Link href={href}>
         <div className='relative aspect-3/4 overflow-hidden bg-gray-50'>
           {imageUrl ? (
@@ -43,7 +42,7 @@ const ItemCardComponent: FC<Readonly<IProps>> = (props) => {
         {description && <p className='line-clamp-2 text-sm leading-relaxed text-gray-500'>{description}</p>}
         {footer && <div className='mt-auto'>{footer}</div>}
       </div>
-    </CardComponent>
+    </div>
   )
 }
 
