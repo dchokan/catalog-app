@@ -40,8 +40,8 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
   return (
     <div>
       <div className='mb-8'>
-        <h1 className='text-3xl font-bold text-gray-900'>{t('title')}</h1>
-        <p className='mt-1 text-gray-500'>{t('subtitle')}</p>
+        <h1 className='text-foreground text-3xl font-bold'>{t('title')}</h1>
+        <p className='text-muted-foreground mt-1'>{t('subtitle')}</p>
       </div>
 
       <HydrationBoundary state={dehydrate(queryClient)}>

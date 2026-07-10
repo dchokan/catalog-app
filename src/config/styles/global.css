@@ -1,13 +1,73 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
   --font-inter: 'Inter', sans-serif;
+
+  --background: rgb(249 250 251);
+  --foreground: rgb(17 24 39);
+  --card: rgb(255 255 255);
+  --card-foreground: rgb(17 24 39);
+  --primary: rgb(37 99 235);
+  --primary-foreground: rgb(255 255 255);
+  --secondary: rgb(255 255 255);
+  --secondary-foreground: rgb(55 65 81);
+  --muted: rgb(243 244 246);
+  --muted-foreground: rgb(107 114 128);
+  --accent: rgb(37 99 235);
+  --accent-foreground: rgb(255 255 255);
+  --destructive: rgb(220 38 38);
+  --destructive-foreground: rgb(255 255 255);
+  --border: rgb(229 231 235);
+  --input: rgb(209 213 219);
+  --ring: rgb(59 130 246);
+}
+
+.dark {
+  --background: rgb(11 17 32);
+  --foreground: rgb(229 231 235);
+  --card: rgb(17 24 39);
+  --card-foreground: rgb(229 231 235);
+  --primary: rgb(59 130 246);
+  --primary-foreground: rgb(255 255 255);
+  --secondary: rgb(31 41 55);
+  --secondary-foreground: rgb(229 231 235);
+  --muted: rgb(31 41 55);
+  --muted-foreground: rgb(156 163 175);
+  --accent: rgb(59 130 246);
+  --accent-foreground: rgb(255 255 255);
+  --destructive: rgb(239 68 68);
+  --destructive-foreground: rgb(255 255 255);
+  --border: rgb(31 41 55);
+  --input: rgb(55 65 81);
+  --ring: rgb(59 130 246);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }
 
 body {
   font-family: var(--font-inter);
-  background-color: #f9fafb;
-  color: #111827;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 * {

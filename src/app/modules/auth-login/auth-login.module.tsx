@@ -10,25 +10,25 @@ const AuthLoginModule: FC = () => {
 
   return (
     <div className='mx-auto w-full max-w-md'>
-      <div className='rounded-2xl border border-gray-200 bg-white p-8 shadow-sm'>
+      <div className='border-border bg-card rounded-2xl border p-8 shadow-sm'>
         <div className='mb-8 text-center'>
-          <h1 className='text-2xl font-bold text-gray-900'>{t('login.title')}</h1>
-          <p className='mt-1 text-gray-500'>{t('login.subtitle')}</p>
+          <h1 className='text-card-foreground text-2xl font-bold'>{t('login.title')}</h1>
+          <p className='text-muted-foreground mt-1'>{t('login.subtitle')}</p>
         </div>
 
         <LoginFormComponent />
 
         <div className='my-6 flex items-center gap-3'>
-          <span className='h-px flex-1 bg-gray-200' />
-          <span className='text-xs text-gray-400'>{t('or')}</span>
-          <span className='h-px flex-1 bg-gray-200' />
+          <span className='bg-border h-px flex-1' />
+          <span className='text-muted-foreground text-xs'>{t('or')}</span>
+          <span className='bg-border h-px flex-1' />
         </div>
 
         <OauthButtonsComponent />
 
-        <p className='mt-6 text-center text-sm text-gray-500'>
+        <p className='text-muted-foreground mt-6 text-center text-sm'>
           {t('login.noAccount')}{' '}
-          <Link href='/sign-up' className='font-medium text-blue-600 hover:underline'>
+          <Link href='/sign-up' className='text-primary font-medium hover:underline'>
             {t('login.registerLink')}
           </Link>
         </p>

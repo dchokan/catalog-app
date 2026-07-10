@@ -8,6 +8,7 @@ import { ToastProvider } from '@/app/shared/components/toast'
 import { inter } from '@/config/fonts'
 import { routing } from '@/pkg/locale'
 import { RestApiProvider } from '@/pkg/rest-api'
+import { ThemeProvider } from '@/pkg/theme'
 
 import '@/config/styles/global.css'
 
@@ -45,13 +46,15 @@ const LocaleLayout: FC<Readonly<IProps>> = async (props) => {
   setRequestLocale(locale)
 
   return (
-    <html lang={locale} className={inter.variable}>
-      <body className={inter.className}>
-        <RestApiProvider>
-          <ToastProvider>
-            <NextIntlClientProvider>{children}</NextIntlClientProvider>
-          </ToastProvider>
-        </RestApiProvider>
+    <html lang={locale} className={inter.variable} suppressHydrationWarning>
+      <body className={inter.className} suppressHydrationWarning>
+        <ThemeProvider>
+          <RestApiProvider>
+            <ToastProvider>
+              <NextIntlClientProvider>{children}</NextIntlClientProvider>
+            </ToastProvider>
+          </RestApiProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

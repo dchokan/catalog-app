@@ -24,7 +24,7 @@ const LocaleSwitcherComponent: FC = () => {
       value={locale}
       onChange={handleChange}
       aria-label='Language'
-      className='rounded-md border border-gray-200 bg-white px-2 py-1 text-sm font-medium text-gray-600 transition-colors hover:text-gray-900'
+      className='border-border bg-card text-muted-foreground hover:text-foreground rounded-md border px-2 py-1 text-sm font-medium transition-colors'
     >
       {routing.locales.map((code) => (
         <option key={code} value={code}>

@@ -37,7 +37,7 @@ const ItemsPaginationComponent: FC<Readonly<IProps>> = (props) => {
       <ButtonComponent variant='secondary' size='sm' disabled={page <= 1} onClick={() => goTo(page - 1)}>
         {t('pagination.previous')}
       </ButtonComponent>
-      <span className='text-sm text-gray-600'>{t('pagination.pageInfo', { page, totalPages })}</span>
+      <span className='text-muted-foreground text-sm'>{t('pagination.pageInfo', { page, totalPages })}</span>
       <ButtonComponent variant='secondary' size='sm' disabled={page >= totalPages} onClick={() => goTo(page + 1)}>
         {t('pagination.next')}
       </ButtonComponent>

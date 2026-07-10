@@ -30,7 +30,7 @@ const FavoritesModule: FC = () => {
     return (
       <div className='grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4'>
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className='h-64 animate-pulse rounded-xl bg-gray-100' />
+          <div key={i} className='bg-muted h-64 animate-pulse rounded-xl' />
         ))}
       </div>
     )
@@ -39,7 +39,7 @@ const FavoritesModule: FC = () => {
   if (error) {
     return (
       <div className='py-12 text-center'>
-        <p className='text-red-600'>{t('loadError')}</p>
+        <p className='text-destructive'>{t('loadError')}</p>
       </div>
     )
   }
@@ -47,7 +47,7 @@ const FavoritesModule: FC = () => {
   if (favorites.length === 0) {
     return (
       <div className='py-16 text-center'>
-        <p className='mb-4 text-lg text-gray-600'>{t('empty')}</p>
+        <p className='text-muted-foreground mb-4 text-lg'>{t('empty')}</p>
         <Link href='/items'>
           <ButtonComponent>{t('browse')}</ButtonComponent>
         </Link>
@@ -75,7 +75,7 @@ const FavoritesModule: FC = () => {
                     onSuccess: () => showToast(tButton('removed'), 'info'),
                   })
                 }
-                className='w-full text-red-500 hover:bg-red-50 hover:text-red-700'
+                className='text-destructive hover:bg-destructive/10 hover:text-destructive w-full'
               >
                 {t('remove')}
               </ButtonComponent>

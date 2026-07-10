@@ -11,8 +11,8 @@ const NotFound: FC = async () => {
   return (
     <LayoutComponent>
       <div className='py-24 text-center'>
-        <h1 className='mb-2 text-2xl font-bold text-gray-900'>{t('title')}</h1>
-        <p className='mb-6 text-gray-500'>{t('subtitle')}</p>
+        <h1 className='text-foreground mb-2 text-2xl font-bold'>{t('title')}</h1>
+        <p className='text-muted-foreground mb-6'>{t('subtitle')}</p>
         <Link href='/items'>
           <ButtonComponent>{t('home')}</ButtonComponent>
         </Link>

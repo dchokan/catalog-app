@@ -16,7 +16,7 @@ const AuthLayout: FC<Readonly<IProps>> = async (props) => {
     <main className='relative flex min-h-screen items-center justify-center px-4'>
       <Link
         href='/items'
-        className='absolute top-4 left-4 text-sm font-medium text-gray-500 transition-colors hover:text-gray-900 sm:top-6 sm:left-6'
+        className='text-muted-foreground hover:text-foreground absolute top-4 left-4 text-sm font-medium transition-colors sm:top-6 sm:left-6'
       >
         {t('backToCatalog')}
       </Link>

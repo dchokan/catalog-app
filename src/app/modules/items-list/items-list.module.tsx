@@ -33,16 +33,16 @@ const ItemsListModule: FC = () => {
       {isLoading ? (
         <div className='grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4'>
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className='h-64 animate-pulse rounded-xl bg-gray-100' />
+            <div key={i} className='bg-muted h-64 animate-pulse rounded-xl' />
           ))}
         </div>
       ) : error ? (
         <div className='py-12 text-center'>
-          <p className='text-red-600'>{t('loadError')}</p>
+          <p className='text-destructive'>{t('loadError')}</p>
         </div>
       ) : items.length === 0 ? (
         <div className='py-12 text-center'>
-          <p className='text-gray-500'>{search ? t('noMatch', { search }) : t('empty')}</p>
+          <p className='text-muted-foreground'>{search ? t('noMatch', { search }) : t('empty')}</p>
         </div>
       ) : (
         <>
@@ -56,7 +56,9 @@ const ItemsListModule: FC = () => {
                 description={item.description}
                 placeholder='📖'
                 footer={
-                  <span className='text-sm text-gray-400'>{t('favoritesCount', { count: item.favoritesCount })}</span>
+                  <span className='text-muted-foreground text-sm'>
+                    {t('favoritesCount', { count: item.favoritesCount })}
+                  </span>
                 }
               />
             ))}

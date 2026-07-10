@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 
 import { LocaleSwitcherComponent } from '@/app/features/locale-switcher'
+import { ThemeSwitcherComponent } from '@/app/features/theme-switcher'
 import { ButtonComponent } from '@/app/shared/components/button'
 import { useSession } from '@/app/shared/hooks'
 import { authClient } from '@/app/shared/services/auth/client'
@@ -19,7 +20,7 @@ const HeaderComponent: FC = () => {
   function navLinkClassName(href: string): string {
     const isActive = pathname === href || pathname.startsWith(`${href}/`)
 
-    return `text-sm font-medium transition-colors ${isActive ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'}`
+    return `text-sm font-medium transition-colors ${isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`
   }
 
   async function handleSignOut() {
@@ -29,10 +30,10 @@ const HeaderComponent: FC = () => {
   }
 
   return (
-    <header className='sticky top-0 z-50 border-b border-gray-200 bg-white'>
+    <header className='border-border bg-card sticky top-0 z-50 border-b'>
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='flex h-16 items-center justify-between'>
-          <Link href='/items' className='text-xl font-bold text-blue-600 transition-colors hover:text-blue-700'>
+          <Link href='/items' className='text-primary hover:text-primary/90 text-xl font-bold transition-colors'>
             BookShelf
           </Link>
 
@@ -49,11 +50,13 @@ const HeaderComponent: FC = () => {
           </nav>
 
           <div className='flex items-center gap-3'>
+            <ThemeSwitcherComponent />
+
             <LocaleSwitcherComponent />
 
             {isAuthenticated ? (
               <>
-                <span className='hidden text-sm text-gray-600 sm:block'>{session.user.name}</span>
+                <span className='text-muted-foreground hidden text-sm sm:block'>{session.user.name}</span>
                 <ButtonComponent variant='secondary' size='sm' onClick={handleSignOut}>
                   {t('signOut')}
                 </ButtonComponent>

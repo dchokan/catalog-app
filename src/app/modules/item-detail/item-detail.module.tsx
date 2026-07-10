@@ -20,10 +20,10 @@ const ItemDetailModule: FC<Readonly<IProps>> = (props) => {
   if (isLoading) {
     return (
       <div className='animate-pulse space-y-4'>
-        <div className='h-64 rounded-xl bg-gray-100' />
-        <div className='h-8 w-3/4 rounded bg-gray-100' />
-        <div className='h-4 w-full rounded bg-gray-100' />
-        <div className='h-4 w-5/6 rounded bg-gray-100' />
+        <div className='bg-muted h-64 rounded-xl' />
+        <div className='bg-muted h-8 w-3/4 rounded' />
+        <div className='bg-muted h-4 w-full rounded' />
+        <div className='bg-muted h-4 w-5/6 rounded' />
       </div>
     )
   }
@@ -31,7 +31,7 @@ const ItemDetailModule: FC<Readonly<IProps>> = (props) => {
   if (error || !item) {
     return (
       <div className='py-12 text-center'>
-        <p className='text-red-600'>{t('detail.notFound')}</p>
+        <p className='text-destructive'>{t('detail.notFound')}</p>
       </div>
     )
   }
@@ -39,22 +39,22 @@ const ItemDetailModule: FC<Readonly<IProps>> = (props) => {
   return (
     <article className='mx-auto max-w-2xl'>
       {item.imageUrl && (
-        <div className='relative mb-6 aspect-2/3 w-64 overflow-hidden rounded-xl bg-gray-50'>
+        <div className='bg-muted relative mb-6 aspect-2/3 w-64 overflow-hidden rounded-xl'>
           <Image src={item.imageUrl} alt={item.title} fill className='object-cover' priority />
         </div>
       )}
 
       <div className='space-y-4'>
         <div className='flex items-start justify-between gap-4'>
-          <h1 className='text-3xl font-bold text-gray-900'>{item.title}</h1>
+          <h1 className='text-foreground text-3xl font-bold'>{item.title}</h1>
           <FavoriteButtonComponent itemId={item.id} />
         </div>
 
-        <p className='text-sm text-gray-500'>{t('favoritesCount', { count: item.favoritesCount })}</p>
+        <p className='text-muted-foreground text-sm'>{t('favoritesCount', { count: item.favoritesCount })}</p>
 
-        {item.description && <p className='text-lg leading-relaxed text-gray-600'>{item.description}</p>}
+        {item.description && <p className='text-muted-foreground text-lg leading-relaxed'>{item.description}</p>}
 
-        <p className='text-sm text-gray-400'>{t('detail.addedOn', { date: new Date(item.createdAt) })}</p>
+        <p className='text-muted-foreground text-sm'>{t('detail.addedOn', { date: new Date(item.createdAt) })}</p>
       </div>
     </article>
   )

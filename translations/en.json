@@ -6,6 +6,11 @@
     "signIn": "Sign in",
     "register": "Register"
   },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
   "auth": {
     "or": "OR",
     "google": "Continue with Google",

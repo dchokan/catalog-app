@@ -16,9 +16,9 @@ const ItemCardComponent: FC<Readonly<IProps>> = (props) => {
   const { href, title, imageUrl, description, footer, placeholder } = props
 
   return (
-    <div className='group flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-shadow hover:shadow-md'>
+    <div className='group border-border bg-card flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border transition-shadow hover:shadow-md'>
       <Link href={href}>
-        <div className='relative aspect-3/4 overflow-hidden bg-gray-50'>
+        <div className='bg-muted relative aspect-3/4 overflow-hidden'>
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -35,11 +35,11 @@ const ItemCardComponent: FC<Readonly<IProps>> = (props) => {
 
       <div className='flex flex-1 flex-col gap-1.5 p-3'>
         <Link href={href}>
-          <h3 className='line-clamp-2 text-base leading-snug font-semibold text-gray-900 transition-colors hover:text-blue-600'>
+          <h3 className='text-card-foreground hover:text-primary line-clamp-2 text-base leading-snug font-semibold transition-colors'>
             {title}
           </h3>
         </Link>
-        {description && <p className='line-clamp-2 text-sm leading-relaxed text-gray-500'>{description}</p>}
+        {description && <p className='text-muted-foreground line-clamp-2 text-sm leading-relaxed'>{description}</p>}
         {footer && <div className='mt-auto'>{footer}</div>}
       </div>
     </div>

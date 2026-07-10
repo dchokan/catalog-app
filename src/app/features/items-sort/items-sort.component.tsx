@@ -32,14 +32,14 @@ const ItemsSortComponent: FC = () => {
 
   return (
     <div className='flex flex-col gap-1 sm:w-48'>
-      <label htmlFor='sort' className='text-sm font-medium text-gray-700'>
+      <label htmlFor='sort' className='text-foreground text-sm font-medium'>
         {t('sort.label')}
       </label>
       <select
         id='sort'
         value={value}
         onChange={onChange}
-        className='w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none'
+        className='border-input bg-card focus:ring-ring w-full rounded-lg border px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:outline-none'
       >
         <option value={EItemsSort.NEWEST}>{t('sort.newest')}</option>
         <option value={EItemsSort.TITLE}>{t('sort.title')}</option>
