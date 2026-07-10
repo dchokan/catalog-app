@@ -1,7 +1,7 @@
 import type { Metadata, NextPage } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
-import { AuthRegisterModule } from '@/app/modules/auth-register'
+import { AuthLoginModule } from '@/app/modules/auth-login'
 
 interface IProps {
   params: Promise<{ locale: string }>
@@ -12,7 +12,7 @@ export const generateMetadata = async (props: Readonly<IProps>): Promise<Metadat
   const t = await getTranslations({ locale, namespace: 'auth' })
 
   return {
-    title: t('register.metaTitle'),
+    title: t('login.metaTitle'),
   }
 }
 
@@ -22,11 +22,7 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
 
   setRequestLocale(locale)
 
-  return (
-    <div className='flex min-h-[70vh] items-center justify-center'>
-      <AuthRegisterModule />
-    </div>
-  )
+  return <AuthLoginModule />
 }
 
 export default Page

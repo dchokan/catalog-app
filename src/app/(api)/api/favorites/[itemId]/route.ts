@@ -1,7 +1,7 @@
 import { and, eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { authServer } from '@/app/shared/services/auth'
+import { authServer } from '@/app/shared/services/auth/server'
 import { db, favorites } from '@/app/shared/services/db'
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ itemId: string }> }) {

@@ -28,7 +28,7 @@ const AuthLoginModule: FC = () => {
 
         <p className='mt-6 text-center text-sm text-gray-500'>
           {t('login.noAccount')}{' '}
-          <Link href='/register' className='font-medium text-blue-600 hover:underline'>
+          <Link href='/sign-up' className='font-medium text-blue-600 hover:underline'>
             {t('login.registerLink')}
           </Link>
         </p>

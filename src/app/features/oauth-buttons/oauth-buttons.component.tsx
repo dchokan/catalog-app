@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { type FC, useState } from 'react'
 
 import { ButtonComponent } from '@/app/shared/components/button'
-import { authClient } from '@/pkg/auth'
+import { authClient } from '@/app/shared/services/auth/client'
 import { getPathname } from '@/pkg/locale'
 
 const OauthButtonsComponent: FC = () => {

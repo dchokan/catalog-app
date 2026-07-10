@@ -6,7 +6,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
 import { favoritesQueryOptions, fetchFavorites } from '@/app/entities/api/favorites'
 import { FavoritesModule } from '@/app/modules/favorites'
-import { getQueryClient } from '@/pkg/query'
+import { getQueryClient } from '@/pkg/rest-api'
 
 interface IProps {
   params: Promise<{ locale: string }>

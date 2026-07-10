@@ -28,7 +28,7 @@ const AuthRegisterModule: FC = () => {
 
         <p className='mt-6 text-center text-sm text-gray-500'>
           {t('register.haveAccount')}{' '}
-          <Link href='/login' className='font-medium text-blue-600 hover:underline'>
+          <Link href='/sign-in' className='font-medium text-blue-600 hover:underline'>
             {t('register.signInLink')}
           </Link>
         </p>

@@ -1,5 +1,5 @@
 import type { IItem, IItemsFilters, IPaginatedResponse } from '@/app/entities/models'
-import { getApiBaseUrl } from '@/pkg/base-url'
+import { getApiBaseUrl } from '@/pkg/rest-api'
 
 export async function fetchItems(filters: IItemsFilters = {}): Promise<IPaginatedResponse<IItem>> {
   const params = new URLSearchParams()

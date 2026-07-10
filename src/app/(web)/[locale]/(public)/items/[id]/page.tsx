@@ -8,7 +8,7 @@ import { fetchItemById, fetchItemIds, itemDetailQueryOptions } from '@/app/entit
 import { ItemDetailModule } from '@/app/modules/item-detail'
 import { ButtonComponent } from '@/app/shared/components/button'
 import { Link } from '@/pkg/locale'
-import { getQueryClient } from '@/pkg/query'
+import { getQueryClient } from '@/pkg/rest-api'
 
 interface IProps {
   params: Promise<{ locale: string; id: string }>

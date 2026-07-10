@@ -6,10 +6,10 @@ interface IProps {
   children: ReactNode
 }
 
-const ProtectedLayout: FC<Readonly<IProps>> = (props) => {
+const PublicLayout: FC<Readonly<IProps>> = (props) => {
   const { children } = props
 
   return <LayoutComponent>{children}</LayoutComponent>
 }
 
-export default ProtectedLayout
+export default PublicLayout

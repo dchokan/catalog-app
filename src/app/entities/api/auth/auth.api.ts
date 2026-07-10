@@ -1,5 +1,5 @@
+import { authClient } from '@/app/shared/services/auth/client'
 import type { LoginFormValues, RegisterFormValues } from '@/app/shared/validation'
-import { authClient } from '@/pkg/auth'
 
 export async function signIn(values: LoginFormValues): Promise<void> {
   const { error } = await authClient.signIn.email({

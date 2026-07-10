@@ -31,7 +31,7 @@ const FavoriteButtonComponent: FC<Readonly<IProps>> = (props) => {
 
   function handleToggle() {
     if (!isAuthenticated) {
-      router.push('/login')
+      router.push('/sign-in')
       return
     }
 

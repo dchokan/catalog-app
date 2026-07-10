@@ -1,5 +1,5 @@
 import type { IFavorite } from '@/app/entities/models'
-import { getApiBaseUrl } from '@/pkg/base-url'
+import { getApiBaseUrl } from '@/pkg/rest-api'
 
 export async function fetchFavorites(cookie?: string): Promise<IFavorite[]> {
   const response = await fetch(`${getApiBaseUrl()}/api/favorites`, {

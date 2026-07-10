@@ -6,7 +6,7 @@ import { type FC } from 'react'
 import { LocaleSwitcherComponent } from '@/app/features/locale-switcher'
 import { ButtonComponent } from '@/app/shared/components/button'
 import { useSession } from '@/app/shared/hooks'
-import { authClient } from '@/pkg/auth'
+import { authClient } from '@/app/shared/services/auth/client'
 import { Link, usePathname, useRouter } from '@/pkg/locale'
 
 const HeaderComponent: FC = () => {
@@ -19,14 +19,12 @@ const HeaderComponent: FC = () => {
   function navLinkClassName(href: string): string {
     const isActive = pathname === href || pathname.startsWith(`${href}/`)
 
-    return `text-sm font-medium transition-colors ${
-      isActive ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'
-    }`
+    return `text-sm font-medium transition-colors ${isActive ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'}`
   }
 
   async function handleSignOut() {
     await authClient.signOut()
-    router.push('/login')
+    router.push('/sign-in')
     router.refresh()
   }
 
@@ -62,12 +60,12 @@ const HeaderComponent: FC = () => {
               </>
             ) : (
               <>
-                <Link href='/login'>
+                <Link href='/sign-in'>
                   <ButtonComponent variant='ghost' size='sm'>
                     {t('signIn')}
                   </ButtonComponent>
                 </Link>
-                <Link href='/register'>
+                <Link href='/sign-up'>
                   <ButtonComponent size='sm'>{t('register')}</ButtonComponent>
                 </Link>
               </>

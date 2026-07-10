@@ -5,7 +5,7 @@ import { routing } from '@/pkg/locale'
 
 const PROTECTED_ROUTES = ['/favorites']
 
-const AUTH_ONLY_ROUTES = ['/login', '/register']
+const AUTH_ONLY_ROUTES = ['/sign-in', '/sign-up']
 
 const handleI18n = createMiddleware(routing)
 
@@ -20,7 +20,7 @@ export function proxy(request: NextRequest) {
 
   if (PROTECTED_ROUTES.some((route) => pathname.startsWith(route))) {
     if (!isAuthenticated) {
-      const loginUrl = new URL('/login', request.url)
+      const loginUrl = new URL('/sign-in', request.url)
       loginUrl.searchParams.set('from', pathname)
       return NextResponse.redirect(loginUrl)
     }

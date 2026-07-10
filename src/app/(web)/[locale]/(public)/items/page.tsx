@@ -6,7 +6,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { itemsListQueryOptions } from '@/app/entities/api/items'
 import { EItemsSort } from '@/app/entities/models'
 import { ItemsListModule } from '@/app/modules/items-list'
-import { getQueryClient } from '@/pkg/query'
+import { getQueryClient } from '@/pkg/rest-api'
 
 interface IProps {
   params: Promise<{ locale: string }>

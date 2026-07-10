@@ -9,6 +9,7 @@
   "auth": {
     "or": "OR",
     "google": "Continue with Google",
+    "backToCatalog": "← Back to catalog",
     "login": {
       "metaTitle": "Sign In",
       "title": "Welcome back",
@@ -93,6 +94,10 @@
     "remove": "Remove from favorites",
     "added": "Added to favorites",
     "removed": "Removed from favorites"
+  },
+  "footer": {
+    "tagline": "Your next favorite read is one shelf away.",
+    "rights": "© {year} BookShelf. All rights reserved."
   },
   "scrollToTop": {
     "label": "Scroll to top"
