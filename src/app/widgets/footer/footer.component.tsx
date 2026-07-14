@@ -12,7 +12,7 @@ const FooterComponent: FC = () => {
           <div className='text-center sm:text-left'>
             <p className='text-muted-foreground mt-1 text-sm'>{t('tagline')}</p>
           </div>
-          <p className='text-muted-foreground text-sm'>{t('rights', { year })}</p>
+          <p className='text-muted-foreground text-sm'>{t('rights', { year: String(year) })}</p>
         </div>
       </div>
     </footer>

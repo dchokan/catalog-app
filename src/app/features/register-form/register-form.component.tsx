@@ -52,7 +52,7 @@ const RegisterFormComponent: FC = () => {
             type='text'
             label={t('fields.name')}
             placeholder={t('fields.namePlaceholder')}
-            error={errors.name?.message && tv(errors.name.message)}
+            error={errors.name?.message && tv(errors.name.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}
@@ -67,7 +67,7 @@ const RegisterFormComponent: FC = () => {
             type='email'
             label={t('fields.email')}
             placeholder={t('fields.emailPlaceholder')}
-            error={errors.email?.message && tv(errors.email.message)}
+            error={errors.email?.message && tv(errors.email.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}
@@ -82,7 +82,7 @@ const RegisterFormComponent: FC = () => {
             type='password'
             label={t('fields.password')}
             placeholder={t('fields.passwordMinPlaceholder')}
-            error={errors.password?.message && tv(errors.password.message)}
+            error={errors.password?.message && tv(errors.password.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}
@@ -97,7 +97,7 @@ const RegisterFormComponent: FC = () => {
             type='password'
             label={t('fields.confirmPassword')}
             placeholder={t('fields.confirmPlaceholder')}
-            error={errors.confirmPassword?.message && tv(errors.confirmPassword.message)}
+            error={errors.confirmPassword?.message && tv(errors.confirmPassword.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}

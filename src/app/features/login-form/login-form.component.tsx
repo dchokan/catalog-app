@@ -50,7 +50,7 @@ const LoginFormComponent: FC = () => {
             type='email'
             label={t('fields.email')}
             placeholder={t('fields.emailPlaceholder')}
-            error={errors.email?.message && tv(errors.email.message)}
+            error={errors.email?.message && tv(errors.email.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}
@@ -65,7 +65,7 @@ const LoginFormComponent: FC = () => {
             type='password'
             label={t('fields.password')}
             placeholder={t('fields.passwordPlaceholder')}
-            error={errors.password?.message && tv(errors.password.message)}
+            error={errors.password?.message && tv(errors.password.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}
