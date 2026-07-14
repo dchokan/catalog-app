@@ -26,66 +26,63 @@ const FavoritesModule: FC = () => {
   const start = (safePage - 1) * ITEMS_PER_PAGE
   const pageFavorites = favorites.slice(start, start + ITEMS_PER_PAGE)
 
-  if (isLoading) {
-    return (
-      <div className='grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4'>
-        {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className='bg-muted h-64 animate-pulse rounded-xl' />
-        ))}
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className='py-12 text-center'>
-        <p className='text-destructive'>{t('loadError')}</p>
-      </div>
-    )
-  }
-
-  if (favorites.length === 0) {
-    return (
-      <div className='py-16 text-center'>
-        <p className='text-muted-foreground mb-4 text-lg'>{t('empty')}</p>
-        <Link href='/items'>
-          <ButtonComponent>{t('browse')}</ButtonComponent>
-        </Link>
-      </div>
-    )
-  }
-
   return (
-    <>
-      <div className='grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4'>
-        {pageFavorites.map((favorite) => (
-          <ItemCardComponent
-            key={favorite.id}
-            href={`/items/${favorite.itemId}`}
-            title={favorite.item?.title ?? t('unknownBook')}
-            imageUrl={favorite.item?.imageUrl}
-            placeholder='📖'
-            footer={
-              <ButtonComponent
-                variant='ghost'
-                size='sm'
-                loading={removeFavorite.isPending}
-                onClick={() =>
-                  removeFavorite.mutate(favorite.itemId, {
-                    onSuccess: () => showToast(tButton('removed'), 'info'),
-                  })
-                }
-                className='text-destructive hover:bg-destructive/10 hover:text-destructive w-full'
-              >
-                {t('remove')}
-              </ButtonComponent>
-            }
-          />
-        ))}
+    <div>
+      <div className='mb-8'>
+        <h1 className='text-foreground text-3xl font-bold'>{t('title')}</h1>
+        <p className='text-muted-foreground mt-1'>{t('subtitle')}</p>
       </div>
 
-      <ItemsPaginationComponent page={safePage} totalPages={totalPages} />
-    </>
+      {isLoading ? (
+        <div className='grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4'>
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className='bg-muted h-64 animate-pulse rounded-xl' />
+          ))}
+        </div>
+      ) : error ? (
+        <div className='py-12 text-center'>
+          <p className='text-destructive'>{t('loadError')}</p>
+        </div>
+      ) : favorites.length === 0 ? (
+        <div className='py-16 text-center'>
+          <p className='text-muted-foreground mb-4 text-lg'>{t('empty')}</p>
+          <Link href='/items'>
+            <ButtonComponent>{t('browse')}</ButtonComponent>
+          </Link>
+        </div>
+      ) : (
+        <>
+          <div className='grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4'>
+            {pageFavorites.map((favorite) => (
+              <ItemCardComponent
+                key={favorite.id}
+                href={`/items/${favorite.itemId}`}
+                title={favorite.item?.title ?? t('unknownBook')}
+                imageUrl={favorite.item?.imageUrl}
+                placeholder='📖'
+                footer={
+                  <ButtonComponent
+                    variant='ghost'
+                    size='sm'
+                    loading={removeFavorite.isPending}
+                    onClick={() =>
+                      removeFavorite.mutate(favorite.itemId, {
+                        onSuccess: () => showToast(tButton('removed'), 'info'),
+                      })
+                    }
+                    className='text-destructive hover:bg-destructive/10 hover:text-destructive w-full'
+                  >
+                    {t('remove')}
+                  </ButtonComponent>
+                }
+              />
+            ))}
+          </div>
+
+          <ItemsPaginationComponent page={safePage} totalPages={totalPages} />
+        </>
+      )}
+    </div>
   )
 }
 

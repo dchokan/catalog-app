@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react'
 
-import { LayoutComponent } from '@/app/modules/layout'
+import { LayoutModule } from '@/app/modules/layout'
 
 interface IProps {
   children: ReactNode
@@ -9,7 +9,7 @@ interface IProps {
 const PublicLayout: FC<Readonly<IProps>> = (props) => {
   const { children } = props
 
-  return <LayoutComponent>{children}</LayoutComponent>
+  return <LayoutModule>{children}</LayoutModule>
 }
 
 export default PublicLayout

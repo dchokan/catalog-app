@@ -29,23 +29,15 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
 
   setRequestLocale(locale)
 
-  const t = await getTranslations('items')
   const filters = { search, page: Math.max(1, Number(page) || 1), sort }
   const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery(itemsListQueryOptions(filters))
 
   return (
-    <div>
-      <div className='mb-8'>
-        <h1 className='text-foreground text-3xl font-bold'>{t('title')}</h1>
-        <p className='text-muted-foreground mt-1'>{t('subtitle')}</p>
-      </div>
-
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <ItemsListModule />
-      </HydrationBoundary>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ItemsListModule />
+    </HydrationBoundary>
   )
 }
 

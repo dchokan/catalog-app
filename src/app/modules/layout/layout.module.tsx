@@ -8,17 +8,17 @@ interface IProps {
   children: ReactNode
 }
 
-const LayoutComponent: FC<Readonly<IProps>> = (props) => {
+const LayoutModule: FC<Readonly<IProps>> = (props) => {
   const { children } = props
 
   return (
-    <>
+    <div className='flex min-h-screen flex-col'>
       <HeaderComponent />
-      <main className='mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8'>{children}</main>
+      <main className='mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8'>{children}</main>
       <FooterComponent />
       <ScrollToTopComponent />
-    </>
+    </div>
   )
 }
 
-export default LayoutComponent
+export default LayoutModule

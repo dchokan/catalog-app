@@ -1,14 +1,12 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { hasLocale, NextIntlClientProvider } from 'next-intl'
+import { hasLocale } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import type { FC, ReactNode } from 'react'
 
-import { ToastProvider } from '@/app/shared/components/toast'
+import { ProvidersModule } from '@/app/modules/providers'
 import { inter } from '@/config/fonts'
 import { routing } from '@/pkg/locale'
-import { RestApiProvider } from '@/pkg/rest-api'
-import { ThemeProvider } from '@/pkg/theme'
 
 import '@/config/styles/global.css'
 
@@ -48,13 +46,7 @@ const LocaleLayout: FC<Readonly<IProps>> = async (props) => {
   return (
     <html lang={locale} className={inter.variable} suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        <ThemeProvider>
-          <RestApiProvider>
-            <ToastProvider>
-              <NextIntlClientProvider>{children}</NextIntlClientProvider>
-            </ToastProvider>
-          </RestApiProvider>
-        </ThemeProvider>
+        <ProvidersModule>{children}</ProvidersModule>
       </body>
     </html>
   )

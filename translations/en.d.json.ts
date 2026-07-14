@@ -82,8 +82,9 @@ declare const messages: {
       "pageInfo": "Page {page} of {totalPages}"
     },
     "detail": {
-      "notFound": "Book not found.",
       "metaNotFound": "Book Not Found",
+      "notFoundTitle": "Book not found",
+      "notFoundSubtitle": "The book you are looking for does not exist",
       "back": "← Back to books",
       "addedOn": "Added on {date, date, long}"
     }

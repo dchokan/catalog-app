@@ -27,7 +27,6 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
 
   setRequestLocale(locale)
 
-  const t = await getTranslations('favorites')
   const requestHeaders = await headers()
 
   const queryClient = getQueryClient()
@@ -38,16 +37,9 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
   })
 
   return (
-    <div>
-      <div className='mb-8'>
-        <h1 className='text-foreground text-3xl font-bold'>{t('title')}</h1>
-        <p className='text-muted-foreground mt-1'>{t('subtitle')}</p>
-      </div>
-
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <FavoritesModule />
-      </HydrationBoundary>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <FavoritesModule />
+    </HydrationBoundary>
   )
 }
 

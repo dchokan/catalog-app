@@ -79,8 +79,9 @@
       "pageInfo": "Сторінка {page} з {totalPages}"
     },
     "detail": {
-      "notFound": "Книгу не знайдено.",
       "metaNotFound": "Книгу не знайдено",
+      "notFoundTitle": "Книгу не знайдено",
+      "notFoundSubtitle": "Книга, яку ви шукаєте, не існує",
       "back": "← Назад до книг",
       "addedOn": "Додано {date, date, long}"
     }

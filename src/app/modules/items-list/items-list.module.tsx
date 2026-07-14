@@ -23,6 +23,11 @@ const ItemsListModule: FC = () => {
 
   return (
     <div>
+      <div className='mb-8'>
+        <h1 className='text-foreground text-3xl font-bold'>{t('title')}</h1>
+        <p className='text-muted-foreground mt-1'>{t('subtitle')}</p>
+      </div>
+
       <div className='mb-6 flex flex-col gap-3 sm:flex-row sm:items-end'>
         <div className='flex-1'>
           <ItemsSearchComponent />

@@ -6,8 +6,6 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
 import { fetchItemById, fetchItemIds, itemDetailQueryOptions } from '@/app/entities/api/items'
 import { ItemDetailModule } from '@/app/modules/item-detail'
-import { ButtonComponent } from '@/app/shared/components/button'
-import { Link } from '@/pkg/locale'
 import { getQueryClient } from '@/pkg/rest-api'
 
 interface IProps {
@@ -45,7 +43,6 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
 
   setRequestLocale(locale)
 
-  const t = await getTranslations('items')
   const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery(itemDetailQueryOptions(id))
@@ -56,19 +53,9 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
   }
 
   return (
-    <div>
-      <div className='mb-6'>
-        <Link href='/items'>
-          <ButtonComponent variant='ghost' size='sm'>
-            {t('detail.back')}
-          </ButtonComponent>
-        </Link>
-      </div>
-
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <ItemDetailModule id={id} />
-      </HydrationBoundary>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ItemDetailModule id={id} />
+    </HydrationBoundary>
   )
 }
 

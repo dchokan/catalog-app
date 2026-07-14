@@ -31,7 +31,7 @@ const ItemDetailModule: FC<Readonly<IProps>> = (props) => {
   if (error || !item) {
     return (
       <div className='py-12 text-center'>
-        <p className='text-destructive'>{t('detail.notFound')}</p>
+        <p className='text-destructive'>{t('detail.notFoundTitle')}</p>
       </div>
     )
   }
