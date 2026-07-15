@@ -1,5 +1,5 @@
 import type { IItem, IItemsFilters, IPaginatedResponse } from '@/app/entities/models'
-import { getApiBaseUrl } from '@/pkg/rest-api'
+import { restApiFetcher } from '@/pkg/rest-api'
 
 export async function fetchItems(filters: IItemsFilters = {}): Promise<IPaginatedResponse<IItem>> {
   const params = new URLSearchParams()
@@ -7,10 +7,7 @@ export async function fetchItems(filters: IItemsFilters = {}): Promise<IPaginate
   if (filters.page && filters.page > 1) params.set('page', String(filters.page))
   if (filters.sort) params.set('sort', filters.sort)
 
-  const query = params.toString()
-  const response = await fetch(`${getApiBaseUrl()}/api/items${query ? `?${query}` : ''}`, {
-    cache: 'no-store',
-  })
+  const response = await restApiFetcher.get('items', { searchParams: params, cache: 'no-store' })
 
   if (!response.ok) {
     throw new Error('Failed to fetch items')
@@ -20,10 +17,7 @@ export async function fetchItems(filters: IItemsFilters = {}): Promise<IPaginate
 }
 
 export async function fetchItemById(id: string): Promise<IItem> {
-  const response = await fetch(`${getApiBaseUrl()}/api/items/${id}`, {
-    cache: 'force-cache',
-    next: { revalidate: 60 },
-  })
+  const response = await restApiFetcher.get(`items/${id}`, { cache: 'force-cache', next: { revalidate: 60 } })
 
   if (!response.ok) {
     if (response.status === 404) throw new Error('Item not found')
@@ -34,10 +28,7 @@ export async function fetchItemById(id: string): Promise<IItem> {
 }
 
 export async function fetchItemIds(): Promise<string[]> {
-  const response = await fetch(`${getApiBaseUrl()}/api/items/ids`, {
-    cache: 'force-cache',
-    next: { revalidate: 60 },
-  })
+  const response = await restApiFetcher.get('items/ids', { cache: 'force-cache', next: { revalidate: 60 } })
 
   if (!response.ok) {
     throw new Error('Failed to fetch item ids')

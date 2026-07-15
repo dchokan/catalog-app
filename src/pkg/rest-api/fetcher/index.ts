@@ -1,1 +1,1 @@
-export { getApiBaseUrl } from './rest-api.fetcher'
+export { restApiFetcher } from './rest-api.fetcher'

@@ -1,6 +1,8 @@
+import ky, { type KyInstance } from 'ky'
+
 import { envClient } from '@/config/env'
 
-export const getApiBaseUrl = (): string => {
-  if (typeof window !== 'undefined') return ''
-  return envClient.NEXT_PUBLIC_APP_URL
-}
+export const restApiFetcher: KyInstance = ky.create({
+  prefixUrl: `${envClient.NEXT_PUBLIC_APP_URL}/api`,
+  throwHttpErrors: false,
+})

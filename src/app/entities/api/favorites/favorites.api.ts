@@ -1,11 +1,8 @@
 import type { IFavorite } from '@/app/entities/models'
-import { getApiBaseUrl } from '@/pkg/rest-api'
+import { restApiFetcher } from '@/pkg/rest-api'
 
 export async function fetchFavorites(cookie?: string): Promise<IFavorite[]> {
-  const response = await fetch(`${getApiBaseUrl()}/api/favorites`, {
-    credentials: 'include',
-    headers: cookie ? { cookie } : undefined,
-  })
+  const response = await restApiFetcher.get('favorites', { headers: cookie ? { cookie } : undefined })
 
   if (!response.ok) {
     if (response.status === 401) throw new Error('Unauthorized')
@@ -16,12 +13,7 @@ export async function fetchFavorites(cookie?: string): Promise<IFavorite[]> {
 }
 
 export async function addFavorite(itemId: string): Promise<IFavorite> {
-  const response = await fetch('/api/favorites', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ itemId }),
-  })
+  const response = await restApiFetcher.post('favorites', { json: { itemId } })
 
   if (!response.ok) {
     if (response.status === 409) throw new Error('Already in favorites')
@@ -33,10 +25,7 @@ export async function addFavorite(itemId: string): Promise<IFavorite> {
 }
 
 export async function removeFavorite(itemId: string): Promise<void> {
-  const response = await fetch(`/api/favorites/${itemId}`, {
-    method: 'DELETE',
-    credentials: 'include',
-  })
+  const response = await restApiFetcher.delete(`favorites/${itemId}`)
 
   if (!response.ok) {
     if (response.status === 401) throw new Error('Unauthorized')
