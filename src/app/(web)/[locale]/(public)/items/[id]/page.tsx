@@ -12,6 +12,9 @@ interface IProps {
   params: Promise<{ locale: string; id: string }>
 }
 
+export const revalidate = 60
+export const dynamicParams = true
+
 export async function generateStaticParams(): Promise<{ id: string }[]> {
   const ids = await fetchItemIds()
   return ids.map((id) => ({ id }))
