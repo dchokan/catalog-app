@@ -11,13 +11,10 @@ import { getQueryClient } from '@/pkg/rest-api'
 interface IProps {
   params: Promise<{ locale: string; id: string }>
 }
-export const revalidate = 60
-
-export const dynamic = 'force-static'
 
 export async function generateStaticParams(): Promise<{ id: string }[]> {
   const ids = await fetchItemIds()
-  return ids.slice(0, 2).map((id) => ({ id }))
+  return ids.map((id) => ({ id }))
 }
 
 export async function generateMetadata(props: Readonly<IProps>): Promise<Metadata> {

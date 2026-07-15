@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import type { FC, ReactNode } from 'react'
 
 import { Link } from '@/pkg/locale'
@@ -6,10 +6,15 @@ import { Button } from '@/pkg/theme/ui/button'
 
 interface IProps {
   children: ReactNode
+  params: Promise<{ locale: string; id: string }>
 }
 
 const ItemDetailLayout: FC<Readonly<IProps>> = async (props) => {
-  const { children } = props
+  const { children, params } = props
+
+  const { locale } = await params
+
+  setRequestLocale(locale)
 
   const t = await getTranslations('items')
 
