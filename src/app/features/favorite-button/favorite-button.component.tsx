@@ -26,7 +26,7 @@ const FavoriteButtonComponent: FC<Readonly<IProps>> = (props) => {
   const addFavorite = useAddFavoriteMutation()
   const removeFavorite = useRemoveFavoriteMutation()
 
-  const isFavorited = favorites.some((fav) => fav.itemId === itemId)
+  const isFavorited = isAuthenticated && favorites.some((fav) => fav.itemId === itemId)
   const isPending = addFavorite.isPending || removeFavorite.isPending
 
   function handleToggle() {
