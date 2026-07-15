@@ -1,8 +1,9 @@
 import { eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { authServer } from '@/app/shared/services/auth/server'
-import { db, favorites, items } from '@/app/shared/services/db'
+import { favorites, items } from '@/app/entities/models/schema.model'
+import { authServer } from '@/pkg/auth/server'
+import { db } from '@/pkg/db'
 
 export async function GET(request: NextRequest) {
   const session = await authServer.api.getSession({ headers: request.headers })

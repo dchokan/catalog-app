@@ -2,8 +2,9 @@ import { asc, count, desc, eq, ilike } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { EItemsSort } from '@/app/entities/models'
+import { favorites, items } from '@/app/entities/models/schema.model'
 import { ITEMS_PER_PAGE } from '@/app/shared/constants'
-import { db, favorites, items } from '@/app/shared/services/db'
+import { db } from '@/pkg/db'
 
 export async function GET(request: NextRequest) {
   try {

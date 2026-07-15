@@ -1,4 +1,6 @@
 export type { IApiError, IApiSuccess, IPaginatedResponse } from './api-response.model'
+export type { LoginFormValues, RegisterFormValues } from './auth.model'
+export { loginSchema, registerSchema } from './auth.model'
 export type { IFavorite } from './favorite.model'
 export { EFavoriteKey } from './favorite.model'
 export type { IItem, IItemsFilters } from './item.model'

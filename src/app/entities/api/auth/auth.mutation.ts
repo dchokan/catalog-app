@@ -2,7 +2,7 @@
 
 import { useMutation } from '@tanstack/react-query'
 
-import type { LoginFormValues, RegisterFormValues } from '@/app/shared/validation'
+import type { LoginFormValues, RegisterFormValues } from '@/app/entities/models'
 
 import { signIn, signUp } from './auth.api'
 

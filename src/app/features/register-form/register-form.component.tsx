@@ -7,9 +7,9 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useSignUpMutation } from '@/app/entities/api/auth'
+import { type RegisterFormValues, registerSchema } from '@/app/entities/models'
 import { ButtonComponent } from '@/app/shared/components/button'
 import { InputComponent } from '@/app/shared/components/input'
-import { type RegisterFormValues, registerSchema } from '@/app/shared/validation'
 import { useRouter } from '@/pkg/locale'
 
 const RegisterFormComponent: FC = () => {

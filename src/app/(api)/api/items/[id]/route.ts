@@ -1,7 +1,8 @@
 import { count, eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { db, favorites, items } from '@/app/shared/services/db'
+import { favorites, items } from '@/app/entities/models/schema.model'
+import { db } from '@/pkg/db'
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

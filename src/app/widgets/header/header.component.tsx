@@ -7,7 +7,7 @@ import { LocaleSwitcherComponent } from '@/app/features/locale-switcher'
 import { ThemeSwitcherComponent } from '@/app/features/theme-switcher'
 import { ButtonComponent } from '@/app/shared/components/button'
 import { useSession } from '@/app/shared/hooks'
-import { authClient } from '@/app/shared/services/auth/client'
+import { authClient } from '@/pkg/auth/client'
 import { Link, usePathname, useRouter } from '@/pkg/locale'
 
 const HeaderComponent: FC = () => {

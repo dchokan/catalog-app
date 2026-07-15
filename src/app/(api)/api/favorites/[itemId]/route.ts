@@ -1,8 +1,9 @@
 import { and, eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { authServer } from '@/app/shared/services/auth/server'
-import { db, favorites } from '@/app/shared/services/db'
+import { favorites } from '@/app/entities/models/schema.model'
+import { authServer } from '@/pkg/auth/server'
+import { db } from '@/pkg/db'
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ itemId: string }> }) {
   const session = await authServer.api.getSession({ headers: request.headers })
