@@ -14,7 +14,7 @@ const ItemDetailLayout: FC<Readonly<IProps>> = async (props) => {
 
   const { locale } = await params
 
-  setRequestLocale(locale)
+  await setRequestLocale(locale)
 
   const t = await getTranslations('items')
 

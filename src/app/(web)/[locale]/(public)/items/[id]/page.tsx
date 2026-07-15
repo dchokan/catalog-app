@@ -6,6 +6,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
 import { fetchItemById, fetchItemIds, itemDetailQueryOptions } from '@/app/entities/api/items'
 import { ItemDetailModule } from '@/app/modules/item-detail'
+import { routing } from '@/pkg/locale/routing'
 import { getQueryClient } from '@/pkg/rest-api'
 
 interface IProps {
@@ -15,14 +16,21 @@ interface IProps {
 export const revalidate = 60
 export const dynamicParams = true
 
-export async function generateStaticParams(): Promise<{ id: string }[]> {
+export async function generateStaticParams(): Promise<{ locale: string; id: string }[]> {
   const ids = await fetchItemIds()
-  return ids.map((id) => ({ id }))
+  return routing.locales.flatMap((locale) =>
+    ids.map((id) => ({
+      locale,
+      id,
+    })),
+  )
 }
 
 export async function generateMetadata(props: Readonly<IProps>): Promise<Metadata> {
   const { params } = props
   const { locale, id } = await params
+
+  await setRequestLocale(locale)
 
   try {
     const item = await fetchItemById(id)
@@ -32,7 +40,7 @@ export async function generateMetadata(props: Readonly<IProps>): Promise<Metadat
       description: item.description ?? undefined,
     }
   } catch {
-    const t = await getTranslations({ locale, namespace: 'items' })
+    const t = await getTranslations('items')
     return { title: t('detail.metaNotFound') }
   }
 }
@@ -41,7 +49,7 @@ const Page: NextPage<Readonly<IProps>> = async (props) => {
   const { params } = props
   const { locale, id } = await params
 
-  setRequestLocale(locale)
+  await setRequestLocale(locale)
 
   const queryClient = getQueryClient()
 
