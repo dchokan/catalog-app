@@ -5,10 +5,10 @@ import { type FC } from 'react'
 
 import { LocaleSwitcherComponent } from '@/app/features/locale-switcher'
 import { ThemeSwitcherComponent } from '@/app/features/theme-switcher'
-import { ButtonComponent } from '@/app/shared/components/button'
 import { useSession } from '@/app/shared/hooks'
 import { authClient } from '@/pkg/auth/client'
 import { Link, usePathname, useRouter } from '@/pkg/locale'
+import { Button } from '@/pkg/theme/ui/button'
 
 const HeaderComponent: FC = () => {
   const t = useTranslations('header')
@@ -57,19 +57,19 @@ const HeaderComponent: FC = () => {
             {isAuthenticated ? (
               <>
                 <span className='text-muted-foreground hidden text-sm sm:block'>{session.user.name}</span>
-                <ButtonComponent variant='secondary' size='sm' onClick={handleSignOut}>
+                <Button variant='secondary' size='sm' onClick={handleSignOut}>
                   {t('signOut')}
-                </ButtonComponent>
+                </Button>
               </>
             ) : (
               <>
                 <Link href='/sign-in'>
-                  <ButtonComponent variant='ghost' size='sm'>
+                  <Button variant='ghost' size='sm'>
                     {t('signIn')}
-                  </ButtonComponent>
+                  </Button>
                 </Link>
                 <Link href='/sign-up'>
-                  <ButtonComponent size='sm'>{t('register')}</ButtonComponent>
+                  <Button size='sm'>{t('register')}</Button>
                 </Link>
               </>
             )}

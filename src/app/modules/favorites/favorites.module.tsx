@@ -6,16 +6,16 @@ import { type FC } from 'react'
 
 import { useFavoritesQuery, useRemoveFavoriteMutation } from '@/app/entities/api/favorites'
 import { ItemsPaginationComponent } from '@/app/features/items-pagination'
-import { ButtonComponent } from '@/app/shared/components/button'
 import { ItemCardComponent } from '@/app/shared/components/item-card'
-import { useToast } from '@/app/shared/components/toast'
 import { ITEMS_PER_PAGE } from '@/app/shared/constants'
 import { Link } from '@/pkg/locale'
+import { toastService } from '@/pkg/theme/services/toast.service'
+import { Button } from '@/pkg/theme/ui/button'
+import { Spinner } from '@/pkg/theme/ui/spinner'
 
 const FavoritesModule: FC = () => {
   const t = useTranslations('favorites')
   const tButton = useTranslations('favoriteButton')
-  const { showToast } = useToast()
   const searchParams = useSearchParams()
   const { data: favorites = [], isLoading, error } = useFavoritesQuery()
   const removeFavorite = useRemoveFavoriteMutation()
@@ -47,7 +47,7 @@ const FavoritesModule: FC = () => {
         <div className='py-16 text-center'>
           <p className='text-muted-foreground mb-4 text-lg'>{t('empty')}</p>
           <Link href='/items'>
-            <ButtonComponent>{t('browse')}</ButtonComponent>
+            <Button>{t('browse')}</Button>
           </Link>
         </div>
       ) : (
@@ -61,19 +61,20 @@ const FavoritesModule: FC = () => {
                 imageUrl={favorite.item?.imageUrl}
                 placeholder='📖'
                 footer={
-                  <ButtonComponent
+                  <Button
                     variant='ghost'
                     size='sm'
-                    loading={removeFavorite.isPending}
+                    disabled={removeFavorite.isPending}
                     onClick={() =>
                       removeFavorite.mutate(favorite.itemId, {
-                        onSuccess: () => showToast(tButton('removed'), 'info'),
+                        onSuccess: () => toastService.info(tButton('removed')),
                       })
                     }
                     className='text-destructive hover:bg-destructive/10 hover:text-destructive w-full'
                   >
+                    {removeFavorite.isPending && <Spinner />}
                     {t('remove')}
-                  </ButtonComponent>
+                  </Button>
                 }
               />
             ))}

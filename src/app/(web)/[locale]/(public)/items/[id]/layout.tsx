@@ -1,8 +1,8 @@
 import { getTranslations } from 'next-intl/server'
 import type { FC, ReactNode } from 'react'
 
-import { ButtonComponent } from '@/app/shared/components/button'
 import { Link } from '@/pkg/locale'
+import { Button } from '@/pkg/theme/ui/button'
 
 interface IProps {
   children: ReactNode
@@ -17,9 +17,9 @@ const ItemDetailLayout: FC<Readonly<IProps>> = async (props) => {
     <div>
       <div className='mb-6'>
         <Link href='/items'>
-          <ButtonComponent variant='ghost' size='sm'>
+          <Button variant='ghost' size='sm'>
             {t('detail.back')}
-          </ButtonComponent>
+          </Button>
         </Link>
       </div>
 

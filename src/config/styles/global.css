@@ -1,14 +1,19 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
   --font-inter: 'Inter', sans-serif;
 
+  --radius: 0.5rem;
+
   --background: rgb(249 250 251);
   --foreground: rgb(17 24 39);
   --card: rgb(255 255 255);
   --card-foreground: rgb(17 24 39);
+  --popover: rgb(255 255 255);
+  --popover-foreground: rgb(17 24 39);
   --primary: rgb(37 99 235);
   --primary-foreground: rgb(255 255 255);
   --secondary: rgb(255 255 255);
@@ -29,6 +34,8 @@
   --foreground: rgb(229 231 235);
   --card: rgb(17 24 39);
   --card-foreground: rgb(229 231 235);
+  --popover: rgb(17 24 39);
+  --popover-foreground: rgb(229 231 235);
   --primary: rgb(59 130 246);
   --primary-foreground: rgb(255 255 255);
   --secondary: rgb(31 41 55);
@@ -49,6 +56,8 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
@@ -62,6 +71,11 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 body {
@@ -72,21 +86,6 @@ body {
 
 * {
   box-sizing: border-box;
-}
-
-@keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.5rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-toast-in {
-  animation: toast-in 0.2s ease-out;
 }
 
 @keyframes fade-in {

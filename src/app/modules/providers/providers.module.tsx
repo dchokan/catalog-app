@@ -1,9 +1,9 @@
 import { NextIntlClientProvider } from 'next-intl'
 import type { FC, ReactNode } from 'react'
 
-import { ToastProvider } from '@/app/shared/components/toast'
 import { RestApiProvider } from '@/pkg/rest-api'
 import { ThemeProvider } from '@/pkg/theme'
+import { Toaster } from '@/pkg/theme/ui/sonner'
 
 interface IProps {
   children: ReactNode
@@ -15,9 +15,8 @@ const ProvidersModule: FC<Readonly<IProps>> = (props) => {
   return (
     <ThemeProvider>
       <RestApiProvider>
-        <ToastProvider>
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
-        </ToastProvider>
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <Toaster />
       </RestApiProvider>
     </ThemeProvider>
   )

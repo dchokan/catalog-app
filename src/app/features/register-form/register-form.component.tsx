@@ -8,9 +8,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useSignUpMutation } from '@/app/entities/api/auth'
 import { type RegisterFormValues, registerSchema } from '@/app/entities/models'
-import { ButtonComponent } from '@/app/shared/components/button'
-import { InputComponent } from '@/app/shared/components/input'
 import { useRouter } from '@/pkg/locale'
+import { Button } from '@/pkg/theme/ui/button'
+import { Input } from '@/pkg/theme/ui/input'
+import { Spinner } from '@/pkg/theme/ui/spinner'
 
 const RegisterFormComponent: FC = () => {
   const t = useTranslations('auth')
@@ -47,12 +48,13 @@ const RegisterFormComponent: FC = () => {
         name='name'
         control={control}
         render={({ field }) => (
-          <InputComponent
+          <Input
             id='name'
             type='text'
             label={t('fields.name')}
             placeholder={t('fields.namePlaceholder')}
-            error={errors.name?.message && tv(errors.name.message as Parameters<typeof tv>[0])}
+            invalid={!!errors.name}
+            message={errors.name?.message && tv(errors.name.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}
@@ -62,12 +64,13 @@ const RegisterFormComponent: FC = () => {
         name='email'
         control={control}
         render={({ field }) => (
-          <InputComponent
+          <Input
             id='email'
             type='email'
             label={t('fields.email')}
             placeholder={t('fields.emailPlaceholder')}
-            error={errors.email?.message && tv(errors.email.message as Parameters<typeof tv>[0])}
+            invalid={!!errors.email}
+            message={errors.email?.message && tv(errors.email.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}
@@ -77,12 +80,13 @@ const RegisterFormComponent: FC = () => {
         name='password'
         control={control}
         render={({ field }) => (
-          <InputComponent
+          <Input
             id='password'
             type='password'
             label={t('fields.password')}
             placeholder={t('fields.passwordMinPlaceholder')}
-            error={errors.password?.message && tv(errors.password.message as Parameters<typeof tv>[0])}
+            invalid={!!errors.password}
+            message={errors.password?.message && tv(errors.password.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}
@@ -92,12 +96,13 @@ const RegisterFormComponent: FC = () => {
         name='confirmPassword'
         control={control}
         render={({ field }) => (
-          <InputComponent
+          <Input
             id='confirmPassword'
             type='password'
             label={t('fields.confirmPassword')}
             placeholder={t('fields.confirmPlaceholder')}
-            error={errors.confirmPassword?.message && tv(errors.confirmPassword.message as Parameters<typeof tv>[0])}
+            invalid={!!errors.confirmPassword}
+            message={errors.confirmPassword?.message && tv(errors.confirmPassword.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}
@@ -109,9 +114,10 @@ const RegisterFormComponent: FC = () => {
         </p>
       )}
 
-      <ButtonComponent type='submit' loading={signUp.isPending} className='w-full'>
+      <Button type='submit' disabled={signUp.isPending} className='w-full'>
+        {signUp.isPending && <Spinner />}
         {t('register.submit')}
-      </ButtonComponent>
+      </Button>
     </form>
   )
 }

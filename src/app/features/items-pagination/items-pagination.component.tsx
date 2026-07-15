@@ -4,8 +4,8 @@ import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 
-import { ButtonComponent } from '@/app/shared/components/button'
 import { usePathname, useRouter } from '@/pkg/locale'
+import { Button } from '@/pkg/theme/ui/button'
 
 interface IProps {
   page: number
@@ -34,15 +34,15 @@ const ItemsPaginationComponent: FC<Readonly<IProps>> = (props) => {
 
   return (
     <div className='mt-8 flex items-center justify-center gap-4'>
-      <ButtonComponent variant='secondary' size='sm' disabled={page <= 1} onClick={() => goTo(page - 1)}>
+      <Button variant='secondary' size='sm' disabled={page <= 1} onClick={() => goTo(page - 1)}>
         {t('pagination.previous')}
-      </ButtonComponent>
+      </Button>
       <span className='text-muted-foreground text-sm'>
         {t('pagination.pageInfo', { page: String(page), totalPages: String(totalPages) })}
       </span>
-      <ButtonComponent variant='secondary' size='sm' disabled={page >= totalPages} onClick={() => goTo(page + 1)}>
+      <Button variant='secondary' size='sm' disabled={page >= totalPages} onClick={() => goTo(page + 1)}>
         {t('pagination.next')}
-      </ButtonComponent>
+      </Button>
     </div>
   )
 }

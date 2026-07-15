@@ -4,10 +4,11 @@ import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 
 import { useAddFavoriteMutation, useFavoritesQuery, useRemoveFavoriteMutation } from '@/app/entities/api/favorites'
-import { ButtonComponent } from '@/app/shared/components/button'
-import { useToast } from '@/app/shared/components/toast'
 import { useSession } from '@/app/shared/hooks'
 import { useRouter } from '@/pkg/locale'
+import { toastService } from '@/pkg/theme/services/toast.service'
+import { Button } from '@/pkg/theme/ui/button'
+import { Spinner } from '@/pkg/theme/ui/spinner'
 
 interface IProps {
   itemId: string
@@ -18,7 +19,6 @@ const FavoriteButtonComponent: FC<Readonly<IProps>> = (props) => {
 
   const t = useTranslations('favoriteButton')
   const router = useRouter()
-  const { showToast } = useToast()
   const { data: session } = useSession()
   const isAuthenticated = !!session?.user
 
@@ -37,25 +37,26 @@ const FavoriteButtonComponent: FC<Readonly<IProps>> = (props) => {
 
     if (isFavorited) {
       removeFavorite.mutate(itemId, {
-        onSuccess: () => showToast(t('removed'), 'info'),
+        onSuccess: () => toastService.info(t('removed')),
       })
     } else {
       addFavorite.mutate(itemId, {
-        onSuccess: () => showToast(t('added'), 'success'),
+        onSuccess: () => toastService.success(t('added')),
       })
     }
   }
 
   return (
-    <ButtonComponent
-      variant={isFavorited ? 'danger' : 'secondary'}
+    <Button
+      variant={isFavorited ? 'destructive' : 'secondary'}
       size='sm'
-      loading={isPending}
+      disabled={isPending}
       onClick={handleToggle}
       aria-label={isFavorited ? t('remove') : t('add')}
     >
+      {isPending && <Spinner />}
       {isFavorited ? t('remove') : t('add')}
-    </ButtonComponent>
+    </Button>
   )
 }
 

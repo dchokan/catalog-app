@@ -8,9 +8,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useSignInMutation } from '@/app/entities/api/auth'
 import { type LoginFormValues, loginSchema } from '@/app/entities/models'
-import { ButtonComponent } from '@/app/shared/components/button'
-import { InputComponent } from '@/app/shared/components/input'
 import { useRouter } from '@/pkg/locale'
+import { Button } from '@/pkg/theme/ui/button'
+import { Input } from '@/pkg/theme/ui/input'
+import { Spinner } from '@/pkg/theme/ui/spinner'
 
 const LoginFormComponent: FC = () => {
   const t = useTranslations('auth')
@@ -45,12 +46,13 @@ const LoginFormComponent: FC = () => {
         name='email'
         control={control}
         render={({ field }) => (
-          <InputComponent
+          <Input
             id='email'
             type='email'
             label={t('fields.email')}
             placeholder={t('fields.emailPlaceholder')}
-            error={errors.email?.message && tv(errors.email.message as Parameters<typeof tv>[0])}
+            invalid={!!errors.email}
+            message={errors.email?.message && tv(errors.email.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}
@@ -60,12 +62,13 @@ const LoginFormComponent: FC = () => {
         name='password'
         control={control}
         render={({ field }) => (
-          <InputComponent
+          <Input
             id='password'
             type='password'
             label={t('fields.password')}
             placeholder={t('fields.passwordPlaceholder')}
-            error={errors.password?.message && tv(errors.password.message as Parameters<typeof tv>[0])}
+            invalid={!!errors.password}
+            message={errors.password?.message && tv(errors.password.message as Parameters<typeof tv>[0])}
             {...field}
           />
         )}
@@ -77,9 +80,10 @@ const LoginFormComponent: FC = () => {
         </p>
       )}
 
-      <ButtonComponent type='submit' loading={signIn.isPending} className='w-full'>
+      <Button type='submit' disabled={signIn.isPending} className='w-full'>
+        {signIn.isPending && <Spinner />}
         {t('login.submit')}
-      </ButtonComponent>
+      </Button>
     </form>
   )
 }

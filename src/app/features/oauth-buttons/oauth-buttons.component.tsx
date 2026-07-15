@@ -3,9 +3,10 @@
 import { useLocale, useTranslations } from 'next-intl'
 import { type FC, useState } from 'react'
 
-import { ButtonComponent } from '@/app/shared/components/button'
 import { authClient } from '@/pkg/auth/client'
 import { getPathname } from '@/pkg/locale'
+import { Button } from '@/pkg/theme/ui/button'
+import { Spinner } from '@/pkg/theme/ui/spinner'
 
 const OauthButtonsComponent: FC = () => {
   const t = useTranslations('auth')
@@ -21,15 +22,10 @@ const OauthButtonsComponent: FC = () => {
   }
 
   return (
-    <ButtonComponent
-      type='button'
-      variant='secondary'
-      className='w-full'
-      loading={isLoading}
-      onClick={handleGoogleSignIn}
-    >
+    <Button type='button' variant='secondary' className='w-full' disabled={isLoading} onClick={handleGoogleSignIn}>
+      {isLoading && <Spinner />}
       {t('google')}
-    </ButtonComponent>
+    </Button>
   )
 }
 

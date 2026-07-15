@@ -5,9 +5,9 @@ import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
-import { ButtonComponent } from '@/app/shared/components/button'
-import { InputComponent } from '@/app/shared/components/input'
 import { usePathname, useRouter } from '@/pkg/locale'
+import { Button } from '@/pkg/theme/ui/button'
+import { Input } from '@/pkg/theme/ui/input'
 
 type ItemsSearchValues = { search: string }
 
@@ -50,7 +50,7 @@ const ItemsSearchComponent: FC = () => {
           name='search'
           control={control}
           render={({ field }) => (
-            <InputComponent
+            <Input
               id='search'
               type='search'
               label={t('search.label')}
@@ -60,10 +60,10 @@ const ItemsSearchComponent: FC = () => {
           )}
         />
       </div>
-      <ButtonComponent type='submit'>{t('search.submit')}</ButtonComponent>
-      <ButtonComponent type='button' variant='secondary' onClick={onClear}>
+      <Button type='submit'>{t('search.submit')}</Button>
+      <Button type='button' variant='secondary' onClick={onClear}>
         {t('search.clear')}
-      </ButtonComponent>
+      </Button>
     </form>
   )
 }
