@@ -4,9 +4,8 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
-import { fetchItemById, fetchItemIds, itemDetailQueryOptions } from '@/app/entities/api/items'
+import { fetchItemById, itemDetailQueryOptions } from '@/app/entities/api/items'
 import { ItemDetailModule } from '@/app/modules/item-detail'
-import { routing } from '@/pkg/locale/routing'
 import { getQueryClient } from '@/pkg/rest-api'
 
 interface IProps {
@@ -17,13 +16,7 @@ export const revalidate = 60
 export const dynamicParams = true
 
 export async function generateStaticParams(): Promise<{ locale: string; id: string }[]> {
-  const ids = await fetchItemIds()
-  return routing.locales.flatMap((locale) =>
-    ids.map((id) => ({
-      locale,
-      id,
-    })),
-  )
+  return []
 }
 
 export async function generateMetadata(props: Readonly<IProps>): Promise<Metadata> {
