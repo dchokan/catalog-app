@@ -6,7 +6,7 @@ import { envClient } from '@/config/env'
 import { fontPrimary } from '@/config/fonts'
 import { <Provider> } from '@/pkg/<integration>'
 
-import '@/config/styles/global.css'
+import '@/config/styles/globals.css'
 
 // interface
 interface IProps {

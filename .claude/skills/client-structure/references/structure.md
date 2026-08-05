@@ -20,14 +20,18 @@ Is it a URL the browser hits?
 └─ a server endpoint (route.ts, BFF proxy)?──────► (api)
 
 Is it the entry behaviour of one business page/domain?
-└─ composes widgets/features, reads stores,
-   calls mutations, owns one screen's flow?──────► modules
+└─ WILL A ROUTING FILE MOUNT IT (page/layout/error/
+   not-found)? composes widgets/features, reads
+   stores, calls mutations, owns one screen's flow?► modules
+   └─ no routing file mounts it? ─────────────────► NOT a module; keep walking
 
-Is it self-sufficient composite UI reused by 2+ modules?
+Is it self-sufficient composite UI used by 2+ MODULES?
 └─ composes features/entities behind one component?► widgets
+   └─ only one module uses it? ───────────────────► that module's elements/<element>/
 
 Is it one narrow, reusable capability (no composition
-of other features inside it)?────────────────────► features
+of other features inside it), used by 2+ slices?─► features
+   └─ only one slice uses it? ────────────────────► inside that slice
 
 Is it data about one server resource?
 ├─ fetchers / queryOptions / mutations?──────────► entities/api/<api>
@@ -45,9 +49,24 @@ Is it edge routing/auth/locale gating?───────────► middl
 
 ### `features` vs `widgets` vs `modules` (the most common mix-up)
 
-- One narrow capability, no composition of other features → **feature**.
-- Composes several features/entities into self-sufficient UI reused across modules → **widget**.
-- Bound to one business screen, reads stores, drives TanStack mutations, is mounted by a `page.tsx` → **module**.
+Two questions settle it, in this order — **who mounts it**, then **how many use it**:
+
+1. **A routing file mounts it** (`page.tsx`, `layout.tsx`, `error.tsx`, `not-found.tsx`) → **module**. No routing file mounts it → it is not a module, whatever its size or how domain-shaped it looks. Go to 2.
+2. **How many modules use it?**
+   - Exactly one → it stays **inside that module** (`elements/<element>/`). Complexity does not promote it.
+   - Two or more, and it composes several features/entities into self-sufficient UI → **widget**.
+   - Two or more, and it is one narrow capability with no composition inside → **feature**.
+
+Counting consumers is a `grep`, not an opinion:
+
+```bash
+grep -rn "modules/<module>" src | grep -v "^src/app/modules/<module>/"   # who reaches into this module?
+grep -rn "widgets/<widget>"  src | grep -v "^src/app/widgets/<widget>/"  # ≥2 distinct modules, or demote
+```
+
+Both directions matter. The forward direction (what a slice imports) is what the layer table
+below governs; the reverse direction (who imports the slice) is what decides whether the slice
+is in the right layer at all — and it is the one routinely skipped.
 
 ### Isolation rules per layer
 
@@ -55,9 +74,9 @@ Imports flow **only downward**: `(web)/(api) → modules → widgets → feature
 
 | Layer | May import | Must NOT import | When to lift |
 |---|---|---|---|
-| `(web)` / `(api)` | everything below + config/pkg | another page's internals | logic > ~20 lines → push into a module |
-| `modules` | widgets, features, entities, shared, config, pkg | another **module**; `(web)`/`(api)` | logic shared by 2 modules → down into feature/widget; shared type → `shared/interfaces` or `entities/models` |
-| `widgets` | features, entities, shared, config, pkg | modules; another widget | over-composed widget → split features out |
+| `(web)` / `(api)` | everything below + config/pkg | another page's internals | ANY module-scope declaration beside the route component and Next's route exports → into the module |
+| `modules` | widgets, features, entities, shared, config, pkg | another **module** (incl. lazily); `(web)`/`(api)` | logic shared by 2 modules → down into feature/widget; shared type → `shared/interfaces` or `entities/models`; a module nobody routes to → out of the layer entirely |
+| `widgets` | features, entities, shared, config, pkg | modules; another widget | over-composed widget → split features out; widget down to ONE consuming module → back into that module's `elements/` |
 | `features` | entities, shared, config, pkg | widgets, modules; another feature | composition appearing inside → lift up to a widget |
 | `entities/api` | entities/models, shared, config, pkg | features and above | — |
 | `entities/models` | shared (types), config | any runtime code; features and above | — (types only) |
@@ -90,10 +109,11 @@ Is the slice growing past one screen's worth of UI?
 
 ### Isolation rules per slice
 
-- **Barrel boundary** — consumers import a slice only through its `index.ts`. Never reach into `<slice>/elements/*` or a sibling slice's internal file from outside.
+- **Barrel boundary** — consumers import a slice only through its `index.ts`. Never reach into `<slice>/elements/*` or a sibling slice's internal file from outside. This covers lazy imports: `dynamic(() => import('@/app/modules/<x>/<x>.module'))` is a deep import that happens later, not a permitted one.
+- **A module barrel exports one symbol** — `export { default as <X>Module } from './<x>.module'`, nothing more. A store, service, hook, type or `elements/*` component in a module barrel is a lift-down signal, not an export; widening the barrel hides the problem instead of fixing it. Widget/feature barrels export their entry component plus the props type a consumer needs to type its call — still not their internals.
 - **Name match** — the slice folder name (kebab-case) equals the file prefix: `modules/<module>/<module>.module.tsx`, not a different prefix or camelCase.
 - **Private by default** — `elements/`, local `*.service.ts`, `*.store.ts`, `*.interface.ts`, `*.constant.ts` are the slice's private surface. If another slice needs them, that's the signal to lift down (logic → feature/widget; types → `shared/interfaces` or `entities/models`).
-- **One entry** — a module slice has exactly one `*.module.tsx`; a widget/feature slice has one primary `*.component.tsx`. The barrel re-exports that entry as a named export.
+- **One entry** — a module slice has exactly one `*.module.tsx`; a widget/feature slice has one primary `*.component.tsx`. The barrel re-exports that entry as a named export. Two `*.module.tsx` in one folder means two routing surfaces sharing a slice: split them, and lift whatever they shared down a layer.
 - **No sibling imports** — a slice never imports another slice in the **same** layer (no module → module, feature → feature, widget → widget).
 
 ---
@@ -108,7 +128,7 @@ A **segment** is a named subfolder grouping files by purpose. Segments appear in
 Does it render or use React (JSX, hooks, effects)?
 ├─ a reusable UI component?─────────────► shared/components/<component>/
 └─ a reusable hook?─────────────────────► shared/hooks/
-Is it a Zustand store used across slices?► shared/store/
+Is it a Zustand store used across slices?► shared/stores/
 Does it call other services / do I/O?───► shared/services/
 Is it a pure fn (input → output)?───────► shared/utils/
 Is it a static value / dictionary?──────► shared/constants/

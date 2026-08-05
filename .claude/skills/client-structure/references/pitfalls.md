@@ -18,7 +18,7 @@
 
 **`NEXT_PUBLIC_*` vars declared on the server-only schema (or vice versa).** Vars prefixed `NEXT_PUBLIC_` go in `envClient` (`client: { … }`); everything else (secrets, upstream URLs not safe to ship) goes in `envServer` (`server: { … }`). Swapping them either crashes the build (`envClient` rejecting a non-public name) or leaks a secret into the client bundle.
 
-**Skipped barrels (or stray layer-level barrels).** Slice and segment folders ship an `index.ts`; consumers import from the slice/segment folder. Conversely, **layer-level folders** (`modules/`, `widgets/`, `features/`, `entities/`, `shared/`) do **not** carry a barrel — they only group slices/segments. Adding `modules/index.ts` or `shared/index.ts` re-exports across slices and quietly bypasses the layer dependency rule; remove it.
+**A grouping barrel.** A folder gets an `index.ts` only when it is ONE subject in several roles. A folder that groups independent units — a layer, a folder of slices, a role folder of unrelated members — must not have one: the barrel becomes a single module with an edge per member, so any consumer of one symbol takes on all of them, and bundlers' chunk grouping means tree shaking does not reliably undo it. The tell is consumers deep-importing *past* the barrel to dodge its weight; that is the barrel being wrong, not the consumers. The opposite error is real too: where a barrel legitimately exists, reaching past it into the unit's internals is a boundary violation.
 
 **`pkg/*` reaches into `app/*` (or another `pkg/*`).** A `pkg/*` slot must be liftable as one folder into another project; once it imports from `app/*` or a sibling `pkg/*`, that property is gone and the import graph also risks cycles. If a pkg needs a project-specific shape, accept it as a parameter at call time. If two pkg slots need the same helper, duplicate it as a private file inside each pkg.
 
@@ -26,7 +26,38 @@
 
 **File suffix omitted.** Every implementation file carries its role suffix (`.module.tsx`, `.component.tsx`, `.service.ts`, `.store.ts`, `.hook.ts(x)`, `.api.ts`, `.query.ts`, `.mutation.ts`, `.model.ts`, `.interface.ts`, `.constant.ts`, `.util.ts`). The single documented exception is **`shared/validation/validation.ts`** — flat `*.ts`, not `*.validation.ts`. Don't extend this exception to other segments.
 
-**Business logic in `page.tsx`.** Pages read params, optionally prefetch a query for hydration, and render a module. Authentication checks, data orchestration, side effects, analytics — all belong inside the module (or in `middleware.ts` for route gates). If a page has more than ~20 lines of logic, the logic belongs in a module.
+**Anything declared in `page.tsx`.** Pages read params, optionally prefetch a query for hydration, and render a module. Authentication checks, data orchestration, side effects, analytics — all belong inside the module (or in `middleware.ts` for route gates).
+
+The rule is not a line budget, it is a declaration ban: besides the route component, its `IProps` and Next.js's own route exports (`generateMetadata`, `generateStaticParams`, `generateViewport`, `metadata`, `viewport`, `dynamic`, `revalidate`, `dynamicParams`, `runtime`, …), a routing file declares **nothing** at module scope. A three-line `const TABS = [...]` is as much a violation as a fifty-line orchestration, because the problem is location, not size: a symbol parked in the routing tree cannot be imported by any slice, cannot be unit-tested without rendering a route, and is invisible to the next route that needs the same thing — so it gets re-implemented. Move it into the module the page renders: pure helper → `<module>.util.ts`, static value → `<module>.constant.ts`, React/IO/store-touching helper → `<module>.service.ts`, markup → `<module>/elements/`.
+
+`layout.tsx`, `error.tsx`, `not-found.tsx` and `template.tsx` are held to the same standard.
+
+**A module nobody routes to.** A module is a business domain *attached to the routing tree*. If no `page.tsx` / `layout.tsx` / `error.tsx` / `not-found.tsx` renders the slice, it is not a module — it is a widget, a feature, a `shared/components/` primitive or an entity concern that was filed one layer too high. The usual symptom is another module importing it, often lazily: `dynamic(() => import('@/app/modules/<other>/<other>.module'))`. That is both a module→module import and a mis-layered slice; splitting the chunk does not make it legal. Ask which routing file mounts the slice *before* creating it — if there is no answer, `modules/` is the wrong layer.
+
+**A widget that only one module uses.** `widgets/` is for a smaller business entity or a self-contained complex behaviour used by **two or more modules**. Extracting a component into `widgets/` because it grew large, or because it "will probably be reused", inverts the rule: it moves module-private behaviour into shared surface that nothing shares, and every future reader has to check whether editing it breaks other screens. One consumer → it lives in that module's `elements/<element>/`, at any size. Promote on the day a second module needs it; demote when a widget falls back to a single caller. `features/` follows the same test with a narrower scope.
+
+**A module barrel that exports more than its module.** `modules/<x>/index.ts` is one line: `export { default as <X>Module } from './<x>.module'`. A store, service, hook, type, constant or `elements/*` component in that barrel means something outside the slice is consuming module internals — and since modules never import modules, the only consumers that could exist are already violations. The fix is never to add the export: lift the symbol down (state → `shared/stores/`, logic → a feature/widget, type → `shared/interfaces/` or `entities/models/`, reused element → `features/`/`widgets/`/`shared/components/`) and let the barrel shrink back. Two `*.module.tsx` in one slice is the same problem in folder form — two routing surfaces sharing one slice — and splits into two slices.
+
+**Auditing only what a slice imports.** Layer-direction greps answer "what does this slice depend on?". They never catch the opposite failure: this slice's `elements/` being rendered by three other modules. Both questions belong in every slice audit, and the reverse one is the one that gets skipped — `grep -rn "modules/<module>" src | grep -v "^src/app/modules/<module>/"` should return the mounting routing file and nothing else.
+
+**File grown past 1000 lines.** 1000 lines is a hard cap for any implementation file, not a target. A file that big is holding more than one concern; split it along the pattern instead of scrolling: module-private UI into `elements/<element>/`, logic into `<slice>.service.ts`, static values into `<slice>.constant.ts`, types into `<slice>.interface.ts` — or promote the extra concern into its own slice. Apply the same split preventively when a file is approaching the cap, not only after it crosses it. If the file you need to edit is ALREADY over the cap (or your edit would push it over), split it first along the slice's existing boundaries, then make the change — piling onto an oversized file is a refactor being deferred.
+
+**Constants or helper functions parked at the top of a component file.** A `*.component.tsx` / `*.module.tsx` holds one thing: the component (plus its `IProps`). Anything declared at module scope beside it is a second concern hiding in the file — a duration table, a formatter, a regex, a mapper. Static values go to `<name>.constant.ts`; a pure helper goes to `<name>.util.ts`; a helper that touches React, I/O or a store goes to `<name>.service.ts`. This is not cosmetic: the helper is invisible to every other slice that needs it, so the next developer re-implements it (that is how the same formatter ends up copied into two components that render the same field), and it cannot be unit-tested without rendering the component. Variables declared *inside* the component body are local state, not a violation.
+
+**Implicit-return arrow on a declared function.** A function bound to a name always takes a block body with an explicit `return`, so the body has room to grow (guards, logging, a second statement) without reshaping the declaration, and every declared function reads the same way.
+
+```ts
+// ❌ concise body
+const <fn>Href = (id: string) =>
+  buildRoute(ERoute.<ROUTE>, { <param>: id })
+
+// ✅ block body with explicit return
+const <fn>Href = (id: string) => {
+  return buildRoute(ERoute.<ROUTE>, { <param>: id })
+}
+```
+
+This applies to any arrow function assigned to a `const`/`let` (or exported). Inline callbacks passed directly as arguments or JSX props — Zustand selectors, `map`/`filter` callbacks, `queryFn: (params) => …`, `onClick={() => …}` — may stay concise.
 
 **Component prop pattern drift.** Components use `FC<Readonly<IProps>>` with `IProps` declared just above the component, and props are **destructured inside the body** (`const { x, y } = props`), not in the parameter list. The convention is repo-wide; deviating creates churn when other files mirror neighbours.
 
@@ -34,4 +65,4 @@
 
 **Component element class lookup pulled into a util that depends on React.** When something needs React, it belongs in `shared/components/` or `shared/hooks/`, not `shared/utils/`. Test: can the file run under `vitest` with no DOM? If not, it's not a util.
 
-**Notion KB drift from reality.** The project's Notion KB lists `shared/` segments as `ui/, hooks/, store/, interfaces/, assets/`. The repo actually uses `components/, hooks/, store/, interfaces/, constants/, utils/, services/, validation/, assets/`. The skill anchors on **reality** (the segments in active use). If both the Notion KB and the code change in the future, update this skill in lockstep — do not let one drift away from the other again.
+**Notion KB drift from reality.** The project's Notion KB lists `shared/` segments as `ui/, hooks/, store/, interfaces/, assets/`. The repo actually uses `components/, hooks/, stores/, interfaces/, constants/, utils/, services/, validation/, assets/` (role folders are PLURAL). The skill anchors on **reality** (the segments in active use). If both the Notion KB and the code change in the future, update this skill in lockstep — do not let one drift away from the other again.

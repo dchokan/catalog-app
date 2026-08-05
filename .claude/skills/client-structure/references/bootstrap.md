@@ -98,7 +98,7 @@ Path alias `@/*` → `src/*` is what every example file in this skill assumes.
 
 **`.gitignore`** — keep what `create-next-app` ships, then add `.env*` (keep `.env.example`), and explicitly **do not** ignore `.claude/` — the skill travels with the repo.
 
-**Tailwind v4** — `postcss.config.mjs` configured by `create-next-app` already includes `@tailwindcss/postcss`. The CSS-first config lives in `src/config/styles/global.css` (`@import 'tailwindcss';` plus any project-level `@theme` blocks). No JS-side `tailwind.config.ts` is needed for v4 unless you use plugins that require it.
+**Tailwind v4** — `postcss.config.mjs` configured by `create-next-app` already includes `@tailwindcss/postcss`. The CSS-first config lives in `src/config/styles/globals.css` (`@import 'tailwindcss';` plus any project-level `@theme` blocks). No JS-side `tailwind.config.ts` is needed for v4 unless you use plugins that require it.
 
 ## 5. `src/config/`
 
@@ -107,7 +107,7 @@ Path alias `@/*` → `src/*` is what every example file in this skill assumes.
 - `env/index.ts` — `export { envClient } from './env.client'`, `export { envServer } from './env.server'`.
 - `fonts/font.ts` — `next/font` declarations exported as named consts.
 - `fonts/index.ts` — barrel.
-- `styles/global.css` — Tailwind v4 entry + global tokens.
+- `styles/globals.css` — Tailwind v4 entry + global tokens.
 
 Document every env var in `.env.example`.
 
@@ -122,7 +122,7 @@ Each pkg folder owns its `index.ts` and stays liftable. Read configuration from 
 
 ## 7. `src/app/(web)/` (and `[locale]` for i18n)
 
-- `src/app/(web)/[locale]/layout.tsx` — root layout. Server Component. Sets `<html lang>`, applies the font variable from `config/fonts`, mounts global providers from `pkg/*` (theme, query, i18n), imports `@/config/styles/global.css`.
+- `src/app/(web)/[locale]/layout.tsx` — root layout. Server Component. Sets `<html lang>`, applies the font variable from `config/fonts`, mounts global providers from `pkg/*` (theme, query, i18n), imports `@/config/styles/globals.css`.
 - `src/app/(web)/[locale]/page.tsx` — root page. RSC. May `prefetchQuery` from `entities/api/<api>` and pass the dehydrated client into `<HydrationBoundary>` around a module.
 - `src/app/(web)/[locale]/error.tsx` — error boundary (`'use client'` is required by Next.js for error files).
 - `src/app/(web)/[locale]/not-found.tsx` — 404 fallback.
@@ -136,7 +136,7 @@ Add `src/app/(api)/api/<route>/route.ts` only when the client needs a route hand
 
 ## 9. First entity api slice
 
-Scaffold `src/app/entities/api/<api>/{<api>.api.ts, <api>.query.ts, <api>.mutation.ts, index.ts}` and the matching model `src/app/entities/models/<api>.model.ts`. Add the queryKey value to `EEntityKey` in `src/app/shared/interfaces/entities.interface.ts`. Confirm `<api>.api.ts` and `<api>.query.ts` do **not** carry `'use client'`; only `<api>.mutation.ts` does.
+Scaffold `src/app/entities/api/<api>/{<api>.api.ts, <api>.query.ts, <api>.mutation.ts, index.ts}` and the matching model `src/app/entities/models/<api>.model.ts`. Add the queryKey member to that entity's `E<Entity>Key` enum in its model file, beside the `E<Entity>Api` endpoint enum. Confirm `<api>.api.ts` and `<api>.query.ts` do **not** carry `'use client'`; only `<api>.mutation.ts` does.
 
 ## 10. First module
 

@@ -9,11 +9,6 @@ export enum EQueryParamKey {
   <KEY> = '<value>',
 }
 
-// entity keys — TanStack queryKey enum
-export enum EEntityKey {
-  QUERY_<API> = 'query-<api>',
-}
-
 // client routes
 export enum E<Route> {
   BASE = '/',

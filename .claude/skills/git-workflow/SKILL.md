@@ -7,6 +7,29 @@ description: "Use when making commits, creating branches, opening or merging PRs
 
 Three-tier branch model (`develop` → `staging` → `main`) with conventional-commit prefixes and mandatory PR review on protected branches.
 
+## Rule 0 — the agent does not commit, push, or create branches
+
+**`git commit`, `git push`, `git add`, `git checkout -b` and `gh pr create` are the USER's actions,
+not yours.** The user's standing instructions: "Ми комічу тільки я, більш ніхто." and, on branches,
+"Не створюй без моєї вказівки." Do the work, leave it in the working tree on the branch you are
+already on, and report what is pending — file list plus the commit message you would use, so the
+user can take it in one step.
+
+- **Do not create a branch on your own judgement**, not even to keep an unrelated fix off the
+  current one. Work on the CURRENT branch and say in your report that the change would be better
+  split off; splitting is the user's call. If a fix genuinely must not ride along, ask BEFORE
+  branching, not after.
+- **Do not stage either.** Leaving changes unstaged keeps the diff reviewable; staging on top of a
+  changeset the user already staged destroys that.
+- **An explicit instruction covers only what it names, and only in that message.** "Зроби PR" is
+  permission for that PR, not a standing licence for later commits in the same session — and never
+  for the follow-up work that arrives after it. Ask again rather than assuming the licence carried
+  over.
+- **This outranks everything below.** The branch model, commit format and PR rules describe how a
+  commit must look WHEN the user asks for one; they are not an instruction to produce one.
+- Merging is the user's too: `develop` requires an approving review, repo admins may bypass it, and
+  the user merges and cleans up the branch themselves. Report the state and stop.
+
 ## Hard Rules
 
 1. **No direct pushes to `main`, `staging`, or `develop`** — always via PR with at least 1 approval and passing CI.
@@ -60,19 +83,22 @@ Self-review first. Reviewer checks: functionality, quality, performance, securit
 
 ## Common Mistakes
 
-| Mistake                                        | Reality                                                                                 |
-| ---------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Pushing directly to `main`/`staging`/`develop` | Forbidden — always go through a PR.                                                     |
-| Hotfix only merged to `main`                   | Hotfix MUST also be merged to `develop`, otherwise the fix is lost on the next release. |
-| Past-tense commit subject (`added feature`)    | Use imperative present: `add feature`.                                                  |
-| Type prefix capitalised (`Feat:`, `Fix:`)      | Action types are lowercase: `feat:`, `fix:`, `docs:`.                                   |
-| Period at end of subject line                  | Drop it — subject is a title, not a sentence.                                           |
-| Subject longer than 50 chars                   | Move detail to body; first line stays scannable.                                        |
-| Committing `.env`, keys, tokens                | Never. Even one accidental commit means rotating the secret.                            |
-| Naming branches with spaces, camelCase, or `_` | Use `kebab-case` only: `feature/user-authentication`.                                   |
-| Leaving merged feature branches around         | Delete after merge — keeps the branch list scannable.                                   |
-| Force-pushing to a shared branch               | Only on your own un-shared branches. Never on `main`/`staging`/`develop`.               |
-| Resolving conflicts without re-running tests   | Conflict resolution can silently break logic — re-run tests after every resolve.        |
+| Mistake                                                  | Reality                                                                                        |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Agent commits/pushes/stages on its own initiative        | Forbidden — see Rule 0. Leave it in the working tree and report.                               |
+| Agent creates a branch to keep an unrelated fix separate | Also forbidden. Stay on the current branch, flag that it wants splitting, let the user decide. |
+| Treating one "make a PR" as a session-wide licence       | It covered that PR only. Later work needs a new instruction.                                   |
+| Pushing directly to `main`/`staging`/`develop`           | Forbidden — always go through a PR.                                                            |
+| Hotfix only merged to `main`                             | Hotfix MUST also be merged to `develop`, otherwise the fix is lost on the next release.        |
+| Past-tense commit subject (`added feature`)              | Use imperative present: `add feature`.                                                         |
+| Type prefix capitalised (`Feat:`, `Fix:`)                | Action types are lowercase: `feat:`, `fix:`, `docs:`.                                          |
+| Period at end of subject line                            | Drop it — subject is a title, not a sentence.                                                  |
+| Subject longer than 50 chars                             | Move detail to body; first line stays scannable.                                               |
+| Committing `.env`, keys, tokens                          | Never. Even one accidental commit means rotating the secret.                                   |
+| Naming branches with spaces, camelCase, or `_`           | Use `kebab-case` only: `feature/user-authentication`.                                          |
+| Leaving merged feature branches around                   | Delete after merge — keeps the branch list scannable.                                          |
+| Force-pushing to a shared branch                         | Only on your own un-shared branches. Never on `main`/`staging`/`develop`.                      |
+| Resolving conflicts without re-running tests             | Conflict resolution can silently break logic — re-run tests after every resolve.               |
 
 ## Resources
 
